@@ -41,17 +41,17 @@ https://github.com/ketoo/NoahGameFrame/wiki/Documentation
 ### FAQ OR DISCUSSIONS
 [FAQ](http://blog.noahframe.com/?p=229) : http://blog.noahframe.com/?p=229
 
-### Unity3D client
-[U3D Client](https://github.com/ketoo/NoahGameFrame/tree/master/NFClient/Unity3D)
+### Client (Unity3D && Cocos2d)
+[Client](https://github.com/ketoo/NFClient)
 
 ## Architecture
 
 ### App Architecture:
-![App Architecture](https://github.com/ketoo/NoahGameFrame/blob/develop/Introduce/img/NF_app_arch.png)
+![App Architecture](https://github.com/ketoo/NoahGameFrame/blob/master/Introduce/img/NF_app_arch.png)
 
 
 ### Server Architecture
-![Server Architecture](https://github.com/ketoo/NoahGameFrame/blob/develop/Introduce/img/NF_server_arch.png)
+![Server Architecture](https://github.com/ketoo/NoahGameFrame/blob/master/Introduce/img/NF_server_arch.png)
 
 
 
@@ -284,7 +284,7 @@ load_script_file(ScriptList)
 
 
 
-##How to do hot fix?
+##Hot fix
 Add your lua script file name on here [script_reload.lua](https://github.com/ketoo/NoahGameFrame/blob/master/_Out/NFDataCfg/ScriptModule/game/script_reload.lua)
 
 -------------------

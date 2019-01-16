@@ -27,6 +27,7 @@
 #include "NFComm/NFCore/NFMemManager.hpp"
 #include "NFComm/NFCore/NFCObject.h"
 #include "NFComm/NFCore/NFCRecord.h"
+#include "NFComm/NFCore/NFPerformance.hpp"
 #include "NFComm/NFPluginModule/NFGUID.h"
 #include "NFComm/NFMessageDefine/NFProtocolDefine.hpp"
 
@@ -88,7 +89,8 @@ bool NFCKernelModule::Execute()
 {
 	ProcessMemFree();
 
-	mnCurExeObject = NFGUID();
+	mnCurExeObject.nHead64 = 0;
+	mnCurExeObject.nData64 = 0;
 
 	if (mtDeleteSelfList.size() > 0)
 	{
@@ -107,7 +109,9 @@ bool NFCKernelModule::Execute()
 	{
 		mnCurExeObject = pObject->Self();
 		pObject->Execute();
-		mnCurExeObject = NFGUID();
+
+		mnCurExeObject.nHead64 = 0;
+		mnCurExeObject.nData64 = 0;
 
 		pObject = Next();
 	}
@@ -1267,6 +1271,8 @@ bool NFCKernelModule::LogInfo(const NFGUID ident)
 
 int NFCKernelModule::OnPropertyCommonEvent(const NFGUID& self, const std::string& strPropertyName, const NFData& oldVar, const NFData& newVar)
 {
+	NFPerformance performance;
+
 	NF_SHARE_PTR<NFIObject> xObject = GetElement(self);
 	if (xObject)
 	{
@@ -1294,6 +1300,17 @@ int NFCKernelModule::OnPropertyCommonEvent(const NFGUID& self, const std::string
 			}
 		}
 	}
+
+	if (performance.CheckTimePoint(1))
+	{
+		std::ostringstream os;
+		os << "--------------- performance problem------------------- ";
+		os << performance.TimeScope();
+		os << "---------- ";
+		os << strPropertyName;
+		m_pLogModule->LogWarning(self, os, __FUNCTION__, __LINE__);
+	}
+
 
 	return 0;
 }
@@ -1373,9 +1390,9 @@ bool NFCKernelModule::ExistObject(const NFGUID & ident)
 bool NFCKernelModule::ExistObject(const NFGUID & ident, const int nSceneID, const int nGroupID)
 {
 	NF_SHARE_PTR<NFCSceneInfo> pSceneInfo = m_pSceneModule->GetElement(nSceneID);
-	if (pSceneInfo)
+	if (!pSceneInfo)
 	{
-		return true;
+		return false;
 	}
 
 	return pSceneInfo->ExistObjectInGroup(nGroupID, ident);
@@ -1389,6 +1406,8 @@ bool NFCKernelModule::DestroySelf(const NFGUID& self)
 
 int NFCKernelModule::OnRecordCommonEvent(const NFGUID& self, const RECORD_EVENT_DATA& xEventData, const NFData& oldVar, const NFData& newVar)
 {
+	NFPerformance performance;
+
 	NF_SHARE_PTR<NFIObject> xObject = GetElement(self);
 	if (xObject)
 	{
@@ -1415,7 +1434,17 @@ int NFCKernelModule::OnRecordCommonEvent(const NFGUID& self, const RECORD_EVENT_
 				pFun->operator()(self, xEventData, oldVar, newVar);
 			}
 		}
+	}
 
+	if (performance.CheckTimePoint(1))
+	{
+		std::ostringstream os;
+		os << "--------------- performance problem------------------- ";
+		os << performance.TimeScope();
+		os << "---------- ";
+		os << xEventData.strRecordName;
+		os << " event type " << xEventData.nOpType;
+		m_pLogModule->LogWarning(self, os, __FUNCTION__, __LINE__);
 	}
 
 	return 0;
@@ -1423,12 +1452,25 @@ int NFCKernelModule::OnRecordCommonEvent(const NFGUID& self, const RECORD_EVENT_
 
 int NFCKernelModule::OnClassCommonEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const NFDataList& var)
 {
+	NFPerformance performance;
+
 	std::list<CLASS_EVENT_FUNCTOR_PTR>::iterator it = mtCommonClassCallBackList.begin();
 	for (; it != mtCommonClassCallBackList.end(); it++)
 	{
 		CLASS_EVENT_FUNCTOR_PTR& pFunPtr = *it;
 		CLASS_EVENT_FUNCTOR* pFun = pFunPtr.get();
 		pFun->operator()(self, strClassName, eClassEvent, var);
+	}
+
+	if (performance.CheckTimePoint(1))
+	{
+		std::ostringstream os;
+		os << "--------------- performance problem------------------- ";
+		os << performance.TimeScope();
+		os << "---------- ";
+		os << strClassName;
+		os << " event type " << eClassEvent;
+		m_pLogModule->LogWarning(self, os, __FUNCTION__, __LINE__);
 	}
 
 	return 0;

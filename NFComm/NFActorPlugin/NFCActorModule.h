@@ -65,6 +65,7 @@ public:
 
 protected:
 
+	virtual bool AddDefaultEndFunc(const int nActorIndex, ACTOR_PROCESS_FUNCTOR_PTR functorPtr_end);
 	virtual bool AddEndFunc(const int nActorIndex, const int nSubMsgID, ACTOR_PROCESS_FUNCTOR_PTR functorPtr);
 
     virtual bool AddComponent(const int nActorIndex, NF_SHARE_PTR<NFIComponent> pComponent);
@@ -74,8 +75,9 @@ private:
 	NF_SHARE_PTR<NFIActor> m_pMainActor;
 
     Theron::Framework mFramework;
-    NFMapEx<int, NFIActor> mxActorMap;
-	NFQueue<NF_SHARE_PTR<NFIActor>> mxActorPool;
+	NFMapEx<int, NFIActor> mxActorMap;
+	std::map<int, int> mxActorPool;
+	//NFQueue<NF_SHARE_PTR<NFIActor>> mxActorPool;
 
 	NFQueue<NFIActorMessage> mxQueue;
 };

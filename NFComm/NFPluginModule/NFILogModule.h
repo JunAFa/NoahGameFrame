@@ -77,8 +77,7 @@ public:
     virtual bool LogError(const NFGUID ident, const std::ostringstream& stream, const char* func = "", int line = 0) = 0;
     virtual bool LogFatal(const NFGUID ident, const std::ostringstream& stream, const char* func = "", int line = 0) = 0;
 
-
-
+	virtual void StackTrace() = 0;
 };
 
 #endif
