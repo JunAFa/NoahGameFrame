@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -35,9 +35,29 @@ class NFISkillModule
 {
 
 public:
+	virtual int UseSkill(const NFGUID& self, const std::string& strSkillName, const NFGUID& target, const int index = -1) = 0;
+	virtual int UseSkill(const NFGUID& self, const std::string& strSkillName, const NFDataList& target, const int index = -1) = 0;
 
-    virtual int ExistSkill(const NFGUID& self, const std::string& strSkillName) = 0;
+	/*
+	std::cout << "100, -10: " << CalDamage(100, -10) << std::endl;
+	std::cout << "100, 5: " << CalDamage(100, 5) << std::endl;
+	std::cout << "100, 10: " << CalDamage(100, 10) << std::endl;
+	std::cout << "100, 20: " << CalDamage(100, 20) << std::endl;
+	std::cout << "100, 30: " << CalDamage(100, 30) << std::endl;
+	std::cout << "-100, 30: " << CalDamage(-100, 30) << std::endl;
+	std::cout << "-100, -30: " << CalDamage(-100, -30) << std::endl;
 
+	 	100, -10: 250
+		100, 5: 76
+		100, 10: 62
+		100, 20: 45
+		100, 30: 35
+		-100, 30: 0
+		-100, -30: 0
+	 */
+	virtual int CalDamage(const int atk, const int def) = 0;
+
+	//virtual int CalSkillDamage(const NFGUID& self, const int def) = 0;
 };
 
 #endif

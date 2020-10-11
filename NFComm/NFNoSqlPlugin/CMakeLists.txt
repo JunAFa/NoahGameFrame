@@ -11,7 +11,7 @@ add_library(NFNoSqlPlugin STATIC
 		${NFNoSqlPlugin_ROOT_Cpp}
 		${NFNoSqlPlugin_Hpp})
 
-set_target_properties( NFNoSqlPlugin PROPERTIES OUTPUT_NAME_DEBUG "NFNoSqlPlugin_d")
+set_target_properties( NFNoSqlPlugin PROPERTIES OUTPUT_NAME_DEBUG "NFNoSqlPlugin")
 set_target_properties( NFNoSqlPlugin PROPERTIES PREFIX "")
 set_target_properties( NFNoSqlPlugin PROPERTIES
 		FOLDER "NFComm/NFNoSqlPlugin"
@@ -30,7 +30,6 @@ if(UNIX)
 	target_link_libraries(NFNoSqlPlugin -static-libstdc++)
 
 	add_definitions(
-			-D_USRDLL
 			-DELPP_NO_DEFAULT_LOG_FILE
 	)
 
@@ -44,7 +43,6 @@ else()
 	target_link_libraries(NFNoSqlPlugin -static-libstdc++)
 	add_definitions(
 			-DWIN
-			-D_USRDLL
 			-DELPP_NO_DEFAULT_LOG_FILE
 	)
 endif()

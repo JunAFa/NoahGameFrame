@@ -6,8 +6,17 @@
 		<Plugin Name="NFGameServerPlugin" />
 		<Plugin Name="NFGameServerNet_ServerPlugin" />
 		<Plugin Name="NFGameServerNet_ClientPlugin" />
-		<Plugin Name="NFLogPlugin" />
+		<Plugin Name="NFLogPlugin" />	
 		<Plugin Name="NFLuaScriptPlugin" />
+		<!--<Plugin Name="NFRenderPlugin" />-->
+		<!--<Plugin Name="NFBluePrintPlugin" />-->
+		<Plugin Name="NFActorPlugin" />
+		<Plugin Name="NFNavigationPlugin" />
+        
+        <Plugin Name="NFInventoryPlugin" />
+        <Plugin Name="NFConsumeManagerPlugin" />
+        <Plugin Name="NFChatPlugin" />
+
 	</GameServer>
 
 	<LoginServer>
@@ -16,7 +25,12 @@
 		<Plugin Name="NFConfigPlugin" />	
 		<Plugin Name="NFLoginNet_ServerPlugin" />
 		<Plugin Name="NFLoginNet_ClientPlugin" />
+		<Plugin Name="NFLoginLogicPlugin" />
+		<Plugin Name="NFLoginNet_HttpServerPlugin" />
 		<Plugin Name="NFLogPlugin" />	
+		<Plugin Name="NFDBLogicPlugin" />
+		<Plugin Name="NFNoSqlPlugin" />
+		<Plugin Name="NFActorPlugin" />
 	</LoginServer>
 
 	<MasterServer>
@@ -27,6 +41,7 @@
 		<Plugin Name="NFMasterNet_ServerPlugin" />
 		<Plugin Name="NFMasterNet_HttpServerPlugin" />
 		<Plugin Name="NFLogPlugin" />	
+		<Plugin Name="NFActorPlugin" />
 	</MasterServer>
 
 	<ProxyServer>
@@ -37,7 +52,8 @@
 		<Plugin Name="NFProxyServerNet_ClientPlugin" />
 		<Plugin Name="NFProxyServerNet_ServerPlugin" />
 		<Plugin Name="NFLogPlugin" />
-		<Plugin Name="NFSecurityPlugin" />				
+		<Plugin Name="NFSecurityPlugin" />
+		<Plugin Name="NFActorPlugin" />		
 	</ProxyServer>
 
 	<WorldServer>
@@ -46,8 +62,24 @@
 		<Plugin Name="NFConfigPlugin" />
 		<Plugin Name="NFWorldNet_ClientPlugin" />
 		<Plugin Name="NFWorldNet_ServerPlugin" />
-		<Plugin Name="NFLogPlugin" />
-		<Plugin Name="NFSecurityPlugin" />		
+		<Plugin Name="NFDBLogicPlugin" />
+		<Plugin Name="NFLogPlugin" />	
+		<Plugin Name="NFSecurityPlugin" />
+		<Plugin Name="NFActorPlugin" />
+		<Plugin Name="NFNoSqlPlugin" />
+        
+        <Plugin Name="NFWorldLogicPlugin" />
 	</WorldServer>
-
+	<DBServer>
+		<Plugin Name="NFNetPlugin" />
+		<Plugin Name="NFKernelPlugin" />
+		<Plugin Name="NFConfigPlugin" />
+		<Plugin Name="NFDBNet_ClientPlugin" />
+		<Plugin Name="NFDBNet_ServerPlugin" />
+		<Plugin Name="NFLogPlugin" />
+		<Plugin Name="NFDBLogicPlugin" />
+		<Plugin Name="NFActorPlugin" />
+		<Plugin Name="NFNoSqlPlugin" />
+		<Plugin Name="NFSecurityPlugin" />
+	</DBServer>
 </XML>

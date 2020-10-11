@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -25,7 +25,7 @@
 
 
 #include "NFDBNet_ClientPlugin.h"
-#include "NFCDBToWorldModule.h"
+#include "NFDBToWorldModule.h"
 
 //
 //
@@ -58,10 +58,10 @@ const std::string NFDBNet_ClientPlugin::GetPluginName()
 
 void NFDBNet_ClientPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, NFIDBToWorldModule, NFCDBToWorldModule)
+    REGISTER_MODULE(pPluginManager, NFIDBToWorldModule, NFDBToWorldModule)
 }
 
 void NFDBNet_ClientPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, NFIDBToWorldModule, NFCDBToWorldModule)
+    UNREGISTER_MODULE(pPluginManager, NFIDBToWorldModule, NFDBToWorldModule)
 }

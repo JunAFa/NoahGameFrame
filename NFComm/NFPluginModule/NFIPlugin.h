@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -29,7 +29,6 @@
 
 #include <iostream>
 #include <assert.h>
-#include "NFComm/NFCore/NFMap.hpp"
 #include "NFComm/NFPluginModule/NFIModule.h"
 #include "NFComm/NFPluginModule/NFIPluginManager.h"
 
@@ -37,117 +36,129 @@
 	assert((TIsDerived<classBaseName, NFIModule>::Result));	\
 	assert((TIsDerived<className, classBaseName>::Result));	\
 	NFIModule* pRegisterModule##className= new className(pManager); \
-    pRegisterModule##className->strName = (#className); \
-    pManager->AddModule( #classBaseName, pRegisterModule##className );\
-    AddElement( #classBaseName, pRegisterModule##className );
-
-#define REGISTER_TEST_MODULE(pManager, classBaseName, className)  \
-	assert((TIsDerived<classBaseName, NFIModule>::Result));	\
-	assert((TIsDerived<className, NFIModule>::Result));	\
-	NFIModule* pRegisterModule##className= new className(pManager); \
-    pRegisterModule##className->strName = (#className); \
-    pManager->AddTestModule( #classBaseName, pRegisterModule##className );
+    pRegisterModule##className->name = (#className); \
+    pManager->AddModule( typeid(classBaseName).name(), pRegisterModule##className );\
+    this->AddElement( typeid(classBaseName).name(), pRegisterModule##className );
 
 #define UNREGISTER_MODULE(pManager, classBaseName, className) \
-    NFIModule* pUnRegisterModule##className = dynamic_cast<NFIModule*>( pManager->FindModule( #classBaseName )); \
-	pManager->RemoveModule( #classBaseName ); \
-    RemoveElement( #classBaseName ); \
+    NFIModule* pUnRegisterModule##className = dynamic_cast<NFIModule*>( pManager->FindModule( typeid(classBaseName).name() )); \
+	pManager->RemoveModule( typeid(classBaseName).name() ); \
+    this->RemoveElement( typeid(classBaseName).name() ); \
     delete pUnRegisterModule##className;
 
-#define UNREGISTER_TEST_MODULE(pManager, classBaseName, className) \
-    NFIModule* pUnRegisterModule##className = dynamic_cast<NFIModule*>( pManager->FindtESTModule( #classBaseName )); \
-	pManager->RemoveTestModule( #classBaseName ); \
-    delete pUnRegisterModule##className;
 
 #define CREATE_PLUGIN(pManager, className)  NFIPlugin* pCreatePlugin##className = new className(pManager); pManager->Registered( pCreatePlugin##className );
 
 #define DESTROY_PLUGIN(pManager, className) pManager->UnRegistered( pManager->FindPlugin((#className)) );
 
-/*
-#define REGISTER_COMPONENT(pManager, className)  NFIComponent* pRegisterComponent##className= new className(pManager); \
-    pRegisterComponent##className->strName = (#className); \
-    pManager->AddComponent( (#className), pRegisterComponent##className );
-
-#define UNREGISTER_COMPONENT(pManager, className) NFIComponent* pRegisterComponent##className =  \
-        dynamic_cast<NFIComponent*>( pManager->FindComponent( (#className) ) ); pManager->RemoveComponent( (#className) ); delete pRegisterComponent##className;
-*/
-
 class NFIPluginManager;
 
-class NFIPlugin : public NFIModule,
-    public NFMap<std::string, NFIModule>
+class NFIPlugin : public NFIModule
 {
 
 public:
 	NFIPlugin()
 	{
 	}
-
+    virtual ~NFIPlugin()
+	{
+	}
     virtual const int GetPluginVersion() = 0;
-
     virtual const std::string GetPluginName() = 0;
 
     virtual void Install() = 0;
 
+	virtual void Uninstall() = 0;
+
+
+	void AddElement(const std::string& name, NFIModule* module)
+	{
+		mModules[name] = module;
+	}
+
+	NFIModule* GetElement(const std::string& name)
+	{
+		auto it = mModules.find(name);
+		if (it != mModules.end())
+		{
+			return it->second;
+		}
+
+		return nullptr;
+	}
+
+	void RemoveElement(const std::string& name)
+	{
+		auto it = mModules.find(name);
+		if (it != mModules.end())
+		{
+			mModules.erase(it);
+		}
+	}
+
 	virtual bool Awake()
 	{
-		NFIModule* pModule = First();
-		while (pModule)
+		for (auto it : mModules)
 		{
+			NFIModule* pModule = it.second;
+
+			pPluginManager->SetCurrentModule(pModule);
+
 			bool bRet = pModule->Awake();
 			if (!bRet)
 			{
-				std::cout << pModule->strName << std::endl;
+				std::cout << pModule->name << std::endl;
 				assert(0);
 			}
-
-			pModule = Next();
 		}
+
 		return true;
 	}
 
     virtual bool Init()
-    {
-        NFIModule* pModule = First();
-        while (pModule)
-        {
-            bool bRet = pModule->Init();
-            if (!bRet)
-            {
-				std::cout << pModule->strName << std::endl;
-                assert(0);
-            }
+	{
+		for (auto it : mModules)
+		{
+			NFIModule *pModule = it.second;
 
-            pModule = Next();
-        }
+			pPluginManager->SetCurrentModule(pModule);
+			bool bRet = pModule->Init();
+			if (!bRet)
+			{
+				std::cout << pModule->name << std::endl;
+				assert(0);
+			}
+		}
+
         return true;
     }
 
     virtual bool AfterInit()
     {
-        NFIModule* pModule = First();
-        while (pModule)
-        {
+		for (auto it : mModules)
+		{
+			NFIModule *pModule = it.second;
+
+			pPluginManager->SetCurrentModule(pModule);
             bool bRet = pModule->AfterInit();
             if (!bRet)
             {
-				std::cout << pModule->strName << std::endl;
+				std::cout << pModule->name << std::endl;
                 assert(0);
             }
-
-            pModule = Next();
         }
         return true;
     }
 
     virtual bool CheckConfig()
     {
-        NFIModule* pModule = First();
-        while (pModule)
-        {
+		for (auto it : mModules)
+		{
+			NFIModule *pModule = it.second;
+
+			pPluginManager->SetCurrentModule(pModule);
             pModule->CheckConfig();
 
-            pModule = Next();
         }
 
         return true;
@@ -155,12 +166,12 @@ public:
 
 	virtual bool ReadyExecute()
 	{
-		NFIModule* pModule = First();
-		while (pModule)
+		for (auto it : mModules)
 		{
-			pModule->ReadyExecute();
+			NFIModule *pModule = it.second;
 
-			pModule = Next();
+			pPluginManager->SetCurrentModule(pModule);
+			pModule->ReadyExecute();
 		}
 
 		return true;
@@ -168,12 +179,13 @@ public:
 
     virtual bool Execute()
     {
-        NFIModule* pModule = First();
-        while (pModule)
-        {
+		for (auto it : mModules)
+		{
+			NFIModule *pModule = it.second;
+
+			pPluginManager->SetCurrentModule(pModule);
             pModule->Execute();
 
-            pModule = Next();
         }
 
         return true;
@@ -181,24 +193,25 @@ public:
 
     virtual bool BeforeShut()
     {
-        NFIModule* pModule = First();
-        while (pModule)
-        {
-            pModule->BeforeShut();
+		for (auto it : mModules)
+		{
+			NFIModule *pModule = it.second;
 
-            pModule = Next();
+			pPluginManager->SetCurrentModule(pModule);
+            pModule->BeforeShut();
         }
+
         return true;
     }
 
     virtual bool Shut()
     {
-        NFIModule* pModule = First();
-        while (pModule)
-        {
-            pModule->Shut();
+		for (auto it : mModules)
+		{
+			NFIModule *pModule = it.second;
 
-            pModule = Next();
+			pPluginManager->SetCurrentModule(pModule);
+            pModule->Shut();
         }
 
         return true;
@@ -206,12 +219,13 @@ public:
 
     virtual bool Finalize()
     {
-        NFIModule* pModule = First();
-        while (pModule)
-        {
+		for (auto it : mModules)
+		{
+			NFIModule *pModule = it.second;
+
+			pPluginManager->SetCurrentModule(pModule);
             pModule->Finalize();
 
-            pModule = Next();
         }
 
         return true;
@@ -219,17 +233,19 @@ public:
 
 	virtual bool OnReloadPlugin()
 	{
-		NFIModule* pModule = First();
-		while (pModule)
+		for (auto it : mModules)
 		{
-			pModule->OnReloadPlugin();
+			NFIModule *pModule = it.second;
 
-			pModule = Next();
+			pPluginManager->SetCurrentModule(pModule);
+			pModule->OnReloadPlugin();
 		}
 
 		return true;
 	}
-    virtual void Uninstall() = 0;
+
+private:
+	std::map<std::string, NFIModule*> mModules;
 };
 
 #endif

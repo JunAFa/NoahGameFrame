@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -35,8 +35,14 @@ class NFIPropertyConfigModule
 {
 public:
 
-    virtual NFINT64 CalculateBaseValue(const int nJob,  const int nLevel, const std::string& strProperty) = 0;
     virtual bool LegalLevel(const int nJob, const int nLevel) = 0;
+    virtual const std::string& GetInitPropertyID(const int nJob, const int nLevel) = 0;
+
+    virtual void ClearInitPropertyData() = 0;
+    virtual void AddInitPropertyID(const int nJob, const int nLevel, const std::string& data) = 0;
+
+    virtual void SetEx(const bool b) = 0;
+
 };
 
 

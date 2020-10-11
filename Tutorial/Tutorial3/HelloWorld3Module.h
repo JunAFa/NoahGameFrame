@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -23,8 +23,8 @@
    limitations under the License.
 */
 
-#ifndef NFC_HELLO_WORLD3_H
-#define NFC_HELLO_WORLD3_H
+#ifndef NF_HELLO_WORLD3_H
+#define NF_HELLO_WORLD3_H
 
 #include "NFComm/NFPluginModule/NFIKernelModule.h"
 #include "NFComm/NFPluginModule/NFIElementModule.h"
@@ -37,12 +37,13 @@ class NFIHelloWorld3Module
 
 };
 
-class NFCHelloWorld3Module
+class NFHelloWorld3Module
     : public NFIHelloWorld3Module
 {
 public:
-    NFCHelloWorld3Module(NFIPluginManager* p)
+    NFHelloWorld3Module(NFIPluginManager* p)
     {
+        m_bIsExecute = true;
         pPluginManager = p;
     }
 
@@ -55,12 +56,12 @@ public:
     virtual bool Shut();
 
 protected:
-    int OnEvent(const NFGUID& self, const NFEventDefine event, const NFDataList& arg);
-    int OnClassCallBackEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT event, const NFDataList& arg);
-    int OnPropertyCallBackEvent( const NFGUID& self, const std::string& strProperty, const NFData& oldVarList, const NFData& newVarList);
-    int OnPropertyStrCallBackEvent( const NFGUID& self, const std::string& strProperty, const NFData& oldVarList, const NFData& newVarList);
+    int OnEvent(const NFGUID& self, const int event, const NFDataList& arg);
+    int OnClassCallBackEvent(const NFGUID& self, const std::string& className, const CLASS_OBJECT_EVENT event, const NFDataList& arg);
+    int OnPropertyCallBackEvent( const NFGUID& self, const std::string& propertyName, const NFData& oldVarList, const NFData& newVarList);
+    int OnPropertyStrCallBackEvent( const NFGUID& self, const std::string& propertyName, const NFData& oldVarList, const NFData& newVarList);
 
-    int OnHeartBeat(const NFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount);
+    int OnHeartBeat(const NFGUID& self, const std::string& heartBeat, const float time, const int count);
 
 protected:
     int64_t mLastTime;

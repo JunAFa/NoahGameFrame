@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -43,15 +43,14 @@ public:
         NLL_FATAL_NORMAL,
     };
 
-    virtual bool LogElement(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strElement, const std::string& strDesc, const char* func = "", int line = 0) = 0;
-    virtual bool LogProperty(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strProperty, const std::string& strDesc, const char* func = "", int line = 0) = 0;
-    virtual bool LogObject(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strDesc, const char* func = "", int line = 0) = 0;
-    virtual bool LogRecord(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strRecord, const std::string& strDesc, const int nRow, const int nCol, const char* func = "", int line = 0) = 0;
-    virtual bool LogRecord(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strRecord, const std::string& strDesc, const char* func = "", int line = 0) = 0;
+    typedef std::function<void(const NFILogModule::NF_LOG_LEVEL, const std::string&)> LOG_HOOKER_FUNCTOR;
+    typedef NF_SHARE_PTR<LOG_HOOKER_FUNCTOR> LOG_HOOKER_FUNCTOR_PTR;
 
-    virtual bool LogNormal(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strInfo, const int64_t nDesc, const char* func = "", int line = 0) = 0;
-    virtual bool LogNormal(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strInfo, const std::string& strDesc, const  char* func = "", int line = 0) = 0;
-    virtual bool LogNormal(const NF_LOG_LEVEL nll, const NFGUID ident, const std::ostringstream& stream, const char* func = "", int line = 0) = 0;
+    virtual bool LogElement(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strElement, const std::string& strDesc, const char* func = "", int line = 0) = 0;
+    virtual bool LogProperty(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& propertyName, const std::string& strDesc, const char* func = "", int line = 0) = 0;
+    virtual bool LogObject(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strDesc, const char* func = "", int line = 0) = 0;
+    virtual bool LogRecord(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& recordName, const std::string& strDesc, const int row, const int col, const char* func = "", int line = 0) = 0;
+    virtual bool LogRecord(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& recordName, const std::string& strDesc, const char* func = "", int line = 0) = 0;
 
     virtual bool LogDebug(const std::string& strLog, const char* func = "", int line = 0) = 0;
     virtual bool LogInfo(const std::string& strLog, const  char* func = "", int line = 0) = 0;
@@ -77,8 +76,18 @@ public:
     virtual bool LogError(const NFGUID ident, const std::ostringstream& stream, const char* func = "", int line = 0) = 0;
     virtual bool LogFatal(const NFGUID ident, const std::ostringstream& stream, const char* func = "", int line = 0) = 0;
 
+	virtual void StackTrace() = 0;
 
+    template<typename BaseType>
+    void SetHooker(BaseType* pBase, void (BaseType::*handler)(const NFILogModule::NF_LOG_LEVEL, const std::string&))
+    {
+        auto functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2);
+        LOG_HOOKER_FUNCTOR_PTR functorPtr(NF_NEW LOG_HOOKER_FUNCTOR(functor));
+        return SetHooker(functorPtr);
+    }
 
+protected:
+    virtual void SetHooker(LOG_HOOKER_FUNCTOR_PTR hooker) = 0;
 };
 
 #endif

@@ -2,6 +2,10 @@
 
 export LC_ALL="C"
 
+ulimit -c unlimited
+source /etc/profile
+
+
 sysOS=`uname -s`
 if [ $sysOS == "Darwin" ];then
     echo "I'm MacOS"
@@ -16,16 +20,30 @@ fi
 
 cd Release
 
-chmod -R 777  NFPluginLoader
+chmod -R 777  NFServer
 
-./NFPluginLoader -d Server=MasterServer ID=3
+./NFServer -d Plugin=Plugin.xml Server=MasterServer ID=3
 
-./NFPluginLoader -d Server=WorldServer ID=7
+sleep 1
 
-./NFPluginLoader -d Server=LoginServer ID=4
+./NFServer -d Plugin=Plugin.xml Server=WorldServer ID=7
 
-./NFPluginLoader -d Server=GameServer ID=6
+sleep 1
 
-./NFPluginLoader -d Server=ProxyServer ID=5
+./NFServer -d Plugin=Plugin.xml Server=DBServer ID=8
+
+sleep 1
+
+./NFServer -d Plugin=Plugin.xml Server=LoginServer ID=4
+
+sleep 1
+
+./NFServer -d Plugin=Plugin.xml Server=GameServer ID=6
+
+sleep 1
+
+./NFServer -d Plugin=Plugin.xml Server=ProxyServer ID=5
+
+sleep 5
 
 ps -A|grep NF

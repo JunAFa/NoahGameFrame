@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -27,8 +27,8 @@
 
 #if NF_PLATFORM == NF_PLATFORM_WIN
 #pragma comment( lib, "ws2_32" )
-#pragma comment( lib, "libevent.lib" )
-#pragma comment( lib, "hiredis_d.lib") 
+#pragma comment( lib, "event.lib" )
+#pragma comment( lib, "hiredis.lib") 
 #else
 
 #endif
@@ -37,7 +37,7 @@
 
 #if NF_PLATFORM == NF_PLATFORM_WIN
 #pragma comment( lib, "ws2_32" )
-#pragma comment( lib, "libevent.lib" )
+#pragma comment( lib, "event.lib" )
 #pragma comment( lib, "hiredis.lib") 
 
 #else

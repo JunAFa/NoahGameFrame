@@ -1,5 +1,5 @@
 /*
-    Copyright 2009 - 2018 LvSheng.Huang
+    Copyright 2009 - 2019 LvSheng.Huang
 
    This source file is part of NoahGameFrame/NoahFrame.
    NoahGameFrame/NoahFrame is open-source software and you can redistribute it and/or modify
@@ -315,12 +315,22 @@ typedef int64_t NFSOCK;
 #include <unistd.h>
 #define EPOCHFILETIME 11644473600000000ULL
 #else
-#include <windows.h>
+#include <WinSock2.h>
+#include <Windows.h>
+#define NOMINMAX
+#ifdef min
+#undef min
+#endif
+#ifdef max
+#undef max
+#endif
+
 #include <time.h>
 #include <process.h>
 #define EPOCHFILETIME 11644473600000000Ui64
 #endif
 
+#define ELPP_DISABLE_DEFAULT_CRASH_HANDLING
 
 #if NF_PLATFORM == NF_PLATFORM_WIN
 #define NFSPRINTF sprintf_s
@@ -336,36 +346,17 @@ typedef int64_t NFSOCK;
 
 #if NF_PLATFORM == NF_PLATFORM_WIN
 #ifndef NF_DYNAMIC_PLUGIN
-#define NF_DYNAMIC_PLUGIN 1
-#endif
-#endif
-
-#if NF_PLATFORM != NF_PLATFORM_WIN
-#ifndef NF_USE_COROUTINE
-//#define NF_USE_COROUTINE 1
+//#define NF_DYNAMIC_PLUGIN 1
 #endif
 #endif
 
 //using tcmalloc
+#if NF_PLATFORM != NF_PLATFORM_WIN
+#ifndef NF_USE_TCMALLOC
 //#define NF_USE_TCMALLOC 1
-
-//using actor mode--begin
-#define NF_ACTOR_THREAD_COUNT 16
-#ifndef NF_USE_ACTOR
-
-#define NF_USE_ACTOR
-#ifdef NF_DEBUG_MODE
-#define THERON_DEBUG 1
-#else
-#define THERON_DEBUG 0
+#endif
 #endif
 
-#ifndef THERON_CPP11
-#define THERON_CPP11 1
-#endif
-
-#endif
-//use actor mode--end
 
 #define GET_CLASS_NAME(className) (#className)
 
@@ -374,11 +365,11 @@ typedef int64_t NFSOCK;
 
 
 template<typename DTYPE>
-bool NF_StrTo(const std::string& strValue, DTYPE& nValue)
+bool NF_StrTo(const std::string& value, DTYPE& nValue)
 {
     try
     {
-        nValue = lexical_cast<DTYPE>(strValue);
+        nValue = lexical_cast<DTYPE>(value);
         return true;
     }
     catch (...)
@@ -399,6 +390,11 @@ inline bool IsZeroDouble(const double dValue, double epsilon = 1e-15)
     return std::abs(dValue) <= epsilon;
 }
 
+inline int64_t NFGetTimeMSEx()
+{
+	return std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+}
+
 //millisecond
 inline int64_t NFGetTimeMS()
 {
@@ -411,15 +407,5 @@ inline int64_t NFGetTimeS()
     return NFGetTimeMS() / 1000;
 }
 
-//Protobuf Using Dlls
-/*
-#if NF_PLATFORM == NF_PLATFORM_WIN
-#ifndef PROTOBUF_SRC
-#ifndef PROTOBUF_USE_DLLS
-#define PROTOBUF_USE_DLLS
-#endif
-#endif
-#endif
-*/
 
 #endif

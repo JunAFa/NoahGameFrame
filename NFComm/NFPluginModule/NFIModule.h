@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -31,12 +31,13 @@
 #include "NFComm/NFCore/NFMap.hpp"
 #include "NFComm/NFCore/NFList.hpp"
 #include "NFComm/NFCore/NFDataList.hpp"
+#include "NFComm/NFCore/NFSmartEnum.hpp"
 
 class NFIModule
 {
 
 public:
-    NFIModule()
+    NFIModule() : m_bIsExecute(false), pPluginManager(NULL)
     {
     }
 
@@ -98,19 +99,9 @@ public:
         return pPluginManager;
     }
 
-	virtual void YieldCo(const int64_t fSecond)
-	{
-		pPluginManager->YieldCo(fSecond);
-	}
-
-	virtual void YieldCo()
-	{
-        pPluginManager->YieldCo();
-    }
-
-    std::string strName;
-
+    std::string name;
+    bool m_bIsExecute;
 protected:
-	NFIPluginManager* pPluginManager = NULL;
+	NFIPluginManager* pPluginManager;
 };
 #endif

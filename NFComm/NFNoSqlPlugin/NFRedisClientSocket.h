@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -105,6 +105,8 @@ protected:
 	static void conn_writecb(struct bufferevent* bev, void* user_data);
 	static void conn_eventcb(struct bufferevent* bev, short events, void* user_data);
 	static void log_cb(int severity, const char* msg);
+
+	string GetIP(const std::string& url);
 
 private:
 	struct event_base* base;

@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -35,7 +35,7 @@ class NFIProxyServerToWorldModule
     : public  NFIModule
 {
 public:
-    virtual bool VerifyConnectData(const std::string& strAccount, const std::string& strKey) = 0;
+    virtual bool VerifyConnectData(const std::string& account, const std::string& strKey) = 0;
 };
 
 #endif

@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -29,13 +29,14 @@
 
 #include <functional>
 #include <list>
+#include <vector>
 #include "NFPlatform.h"
 
 class NFIPlugin;
 class NFIModule;
+class NFIPluginManager;
 
-typedef std::function<bool (const std::string &strFileName, std::string &strContent)> GET_FILECONTENT_FUNCTOR;
-typedef void (* CoroutineFunction)(void* arg);
+typedef std::function<bool (NFIPluginManager* p, const std::string& fileName, std::string& content)> GET_FILECONTENT_FUNCTOR;
 
 template<typename DerivedType, typename BaseType>
 class TIsDerived
@@ -57,10 +58,20 @@ public:
     };
 };
 
+class NFReplaceContent
+{
+public:
+	NFReplaceContent(const std::string content, const std::string newValue)
+	{
+		this->content = content;
+		this->newValue = newValue;
+	}
+	std::string content;
+	std::string newValue;
+};
+
 #define FIND_MODULE(classBaseName, className)  \
 	assert((TIsDerived<classBaseName, NFIModule>::Result));
-
-
 
 class NFIPluginManager
 {
@@ -71,6 +82,16 @@ public:
     }
 
 	/////////////////////
+
+	virtual bool LoadPluginConfig()
+	{
+		return true;
+	}
+
+	virtual bool LoadPlugin()
+	{
+		return true;
+	}
 
 	virtual bool Awake()
 	{
@@ -149,28 +170,42 @@ public:
 		return NULL;
 	}
 
-	virtual bool ReLoadPlugin(const std::string& strPluginDLLName) = 0;
+	template <typename T>
+	void ReplaceModule(NFIModule* pModule)
+	{
+		NFIModule* pLogicModule = FindModule(typeid(T).name());
+		if (pLogicModule)
+		{
+			RemoveModule(typeid(T).name());
+		}
+
+
+		AddModule(typeid(T).name(), pModule);
+	};
+
+	virtual bool ReLoadPlugin(const std::string& pluginDLLName) = 0;
 
     virtual void Registered(NFIPlugin* plugin) = 0;
 
     virtual void UnRegistered(NFIPlugin* plugin) = 0;
 
-    virtual NFIPlugin* FindPlugin(const std::string& strPluginName) = 0;
+    virtual NFIPlugin* FindPlugin(const std::string& pluginName) = 0;
 
-	virtual void AddModule(const std::string& strModuleName, NFIModule* pModule) = 0;
+	virtual void AddModule(const std::string& moduleName, NFIModule* pModule) = 0;
 
-	virtual void AddTestModule(const std::string& strModuleName, NFIModule* pModule) = 0;
+	virtual void AddTestModule(const std::string& moduleName, NFIModule* pModule) = 0;
 
-    virtual void RemoveModule(const std::string& strModuleName) = 0;
+    virtual void RemoveModule(const std::string& moduleName) = 0;
 
-    virtual NFIModule* FindModule(const std::string& strModuleName) = 0;
+    virtual NFIModule* FindModule(const std::string& moduleName) = 0;
 
-    virtual NFIModule* FindTestModule(const std::string& strModuleName) = 0;
+    virtual NFIModule* FindTestModule(const std::string& moduleName) = 0;
 
 	virtual std::list<NFIModule*> Modules() = 0;
+	virtual std::list<NFIModule*> TestModules() = 0;
 
     virtual int GetAppID() const = 0;
-    virtual void SetAppID(const int nAppID) = 0;
+    virtual void SetAppID(const int appID) = 0;
 
     virtual bool IsRunningDocker() const = 0;
     virtual void SetRunningDocker(bool bDocker) = 0;
@@ -183,21 +218,29 @@ public:
 	virtual const std::string& GetConfigPath() const = 0;
 	virtual void SetConfigPath(const std::string & strPath) = 0;
 
-	virtual void SetConfigName(const std::string& strFileName) = 0;	
+	virtual void SetConfigName(const std::string& fileName) = 0;
 	virtual const std::string& GetConfigName() const = 0;
 
 	virtual const std::string& GetAppName() const = 0;
-	virtual void SetAppName(const std::string& strAppName) = 0;
+	virtual void SetAppName(const std::string& appName) = 0;
 
 	virtual const std::string& GetLogConfigName() const = 0;
-	virtual void SetLogConfigName(const std::string& strName) = 0;
+	virtual void SetLogConfigName(const std::string& name) = 0;
+
+	virtual NFIPlugin* GetCurrentPlugin() = 0;
+	virtual NFIModule* GetCurrentModule() = 0;
+
+	virtual void SetCurrentPlugin(NFIPlugin* pPlugin) = 0;
+	virtual void SetCurrentModule(NFIModule* pModule) = 0;
+
+	virtual int GetAppCPUCount() const = 0;
+	virtual void SetAppCPUCount(const int count) = 0;
 
 	virtual void SetGetFileContentFunctor(GET_FILECONTENT_FUNCTOR fun) = 0;
-	virtual bool GetFileContent(const std::string &strFileName, std::string &strContent) = 0;
+	virtual bool GetFileContent(const std::string &fileName, std::string &content) = 0;
 
-	virtual void ExecuteCoScheduler() = 0;
-	virtual void YieldCo(const int64_t nSecond) = 0;
-	virtual void YieldCo() = 0;
+	virtual void AddFileReplaceContent(const std::string& fileName, const std::string& content, const std::string& newValue) = 0;
+	virtual std::vector<NFReplaceContent> GetFileReplaceContents(const std::string& fileName) = 0;
 };
 
 #endif

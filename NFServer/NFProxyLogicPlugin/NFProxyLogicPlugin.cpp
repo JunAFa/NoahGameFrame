@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -24,7 +24,7 @@
 */
 
 #include "NFProxyLogicPlugin.h"
-#include "NFCProxyLogicModule.h"
+#include "NFProxyLogicModule.h"
 
 #ifdef NF_DYNAMIC_PLUGIN
 
@@ -54,11 +54,11 @@ const std::string NFProxyLogicPlugin::GetPluginName()
 void NFProxyLogicPlugin::Install()
 {
 
-    REGISTER_MODULE(pPluginManager, NFIProxyLogicModule, NFCProxyLogicModule)
+    REGISTER_MODULE(pPluginManager, NFIProxyLogicModule, NFProxyLogicModule)
 
 }
 
 void NFProxyLogicPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, NFIProxyLogicModule, NFCProxyLogicModule)
+    UNREGISTER_MODULE(pPluginManager, NFIProxyLogicModule, NFProxyLogicModule)
 }

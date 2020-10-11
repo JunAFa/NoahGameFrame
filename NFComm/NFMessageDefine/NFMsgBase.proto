@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package NFMsg; 
 
-import "NFDefine.proto";
 
 message Ident//The base protocol can not be transfer directly
 { 
@@ -258,6 +257,11 @@ message MsgBase
 	bytes  msg_data = 2;
 	repeated Ident  player_Client_list = 3;
 	Ident  hash_ident = 4;
+}
+
+message ReqAckLagTest
+{	
+	int32 index = 1;
 }
 
 message ReqCommand//Game command

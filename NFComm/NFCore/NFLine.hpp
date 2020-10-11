@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -39,7 +39,7 @@ class NFVector3;
 class NFLine
 {
 public:
-    NFLine(const NFVector3& vPointStart, const NFVector3& vDirection, const int nLength)
+    NFLine(const NFVector3& vPointStart, const NFVector3& vDirection, const int length)
     {
     }
     
@@ -47,7 +47,7 @@ public:
     {
     }
    
-    NFLine(const NFVector3& vPoint, const NFVector3& vDirection, const int nLength)
+    NFLine(const NFVector3& vPoint, const NFVector3& vDirection, const int length)
     {
     }
 

@@ -14,22 +14,22 @@
     <ProjectGuid>{8F2AA50E-1F15-41E8-9EB9-07C7D0BB757C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>NFKernelPlugin</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '12.0'">v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <PlatformToolset Condition="'$(VisualStudioVersion)' == '12.0'">v120</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -46,7 +46,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>$(ProjectName)_d</TargetName>
+    <TargetName>$(ProjectName)</TargetName>
     <EmbedManifest>false</EmbedManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -59,9 +59,10 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_X64;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)\Dependencies\;$(SolutionDir)\Dependencies\Theron\Include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_X64;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>false</BrowseInformation>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -87,8 +88,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_X64;NDEBUG;_USRDLL;GOOGLE_GLOG_DLL_DECL=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)\Dependencies\;$(SolutionDir)\Dependencies\Theron\Include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_X64;NDEBUG;GOOGLE_GLOG_DLL_DECL=;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -103,13 +105,16 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="NFCDataTailModule.h" />
-    <ClInclude Include="NFCErrorBusModule.h" />
-    <ClInclude Include="NFCEventModule.h" />
-    <ClInclude Include="NFCKernelModule.h" />
-    <ClInclude Include="NFCSceneAOIModule.h" />
-    <ClInclude Include="NFCScheduleModule.h" />
+    <ClInclude Include="NFCellModule.h" />
+    <ClInclude Include="NFDataTailModule.h" />
+    <ClInclude Include="NFELOModule.h" />
+    <ClInclude Include="NFErrorBusModule.h" />
+    <ClInclude Include="NFEventModule.h" />
+    <ClInclude Include="NFKernelModule.h" />
+    <ClInclude Include="NFSceneModule.h" />
+    <ClInclude Include="NFScheduleModule.h" />
     <ClInclude Include="NFKernelPlugin.h" />
+    <ClInclude Include="NFThreadPoolModule.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -120,18 +125,18 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="NFCDataTailModule.cpp" />
-    <ClCompile Include="NFCErrorBusModule.cpp" />
-    <ClCompile Include="NFCEventModule.cpp" />
-    <ClCompile Include="NFCKernelModule.cpp" />
-    <ClCompile Include="NFCSceneAOIModule.cpp" />
-    <ClCompile Include="NFCScheduleModule.cpp" />
+    <ClCompile Include="NFCellModule.cpp" />
+    <ClCompile Include="NFDataTailModule.cpp" />
+    <ClCompile Include="NFELOModule.cpp" />
+    <ClCompile Include="NFErrorBusModule.cpp" />
+    <ClCompile Include="NFEventModule.cpp" />
+    <ClCompile Include="NFKernelModule.cpp" />
+    <ClCompile Include="NFSceneModule.cpp" />
+    <ClCompile Include="NFScheduleModule.cpp" />
     <ClCompile Include="NFKernelPlugin.cpp" />
+    <ClCompile Include="NFThreadPoolModule.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NFConfigPlugin\NFConfigPlugin.vcxproj">
-      <Project>{79dd0147-06cd-4f60-a8a5-19e2962b3d56}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\NFCore\NFCore.vcxproj">
       <Project>{b9833fe8-8c0b-40d6-ba01-3cdadeb21166}</Project>
     </ProjectReference>

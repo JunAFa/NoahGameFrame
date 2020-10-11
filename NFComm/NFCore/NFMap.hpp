@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -86,6 +86,17 @@ public:
             return NULL;
         }
     }
+
+	virtual bool ExistElement(const T& name)
+	{
+		typename NFMapOBJECT::iterator itr = mObjectList.find(name);
+		if (itr != mObjectList.end())
+		{
+			return true;
+		}
+
+		return false;
+	}
 
     virtual TD* First()
     {

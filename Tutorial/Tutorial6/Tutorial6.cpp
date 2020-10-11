@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: bluesky
    
@@ -24,7 +24,7 @@
 */
 
 #include "Tutorial6.h"
-#include "HelloWorld.h"
+#include "HelloWorld6.h"
 
 #ifdef NF_DYNAMIC_PLUGIN
 
@@ -55,11 +55,11 @@ const std::string Tutorial6::GetPluginName()
 
 void Tutorial6::Install()
 {
-    REGISTER_MODULE(pPluginManager, NFIHelloWorld, NFCHelloWorld)
+    REGISTER_MODULE(pPluginManager, NFIHelloWorld6, NFHelloWorld6)
     
 }
 
 void Tutorial6::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, NFIHelloWorld, NFCHelloWorld)
+    UNREGISTER_MODULE(pPluginManager, NFIHelloWorld6, NFHelloWorld6)
 }

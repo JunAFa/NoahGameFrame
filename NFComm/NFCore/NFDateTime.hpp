@@ -3,7 +3,7 @@ This file is part of:
 NoahFrame
 https://github.com/ketoo/NoahGameFrame
 
-Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
 File creator: lvsheng.huang
 
@@ -32,7 +32,7 @@ limitations under the License.
 #include <iomanip>
 #include <string>
 #include <chrono>
-#include "NFException.hpp"
+#include "NFException.h"
 
 #define STR_CASE(_Enum, _Str) case _Enum::_Str : return # _Str
 #define MONTH_CASE(_Month) STR_CASE(::Month, _Month)
@@ -135,37 +135,37 @@ public:
 
 	inline int TotalHours() const
 	{
-		return TickCount<hours>();
+		return (int)TickCount<hours>();
 	}
 
 	inline int TotalDays()  const
 	{
-		return TickCount<days>();
+		return (int)TickCount<days>();
 	}
 
 	inline int Seconds() const
 	{
-		return TickCount<seconds>() % 60;
+		return (int)(TickCount<seconds>() % 60);
 	}
 
 	inline int Minutes() const
 	{
-		return TickCount<minutes>() % 60;
+		return (int)(TickCount<minutes>() % 60);
 	}
 
 	inline int Milliseconds() const
 	{
-		return TickCount<milliseconds>() % 1000;
+		return (int)(TickCount<milliseconds>() % 1000);
 	}
 
 	inline int Hours() const
 	{
-		return TickCount<hours>() % 24;
+		return (int)(TickCount<hours>() % 24);
 	}
 
 	inline int Days() const
 	{
-		return TickCount<days>();
+		return (int)TickCount<days>();
 	}
 
 	inline tick_t Ticks() const
@@ -621,8 +621,8 @@ public:
   
 protected:
     NFDateTime(const std::chrono::system_clock::time_point& tp) :
-            _time_point(tp),
-            _time(std::chrono::system_clock::to_time_t(tp))
+            _time(std::chrono::system_clock::to_time_t(tp)),
+            _time_point(tp)
     {
         _tm = *localtime(&_time);
         _millisecond = std::chrono::time_point_cast<milliseconds>(tp).time_since_epoch().count() % 1000;
@@ -646,7 +646,7 @@ protected:
             DAY_CASE(Sunday);
 
             default:
-                throw NFException("Day %d is not in valid weekday range ( %d - %d )", day, ::DayOfWeek::Sunday, ::DayOfWeek::Saturday);
+                //throw NFException("Day %d is not in valid weekday range ( %d - %d )", day, ::DayOfWeek::Sunday, ::DayOfWeek::Saturday);
                 break;
         }
     }
@@ -669,7 +669,7 @@ protected:
             MONTH_CASE(December);
 
             default:
-                throw NFException("Month %d is not in valid range ( %d - %d )", month, ::Month::January, ::Month::December);
+                //throw NFException("Month %d is not in valid range ( %d - %d )", month, ::Month::January, ::Month::December);
                 break;
         }
     }

@@ -3,7 +3,7 @@ This file is part of:
 NoahFrame
 https://github.com/ketoo/NoahGameFrame
 
-Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
 File creator: lvsheng.huang
 
@@ -28,7 +28,6 @@ limitations under the License.
 
 #pragma pack(push,1)
 
-
 #define NF_NAME_MAXLEN          32              
 #define NF_BROAD_MAXLEN         64             
 #define NF_PATH_MAXLEN          128            
@@ -44,7 +43,39 @@ limitations under the License.
 
 //#define NF_MAX_ONLINE         3000            
 
+
+#ifdef NF_DEBUG_MODE
+
+#if NF_PLATFORM == NF_PLATFORM_WIN
+
+#elif NF_PLATFORM == NF_PLATFORM_LINUX || NF_PLATFORM == NF_PLATFORM_ANDROID
+
+#elif NF_PLATFORM == NF_PLATFORM_APPLE || NF_PLATFORM == NF_PLATFORM_APPLE_IOS
+#endif
+
+#else
+
+#if NF_PLATFORM == NF_PLATFORM_WIN
+
+#elif NF_PLATFORM == NF_PLATFORM_LINUX || NF_PLATFORM == NF_PLATFORM_ANDROID
+
+#elif NF_PLATFORM == NF_PLATFORM_APPLE || NF_PLATFORM == NF_PLATFORM_APPLE_IOS
+#endif
+
+#endif
+
+class _NFExport DoNothing
+{
+public:
+	void DonOTHING()
+	{
+
+	}
+};
+
+
 #pragma pack(pop)
+
 
 
 #endif

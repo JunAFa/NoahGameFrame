@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -28,11 +28,11 @@
 
 #include <iostream>
 #include <string>
+#include "NFVector2.hpp"
 
 class NFLine;
 class NFBox;
 class NFPlane;
-class NFVector2;
 
 class NFVector3
 {
@@ -88,11 +88,11 @@ public:
 	}
 	NFVector3(const char* v, const int len)
 	{
-
+		FromString(std::string(v,  len));
 	}
 	NFVector3(const std::string& v)
 	{
-		
+		FromString(v);
 	}
 	//----------------------------------------------------------------------------
 	bool operator<(const NFVector3& v) const

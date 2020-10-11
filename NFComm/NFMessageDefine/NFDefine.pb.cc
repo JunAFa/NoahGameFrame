@@ -5,326 +5,123 @@
 
 #include <algorithm>
 
-#include <google/protobuf/stubs/common.h>
-#include <google/protobuf/stubs/port.h>
 #include <google/protobuf/io/coded_stream.h>
-#include <google/protobuf/wire_format_lite_inl.h>
+#include <google/protobuf/extension_set.h>
+#include <google/protobuf/wire_format_lite.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
-// This is a temporary google only hack
-#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-#include "third_party/protobuf/version.h"
-#endif
 // @@protoc_insertion_point(includes)
-
+#include <google/protobuf/port_def.inc>
 namespace NFMsg {
 }  // namespace NFMsg
-namespace protobuf_NFDefine_2eproto {
-void InitDefaults() {
-}
+static constexpr ::PROTOBUF_NAMESPACE_ID::Metadata* file_level_metadata_NFDefine_2eproto = nullptr;
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_NFDefine_2eproto[6];
+static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_NFDefine_2eproto = nullptr;
+const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_NFDefine_2eproto::offsets[1] = {};
+static constexpr ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema* schemas = nullptr;
+static constexpr ::PROTOBUF_NAMESPACE_ID::Message* const* file_default_instances = nullptr;
 
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[22];
-const ::google::protobuf::uint32 TableStruct::offsets[1] = {};
-static const ::google::protobuf::internal::MigrationSchema* schemas = NULL;
-static const ::google::protobuf::Message* const* file_default_instances = NULL;
+const char descriptor_table_protodef_NFDefine_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
+  "\n\016NFDefine.proto\022\005NFMsg*\263\003\n\016EGameEventCo"
+  "de\022\013\n\007SUCCESS\020\000\022\020\n\014UNKOWN_ERROR\020\001\022\021\n\rACC"
+  "OUNT_EXIST\020\002\022\026\n\022ACCOUNTPWD_INVALID\020\003\022\021\n\r"
+  "ACCOUNT_USING\020\004\022\022\n\016ACCOUNT_LOCKED\020\005\022\023\n\017A"
+  "CCOUNT_SUCCESS\020\006\022\026\n\022VERIFY_KEY_SUCCESS\020\007"
+  "\022\023\n\017VERIFY_KEY_FAIL\020\010\022\030\n\024SELECTSERVER_SU"
+  "CCESS\020\t\022\025\n\021SELECTSERVER_FAIL\020\n\022\023\n\017CHARAC"
+  "TER_EXIST\020n\022\025\n\021SVRZONEID_INVALID\020o\022\024\n\020CH"
+  "ARACTER_NUMOUT\020p\022\025\n\021CHARACTER_INVALID\020q\022"
+  "\026\n\022CHARACTER_NOTEXIST\020r\022\023\n\017CHARACTER_USI"
+  "NG\020s\022\024\n\020CHARACTER_LOCKED\020t\022\021\n\rZONE_OVERL"
+  "OAD\020u\022\016\n\nNOT_ONLINE\020v*\344\020\n\nEGameMsgID\022\n\n\006"
+  "UNKNOW\020\000\022\020\n\014EVENT_RESULT\020\001\022\023\n\017EVENT_TRAN"
+  "SPORT\020\002\022\020\n\014CLOSE_SOCKET\020\003\022\030\n\024WTM_WORLD_R"
+  "EGISTERED\020\n\022\032\n\026WTM_WORLD_UNREGISTERED\020\013\022"
+  "\025\n\021WTM_WORLD_REFRESH\020\014\022\030\n\024LTM_LOGIN_REGI"
+  "STERED\020\024\022\032\n\026LTM_LOGIN_UNREGISTERED\020\025\022\025\n\021"
+  "LTM_LOGIN_REFRESH\020\026\022\031\n\025PTWG_PROXY_REGIST"
+  "ERED\020\036\022\033\n\027PTWG_PROXY_UNREGISTERED\020\037\022\026\n\022P"
+  "TWG_PROXY_REFRESH\020 \022\027\n\023GTW_GAME_REGISTER"
+  "ED\020(\022\031\n\025GTW_GAME_UNREGISTERED\020)\022\024\n\020GTW_G"
+  "AME_REFRESH\020*\022\025\n\021DTW_DB_REGISTERED\020<\022\027\n\023"
+  "DTW_DB_UNREGISTERED\020=\022\022\n\016DTW_DB_REFRESH\020"
+  ">\022\020\n\014STS_NET_INFO\020F\022\020\n\014REQ_LAG_TEST\020P\022\025\n"
+  "\021ACK_GATE_LAG_TEST\020Q\022\025\n\021ACK_GAME_LAG_TES"
+  "T\020R\022\025\n\021STS_SERVER_REPORT\020Z\022\022\n\016STS_HEART_"
+  "BEAT\020d\022\r\n\tREQ_LOGIN\020e\022\r\n\tACK_LOGIN\020f\022\016\n\n"
+  "REQ_LOGOUT\020g\022\022\n\016REQ_WORLD_LIST\020n\022\022\n\016ACK_"
+  "WORLD_LIST\020o\022\025\n\021REQ_CONNECT_WORLD\020p\022\025\n\021A"
+  "CK_CONNECT_WORLD\020q\022\033\n\027REQ_KICK_CLIENT_IN"
+  "WORLD\020r\022\023\n\017REQ_CONNECT_KEY\020x\022\023\n\017ACK_CONN"
+  "ECT_KEY\020z\022\026\n\021REQ_SELECT_SERVER\020\202\001\022\026\n\021ACK"
+  "_SELECT_SERVER\020\203\001\022\022\n\rREQ_ROLE_LIST\020\204\001\022\022\n"
+  "\rACK_ROLE_LIST\020\205\001\022\024\n\017REQ_CREATE_ROLE\020\206\001\022"
+  "\024\n\017REQ_DELETE_ROLE\020\207\001\022\025\n\020REQ_RECOVER_ROL"
+  "E\020\210\001\022\027\n\022REQ_LOAD_ROLE_DATA\020\214\001\022\027\n\022ACK_LOA"
+  "D_ROLE_DATA\020\215\001\022\027\n\022REQ_SAVE_ROLE_DATA\020\216\001\022"
+  "\027\n\022ACK_SAVE_ROLE_DATA\020\217\001\022\023\n\016REQ_ENTER_GA"
+  "ME\020\226\001\022\023\n\016ACK_ENTER_GAME\020\227\001\022\023\n\016REQ_LEAVE_"
+  "GAME\020\230\001\022\023\n\016ACK_LEAVE_GAME\020\231\001\022\022\n\rREQ_SWAP"
+  "_GAME\020\232\001\022\023\n\016REQ_SWAP_SCENE\020\233\001\022\023\n\016ACK_SWA"
+  "P_SCENE\020\234\001\022\030\n\023REQ_SWAP_HOME_SCENE\020\235\001\022\030\n\023"
+  "ACK_SWAP_HOME_SCENE\020\236\001\022\032\n\025REQ_ENTER_GAME"
+  "_FINISH\020\237\001\022\032\n\025ACK_ENTER_GAME_FINISH\020\240\001\022\025"
+  "\n\020ACK_OBJECT_ENTRY\020\310\001\022\025\n\020ACK_OBJECT_LEAV"
+  "E\020\311\001\022\036\n\031ACK_OBJECT_PROPERTY_ENTRY\020\312\001\022\034\n\027"
+  "ACK_OBJECT_RECORD_ENTRY\020\313\001\022\025\n\020ACK_PROPER"
+  "TY_INT\020\322\001\022\027\n\022ACK_PROPERTY_FLOAT\020\323\001\022\030\n\023AC"
+  "K_PROPERTY_STRING\020\324\001\022\030\n\023ACK_PROPERTY_OBJ"
+  "ECT\020\326\001\022\031\n\024ACK_PROPERTY_VECTOR2\020\327\001\022\031\n\024ACK"
+  "_PROPERTY_VECTOR3\020\330\001\022\027\n\022ACK_PROPERTY_CLE"
+  "AR\020\331\001\022\020\n\013ACK_ADD_ROW\020\334\001\022\023\n\016ACK_REMOVE_RO"
+  "W\020\335\001\022\021\n\014ACK_SWAP_ROW\020\336\001\022\023\n\016ACK_RECORD_IN"
+  "T\020\337\001\022\025\n\020ACK_RECORD_FLOAT\020\340\001\022\026\n\021ACK_RECOR"
+  "D_STRING\020\342\001\022\026\n\021ACK_RECORD_OBJECT\020\343\001\022\027\n\022A"
+  "CK_RECORD_VECTOR2\020\344\001\022\027\n\022ACK_RECORD_VECTO"
+  "R3\020\345\001\022\025\n\020ACK_RECORD_CLEAR\020\372\001\022\024\n\017ACK_RECO"
+  "RD_SORT\020\373\001\022\026\n\021ACK_DATA_FINISHED\020\204\002\022\021\n\014RE"
+  "Q_AI_ONWER\020\216\002\022\r\n\010REQ_MOVE\020\254\002\022\r\n\010ACK_MOVE"
+  "\020\255\002\022\024\n\017REQ_MOVE_IMMUNE\020\256\002\022\024\n\017ACK_MOVE_IM"
+  "MUNE\020\257\002\022\021\n\014REQ_POS_SYNC\020\262\002\022\021\n\014ACK_POS_SY"
+  "NC\020\263\002\022\r\n\010REQ_CHAT\020\336\002\022\r\n\010ACK_CHAT\020\337\002\022\026\n\021R"
+  "EQ_SKILL_OBJECTX\020\220\003\022\026\n\021ACK_SKILL_OBJECTX"
+  "\020\221\003\022\022\n\rREQ_SKILL_POS\020\222\003\022\022\n\rACK_SKILL_POS"
+  "\020\223\003\022\026\n\021ACK_ONLINE_NOTIFY\020\330\004\022\027\n\022ACK_OFFLI"
+  "NE_NOTIFY\020\331\004*G\n\tEItemType\022\r\n\tEIT_EQUIP\020\000"
+  "\022\013\n\007EIT_GEM\020\001\022\016\n\nEIT_SUPPLY\020\002\022\016\n\nEIT_SCR"
+  "OLL\020\003*\267\001\n\nESkillType\022\026\n\022BRIEF_SINGLE_SKI"
+  "LL\020\000\022\025\n\021BRIEF_GROUP_SKILL\020\001\022\027\n\023BULLET_SI"
+  "NGLE_SKILL\020\002\022\030\n\024BULLET_REBOUND_SKILL\020\003\022\034"
+  "\n\030BULLET_TARGET_BOMB_SKILL\020\004\022\031\n\025BULLET_P"
+  "OS_BOMB_SKILL\020\005\022\016\n\nFUNC_SKILL\020\006*\216\001\n\nESce"
+  "neType\022\020\n\014NORMAL_SCENE\020\000\022\026\n\022SINGLE_CLONE"
+  "_SCENE\020\001\022\025\n\021MULTI_CLONE_SCENE\020\002\022\022\n\016PVP_M"
+  "ODE_SCENE\020\n\022\022\n\016MVM_MODE_SCENE\020\013\022\027\n\023SURVI"
+  "VAL_MODE_SCENE\020\014*F\n\010ENPCType\022\016\n\nNORMAL_N"
+  "PC\020\000\022\014\n\010HERO_NPC\020\001\022\016\n\nTURRET_NPC\020\002\022\014\n\010FU"
+  "NC_NPC\020\003b\006proto3"
+  ;
+static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_NFDefine_2eproto_deps[1] = {
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_NFDefine_2eproto_sccs[1] = {
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_NFDefine_2eproto_once;
+static bool descriptor_table_NFDefine_2eproto_initialized = false;
+const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_NFDefine_2eproto = {
+  &descriptor_table_NFDefine_2eproto_initialized, descriptor_table_protodef_NFDefine_2eproto, "NFDefine.proto", 3096,
+  &descriptor_table_NFDefine_2eproto_once, descriptor_table_NFDefine_2eproto_sccs, descriptor_table_NFDefine_2eproto_deps, 0, 0,
+  schemas, file_default_instances, TableStruct_NFDefine_2eproto::offsets,
+  file_level_metadata_NFDefine_2eproto, 0, file_level_enum_descriptors_NFDefine_2eproto, file_level_service_descriptors_NFDefine_2eproto,
+};
 
-void protobuf_AssignDescriptors() {
-  AddDescriptors();
-  AssignDescriptors(
-      "NFDefine.proto", schemas, file_default_instances, TableStruct::offsets,
-      NULL, file_level_enum_descriptors, NULL);
-}
-
-void protobuf_AssignDescriptorsOnce() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, protobuf_AssignDescriptors);
-}
-
-void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
-void protobuf_RegisterTypes(const ::std::string&) {
-  protobuf_AssignDescriptorsOnce();
-}
-
-void AddDescriptorsImpl() {
-  InitDefaults();
-  static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\016NFDefine.proto\022\005NFMsg*\230\n\n\016EGameEventCo"
-      "de\022\020\n\014EGEC_SUCCESS\020\000\022\025\n\021EGEC_UNKOWN_ERRO"
-      "R\020\001\022\026\n\022EGEC_ACCOUNT_EXIST\020\002\022\033\n\027EGEC_ACCO"
-      "UNTPWD_INVALID\020\003\022\026\n\022EGEC_ACCOUNT_USING\020\004"
-      "\022\027\n\023EGEC_ACCOUNT_LOCKED\020\005\022\030\n\024EGEC_ACCOUN"
-      "T_SUCCESS\020\006\022\033\n\027EGEC_VERIFY_KEY_SUCCESS\020\007"
-      "\022\030\n\024EGEC_VERIFY_KEY_FAIL\020\010\022\035\n\031EGEC_SELEC"
-      "TSERVER_SUCCESS\020\t\022\032\n\026EGEC_SELECTSERVER_F"
-      "AIL\020\n\022\030\n\024EGEC_CHARACTER_EXIST\020n\022\032\n\026EGEC_"
-      "SVRZONEID_INVALID\020o\022\031\n\025EGEC_CHARACTER_NU"
-      "MOUT\020p\022\032\n\026EGEC_CHARACTER_INVALID\020q\022\033\n\027EG"
-      "EC_CHARACTER_NOTEXIST\020r\022\030\n\024EGEC_CHARACTE"
-      "R_USING\020s\022\031\n\025EGEC_CHARACTER_LOCKED\020t\022\026\n\022"
-      "EGEC_ZONE_OVERLOAD\020u\022\023\n\017EGEC_NOT_ONLINE\020"
-      "v\022\027\n\023EGEC_ALREAY_IN_TEAM\020w\022\034\n\030EGEC_INVAL"
-      "ID_TEAM_INVITE\020x\022\022\n\016EGEC_TEAM_FULL\020y\022\032\n\026"
-      "EGEC_MAIL_UPDATE_ERROR\020z\022\034\n\030EGEC_MAIL_TO"
-      "NAME_INVALID\020{\022\032\n\026EGEC_MAIL_DELETE_ERROR"
-      "\020|\022\033\n\027EGEC_MAIL_TOWNAME_EQUAL\020}\022\023\n\017EGEC_"
-      "LACK_MONEY\020~\022\025\n\021EGEC_FULL_PACKAGE\020\177\022\026\n\021E"
-      "GEC_INVALID_ITEM\020\200\001\022\035\n\030EGEC_INVALID_CONS"
-      "IGNMENT\020\201\001\022\030\n\023EGEC_NOT_ENOUGH_VIP\020\202\001\022\024\n\017"
-      "EGEC_NEED_LEVEL\020\203\001\022\031\n\024EGEC_MAX_FRIEND_LI"
-      "ST\020\204\001\022\030\n\023EGEC_MAX_ENEMY_LIST\020\205\001\022\030\n\023EGEC_"
-      "MAX_GANGS_LSIT\020\206\001\022\032\n\025EGEC_LIMITS_TO_RIGH"
-      "TS\020\207\001\022\034\n\027EGEC_INVALID_GANGS_NAME\020\210\001\022\034\n\027E"
-      "GEC_REPEAT_ENTER_GANGS\020\211\001\022\035\n\030EGEC_INVALI"
-      "D_GANGSMEMBER\020\212\001\022\034\n\027EGEC_MASTER_LEAVE_GA"
-      "NGS\020\213\001\022\033\n\026EGEC_GANGS_TITLE_OUTOF\020\214\001\022\035\n\030E"
-      "GEC_ENTER_GATEWAY_FAILD\020\215\001\022\030\n\023EGEC_NO_SE"
-      "RVER4ZONE\020\216\001\022\027\n\022EGEC_INVALID_SKILL\020\217\001\022\036\n"
-      "\031EGEC_CREATE_GUILD_SUCCESS\020\310\001\022\034\n\027EGEC_JO"
-      "IN_GUILD_SUCCESS\020\311\001\022\035\n\030EGEC_LEAVE_GUILD_"
-      "SUCCESS\020\312\001*\034\n\tESynMsgID\022\017\n\013ESMI_UNKNOW\020\000"
-      "*\2320\n\nEGameMsgID\022\017\n\013EGMI_UNKNOW\020\000\022\025\n\021EGMI"
-      "_EVENT_RESULT\020\001\022\030\n\024EGMI_EVENT_TRANSPOND\020"
-      "\002\022\025\n\021EGMI_CLOSE_SOCKET\020\003\022\035\n\031EGMI_WTM_WOR"
-      "LD_REGISTERED\020\n\022\037\n\033EGMI_WTM_WORLD_UNREGI"
-      "STERED\020\013\022\032\n\026EGMI_WTM_WORLD_REFRESH\020\014\022\035\n\031"
-      "EGMI_LTM_LOGIN_REGISTERED\020\024\022\037\n\033EGMI_LTM_"
-      "LOGIN_UNREGISTERED\020\025\022\032\n\026EGMI_LTM_LOGIN_R"
-      "EFRESH\020\026\022\036\n\032EGMI_PTWG_PROXY_REGISTERED\020\036"
-      "\022 \n\034EGMI_PTWG_PROXY_UNREGISTERED\020\037\022\033\n\027EG"
-      "MI_PTWG_PROXY_REFRESH\020 \022\034\n\030EGMI_GTW_GAME"
-      "_REGISTERED\020(\022\036\n\032EGMI_GTW_GAME_UNREGISTE"
-      "RED\020)\022\031\n\025EGMI_GTW_GAME_REFRESH\020*\022\032\n\026EGMI"
-      "_DTW_DB_REGISTERED\020<\022\034\n\030EGMI_DTW_DB_UNRE"
-      "GISTERED\020=\022\027\n\023EGMI_DTW_DB_REFRESH\020>\022\025\n\021E"
-      "GMI_STS_NET_INFO\020F\022\032\n\026EGMI_STS_SERVER_RE"
-      "PORT\020Z\022\027\n\023EGMI_STS_HEART_BEAT\020d\022\022\n\016EGMI_"
-      "REQ_LOGIN\020e\022\022\n\016EGMI_ACK_LOGIN\020f\022\023\n\017EGMI_"
-      "REQ_LOGOUT\020g\022\027\n\023EGMI_REQ_WORLD_LIST\020n\022\027\n"
-      "\023EGMI_ACK_WORLD_LIST\020o\022\032\n\026EGMI_REQ_CONNE"
-      "CT_WORLD\020p\022\032\n\026EGMI_ACK_CONNECT_WORLD\020q\022 "
-      "\n\034EGMI_REQ_KICK_CLIENT_INWORLD\020r\022\030\n\024EGMI"
-      "_REQ_CONNECT_KEY\020x\022\030\n\024EGMI_ACK_CONNECT_K"
-      "EY\020z\022\033\n\026EGMI_REQ_SELECT_SERVER\020\202\001\022\033\n\026EGM"
-      "I_ACK_SELECT_SERVER\020\203\001\022\027\n\022EGMI_REQ_ROLE_"
-      "LIST\020\204\001\022\027\n\022EGMI_ACK_ROLE_LIST\020\205\001\022\031\n\024EGMI"
-      "_REQ_CREATE_ROLE\020\206\001\022\031\n\024EGMI_REQ_DELETE_R"
-      "OLE\020\207\001\022\032\n\025EGMI_REQ_RECOVER_ROLE\020\210\001\022\034\n\027EG"
-      "MI_REQ_LOAD_ROLE_DATA\020\214\001\022\034\n\027EGMI_ACK_LOA"
-      "D_ROLE_DATA\020\215\001\022\034\n\027EGMI_REQ_SAVE_ROLE_DAT"
-      "A\020\216\001\022\034\n\027EGMI_ACK_SAVE_ROLE_DATA\020\217\001\022\030\n\023EG"
-      "MI_REQ_ENTER_GAME\020\226\001\022\030\n\023EGMI_ACK_ENTER_G"
-      "AME\020\227\001\022\030\n\023EGMI_REQ_LEAVE_GAME\020\230\001\022\030\n\023EGMI"
-      "_ACK_LEAVE_GAME\020\231\001\022\027\n\022EGMI_REQ_SWAP_GAME"
-      "\020\232\001\022\030\n\023EGMI_REQ_SWAP_SCENE\020\233\001\022\030\n\023EGMI_AC"
-      "K_SWAP_SCENE\020\234\001\022\035\n\030EGMI_REQ_SWAP_HOME_SC"
-      "ENE\020\235\001\022\035\n\030EGMI_ACK_SWAP_HOME_SCENE\020\236\001\022\037\n"
-      "\032EGMI_REQ_ENTER_GAME_FINISH\020\237\001\022\037\n\032EGMI_A"
-      "CK_ENTER_GAME_FINISH\020\240\001\022\030\n\023EGMI_REQ_ACK_"
-      "RELIVE\020\264\001\022\032\n\025EGMI_ACK_OBJECT_ENTRY\020\310\001\022\032\n"
-      "\025EGMI_ACK_OBJECT_LEAVE\020\311\001\022#\n\036EGMI_ACK_OB"
-      "JECT_PROPERTY_ENTRY\020\312\001\022!\n\034EGMI_ACK_OBJEC"
-      "T_RECORD_ENTRY\020\313\001\022\032\n\025EGMI_ACK_PROPERTY_I"
-      "NT\020\322\001\022\034\n\027EGMI_ACK_PROPERTY_FLOAT\020\323\001\022\035\n\030E"
-      "GMI_ACK_PROPERTY_STRING\020\324\001\022\035\n\030EGMI_ACK_P"
-      "ROPERTY_OBJECT\020\326\001\022\036\n\031EGMI_ACK_PROPERTY_V"
-      "ECTOR2\020\327\001\022\036\n\031EGMI_ACK_PROPERTY_VECTOR3\020\330"
-      "\001\022\025\n\020EGMI_ACK_ADD_ROW\020\334\001\022\030\n\023EGMI_ACK_REM"
-      "OVE_ROW\020\335\001\022\026\n\021EGMI_ACK_SWAP_ROW\020\336\001\022\030\n\023EG"
-      "MI_ACK_RECORD_INT\020\337\001\022\032\n\025EGMI_ACK_RECORD_"
-      "FLOAT\020\340\001\022\033\n\026EGMI_ACK_RECORD_STRING\020\342\001\022\033\n"
-      "\026EGMI_ACK_RECORD_OBJECT\020\343\001\022\034\n\027EGMI_ACK_R"
-      "ECORD_VECTOR2\020\344\001\022\034\n\027EGMI_ACK_RECORD_VECT"
-      "OR3\020\345\001\022\032\n\025EGMI_ACK_RECORD_CLEAR\020\372\001\022\031\n\024EG"
-      "MI_ACK_RECORD_SORT\020\373\001\022\033\n\026EGMI_ACK_DATA_F"
-      "INISHED\020\204\002\022\033\n\026EGMI_REQ_START_OPPNENT\020\304\t\022"
-      "\033\n\026EGMI_ACK_START_OPPNENT\020\305\t\022\031\n\024EGMI_REQ"
-      "_END_OPPNENT\020\306\t\022\031\n\024EGMI_ACK_END_OPPNENT\020"
-      "\307\t\022\034\n\027EGMI_REQ_SEARCH_OPPNENT\020\310\t\022\034\n\027EGMI"
-      "_ACK_SEARCH_OPPNENT\020\311\t\022\033\n\026EGMI_REQ_ADJUS"
-      "T_GAMBLE\020\312\t\022\022\n\rEGMI_REQ_MOVE\020\316\t\022\022\n\rEGMI_"
-      "ACK_MOVE\020\317\t\022\031\n\024EGMI_REQ_MOVE_IMMUNE\020\320\t\022\031"
-      "\n\024EGMI_ACK_MOVE_IMMUNE\020\321\t\022\030\n\023EGMI_REQ_ST"
-      "ATE_SYNC\020\322\t\022\030\n\023EGMI_ACK_STATE_SYNC\020\323\t\022\033\n"
-      "\026EGMI_REQ_SKILL_OBJECTX\020\330\t\022\033\n\026EGMI_ACK_S"
-      "KILL_OBJECTX\020\331\t\022\027\n\022EGMI_REQ_SKILL_POS\020\332\t"
-      "\022\027\n\022EGMI_ACK_SKILL_POS\020\333\t\022\031\n\024EGMI_REQ_IT"
-      "EM_OBJECT\020\334\t\022\031\n\024EGMI_ACK_ITEM_OBJECT\020\335\t\022"
-      "\026\n\021EGMI_REQ_ITEM_POS\020\336\t\022\026\n\021EGMI_ACK_ITEM"
-      "_POS\020\337\t\022\022\n\rEGMI_REQ_CHAT\020\342\t\022\022\n\rEGMI_ACK_"
-      "CHAT\020\343\t\022\027\n\022EGMI_REQ_SALE_ITEM\020\344\t\022\030\n\023EGMI"
-      "_REQ_SPLIT_ITEM\020\345\t\022\032\n\025EGMI_REQ_PRODUCE_I"
-      "TEM\020\346\t\022\027\n\022EGMI_REQ_PICK_ITEM\020\347\t\022\031\n\024EGMI_"
-      "REQ_ACCEPT_TASK\020\350\t\022\034\n\027EGMI_REQ_COMPELETE"
-      "_TASK\020\351\t\022\033\n\026EGMI_ACK_ONLINE_NOTIFY\020\212\n\022\034\n"
-      "\027EGMI_ACK_OFFLINE_NOTIFY\020\213\n\022\032\n\025EGMI_REQ_"
-      "CREATE_GUILD\020\224\n\022\032\n\025EGMI_ACK_CREATE_GUILD"
-      "\020\225\n\022\030\n\023EGMI_REQ_JOIN_GUILD\020\226\n\022\030\n\023EGMI_AC"
-      "K_JOIN_GUILD\020\227\n\022\031\n\024EGMI_REQ_LEAVE_GUILD\020"
-      "\230\n\022\031\n\024EGMI_ACK_LEAVE_GUILD\020\231\n\022\027\n\022EGMI_RE"
-      "Q_OPR_GUILD\020\232\n\022\027\n\022EGMI_ACK_OPR_GUILD\020\233\n\022"
-      "\032\n\025EGMI_REQ_SEARCH_GUILD\020\234\n\022\032\n\025EGMI_ACK_"
-      "SEARCH_GUILD\020\235\n\022\033\n\026EGMI_REQ_OPR_GUILDINF"
-      "O\020\236\n\022\033\n\026EGMI_ACK_OPR_GUILDINFO\020\237\n\022\035\n\030EGM"
-      "I_REQ_GUILDECTYPEINFO\020\240\n\022\035\n\030EGMI_ACK_GUI"
-      "LDECTYPEINFO\020\241\n\022\035\n\030EGMI_SET_GUILDECTYPEI"
-      "NFO\020\242\n\022\035\n\030EGMI_ReqEnterGuildEctype\020\243\n\022\036\n"
-      "\031EGEC_REQ_CREATE_CHATGROUP\020\370\n\022\036\n\031EGEC_AC"
-      "K_CREATE_CHATGROUP\020\371\n\022\034\n\027EGEC_REQ_JOIN_C"
-      "HATGROUP\020\372\n\022\034\n\027EGEC_ACK_JOIN_CHATGROUP\020\373"
-      "\n\022\035\n\030EGEC_REQ_LEAVE_CHATGROUP\020\374\n\022\035\n\030EGEC"
-      "_ACK_LEAVE_CHATGROUP\020\375\n\022$\n\037EGEC_REQ_SUBS"
-      "CRIPTION_CHATGROUP\020\376\n\022*\n%EGEC_REQ_CANCEL"
-      "SUBSCRIPTION_CHATGROUP\020\377\n\022\036\n\031EGEC_REQ_IN"
-      "VITE_CHATGROUP\020\200\013\022\036\n\031EGEC_ACK_INVITE_CHA"
-      "TGROUP\020\201\013\022\034\n\027EGEC_REQ_KICK_CHATGROUP\020\202\013\022"
-      "\034\n\027EGEC_ACK_KICK_CHATGROUP\020\203\013\022\037\n\032EGEC_RE"
-      "Q_CHATGROUP_TO_TEAM\020\252\013\022\037\n\032EGEC_ACK_CHATG"
-      "ROUP_TO_TEAM\020\253\013\022%\n EGEC_REQ_INTENSIFYLEV"
-      "EL_TO_EQUIP\020\334\013\022%\n EGEC_ACK_INTENSIFYLEVE"
-      "L_TO_EQUIP\020\335\013\022\033\n\026EGEC_REQ_HOLE_TO_EQUIP\020"
-      "\336\013\022\033\n\026EGEC_ACK_HOLE_TO_EQUIP\020\337\013\022!\n\034EGEC_"
-      "REQ_INLAYSTONE_TO_EQUIP\020\340\013\022!\n\034EGEC_ACK_I"
-      "NLAYSTONE_TO_EQUIP\020\341\013\022#\n\036EGEC_REQ_ELEMEN"
-      "TLEVEL_TO_EQUIP\020\342\013\022#\n\036EGEC_ACK_ELEMENTLE"
-      "VEL_TO_EQUIP\020\343\013\022\024\n\017EGEC_WEAR_EQUIP\020\344\013\022\027\n"
-      "\022EGEC_TAKEOFF_EQUIP\020\345\013\022\034\n\027EGEC_REQ_SET_F"
-      "IGHT_HERO\020\360\013\022\037\n\032EGEC_REQ_SWITCH_FIGHT_HE"
-      "RO\020\361\013\022\032\n\025EGEC_REQ_MINING_TITLE\020\300\014\022\032\n\025EGE"
-      "C_ACK_MINING_TITLE\020\301\014\022\027\n\022EGEC_REQ_SEND_M"
-      "AIL\020\244\r\022\027\n\022EGEC_REQ_DRAW_MAIL\020\245\r\022\031\n\024EGEC_"
-      "REQ_DELETE_MAIL\020\246\r\022 \n\033EGMI_ACK_CLONE_OBJ"
-      "ECT_ENTRY\020\210\016\022 \n\033EGMI_ACK_CLONE_OBJECT_LE"
-      "AVE\020\211\016\022)\n$EGMI_ACK_CLONE_OBJECT_PROPERTY"
-      "_ENTRY\020\212\016\022\'\n\"EGMI_ACK_CLONE_OBJECT_RECOR"
-      "D_ENTRY\020\213\016\022 \n\033EGMI_ACK_CLONE_PROPERTY_IN"
-      "T\020\222\016\022\"\n\035EGMI_ACK_CLONE_PROPERTY_FLOAT\020\223\016"
-      "\022#\n\036EGMI_ACK_CLONE_PROPERTY_STRING\020\224\016\022#\n"
-      "\036EGMI_ACK_CLONE_PROPERTY_OBJECT\020\226\016\022\030\n\023EG"
-      "MI_REQSWICHSERVER\020\260\016\022\030\n\023EGMI_ACKSWICHSER"
-      "VER\020\261\016\022\031\n\024EGMI_REQ_CREATE_TEAM\020\304\016\022\031\n\024EGM"
-      "I_ACK_CREATE_TEAM\020\305\016\022\027\n\022EGMI_REQ_JOIN_TE"
-      "AM\020\306\016\022\027\n\022EGMI_ACK_JOIN_TEAM\020\307\016\022\030\n\023EGMI_R"
-      "EQ_LEAVE_TEAM\020\310\016\022\030\n\023EGMI_ACK_LEAVE_TEAM\020"
-      "\311\016\022\031\n\024EGMI_REQ_INVITE_TEAM\020\312\016\022\034\n\027EGMI_RE"
-      "Q_OPRMEMBER_TEAM\020\313\016\022\034\n\027EGMI_ACK_OPRMEMBE"
-      "R_TEAM\020\314\016\022\037\n\032EGMI_REQ_TEAM_ENTER_ECTYPE\020"
-      "\315\016\022\037\n\032EGMI_ACK_TEAM_ENTER_ECTYPE\020\316\016\022\033\n\026E"
-      "GMI_REQ_MAP_GRID_INFO\020\354\016\022\033\n\026EGMI_ACK_MAP"
-      "_GRID_INFO\020\355\016\022\032\n\025EGMI_REQ_BIG_MAP_INFO\020\356"
-      "\016\022\032\n\025EGMI_ACK_BIG_MAP_INFO\020\357\016\022\033\n\026EGMI_RE"
-      "Q_HOLD_MAP_GRID\020\366\016\022\033\n\026EGMI_ACK_HOLD_MAP_"
-      "GRID\020\367\016\022 \n\033EGMI_REQ_LEAVE_MSG_MAP_GRID\020\370"
-      "\016\022 \n\033EGMI_ACK_LEAVE_MSG_MAP_GRID\020\371\016\022 \n\033E"
-      "GMI_REQ_GET_MAP_GRID_AWARD\020\372\016\022 \n\033EGMI_AC"
-      "K_GET_MAP_GRID_AWARD\020\373\016\022\036\n\031EGMI_REQ_MAP_"
-      "GRID_HUNTING\020\374\016\022\036\n\031EGMI_ACK_MAP_GRID_HUN"
-      "TING\020\375\016\022\037\n\032EGMI_REQ_MAP_GRID_KING_WAR\020\376\016"
-      "\022\037\n\032EGMI_ACK_MAP_GRID_KING_WAR\020\377\016\022\036\n\031EGM"
-      "I_REQ_CMD_PROPERTY_INT\020\220N\022\036\n\031EGMI_REQ_CM"
-      "D_PROPERTY_STR\020\221N\022!\n\034EGMI_REQ_CMD_PROPER"
-      "TY_OBJECT\020\222N\022 \n\033EGMI_REQ_CMD_PROPERTY_FL"
-      "OAT\020\223N\022\034\n\027EGMI_REQ_CMD_RECORD_INT\020\224N\022\034\n\027"
-      "EGMI_REQ_CMD_RECORD_STR\020\225N\022\037\n\032EGMI_REQ_C"
-      "MD_RECORD_OBJECT\020\226N\022\036\n\031EGMI_REQ_CMD_RECO"
-      "RD_FLOAT\020\227N\022\030\n\023EGMI_REQ_CMD_NORMAL\020\230N\022!\n"
-      "\034EGMI_REQ_QUERY_SERVER_STATUS\020\330O\022\034\n\026EGMI"
-      "_REQ_BUY_FORM_SHOP\020\240\234\001\022\034\n\026EGMI_ACK_BUY_F"
-      "ORM_SHOP\020\241\234\001\022 \n\032EGMI_REQ_MOVE_BUILD_OBJE"
-      "CT\020\242\234\001\022 \n\032EGMI_ACK_MOVE_BUILD_OBJECT\020\243\234\001"
-      "\022\033\n\025EGMI_REQ_UP_BUILD_LVL\020\205\235\001\022\032\n\024EGMI_RE"
-      "Q_CREATE_ITEM\020\206\235\001\022\034\n\026EGMI_REQ_BUILD_OPER"
-      "ATE\020\207\235\001\022\036\n\030EGMI_REQ_SEARCH_TO_SHARE\020\260\352\001\022"
-      "\036\n\030EGMI_ACK_SEARCH_TO_SHARE\020\261\352\001\022\035\n\027EGMI_"
-      "REQ_SHARE_TO_ATART\020\262\352\001\022\035\n\027EGMI_ACK_SHARE"
-      "_TO_ATART\020\263\352\001*\300\001\n\nESkillType\022\024\n\020EST_BRIE"
-      "F_SINGLE\020\000\022\023\n\017EST_BRIEF_GROUP\020\001\022\025\n\021EST_B"
-      "ULLET_SINGLE\020\002\022\026\n\022EST_BULLET_REBOUND\020\003\022\023"
-      "\n\017EST_BULLET_BOMB\020\004\022\025\n\021EST_TARGET_SINGLE"
-      "\020\005\022\024\n\020EST_TARGET_GROUP\020\006\022\026\n\022EST_POSITION"
-      "_GROUP\020\007*R\n\tEItemType\022\r\n\tEIT_EQUIP\020\000\022\013\n\007"
-      "EIT_GEM\020\001\022\014\n\010EIT_ITEM\020\002\022\014\n\010EIT_CARD\020\003\022\r\n"
-      "\tEIT_TOKEN\020\004*\221\001\n\021EGameEquipSubType\022\024\n\020EQ"
-      "UIPTYPE_WEAPON\020\000\022\024\n\020EQUIPTYPE_HELMET\020\001\022\023"
-      "\n\017EQUIPTYPE_ARMOR\020\002\022\023\n\017EQUIPTYPE_WRIST\020\003"
-      "\022\022\n\016EQUIPTYPE_PANT\020\004\022\022\n\016EQUIPTYPE_BOOT\020\005"
-      "*\262\001\n\017EGameGemSubType\022\024\n\020EGGSTYPE_GEM_ATK"
-      "\020\000\022\024\n\020EGGSTYPE_GEM_DEF\020\001\022\025\n\021EGGSTYPE_GEM"
-      "_FIRE\020\003\022\026\n\022EGGSTYPE_GEM_LIGHT\020\004\022\025\n\021EGGST"
-      "YPE_GEM_WIND\020\005\022\024\n\020EGGSTYPE_GEM_ICE\020\006\022\027\n\023"
-      "EGGSTYPE_GEM_POISON\020\007*\315\001\n\020EGameItemSubTy"
-      "pe\022\023\n\017EGIT_ITEM_WATER\020\000\022\025\n\021EGIT_ITEM_DIA"
-      "MOND\020\001\022\026\n\022EGIT_ITEM_CURRENCY\020\002\022\021\n\rEGIT_I"
-      "TEM_EXP\020\003\022\020\n\014EGIT_ITEM_HP\020\004\022\020\n\014EGIT_ITEM"
-      "_MP\020\005\022\020\n\014EGIT_ITEM_SP\020\006\022\022\n\016EGIT_ITEM_PAC"
-      "K\020\007\022\030\n\024EGIT_ITEM_MEMORY_POS\020\010*c\n\020EGameCa"
-      "rdSubType\022\020\n\014EGCST_UNKNOW\020\000\022\022\n\016EGCST_STR"
-      "ENGTH\020\001\022\021\n\rEGCST_AGILITY\020\002\022\026\n\022EGCST_INTE"
-      "LLIGENCE\020\003*\216\001\n\021EGameTokenSubType\022\026\n\022EGTS"
-      "T_TOKEN_REBORN\020\000\022\030\n\024EGTST_TOKEN_POSITION"
-      "\020\001\022\026\n\022EGTST_TOKEN_BOUNTY\020\002\022\030\n\024EGTST_TOKE"
-      "N_ACTIVITY\020\003\022\025\n\021EGTST_TOKEN_BUILD\020\004*e\n\024E"
-      "GameItemExpiredType\022\016\n\nEGIET_NONE\020\000\022\023\n\017E"
-      "GIET_USE_TIMES\020\001\022\023\n\017EGIET_REAL_TIME\020\002\022\023\n"
-      "\017EGIET_END_INDEX\020\003*Y\n\022EDrawDropItemState"
-      "\022\025\n\021E_DRAW_STATE_NONE\020\000\022\025\n\021E_DRAW_STATE_"
-      "GAIN\020\001\022\025\n\021E_DRAW_STATE_RECV\020\002*s\n\017EGuildP"
-      "owerType\022\033\n\027GUILD_POWER_TYPE_NORMAL\020\000\022#\n"
-      "\037GUILD_POWER_TYPE_VICE_PRESIDENT\020\001\022\036\n\032GU"
-      "ILD_POWER_TYPE_PRESIDENT\020\002*V\n\nETaskState"
-      "\022\023\n\017TASK_IN_PROCESS\020\000\022\r\n\tTASK_DONE\020\001\022\023\n\017"
-      "TASK_DRAW_AWARD\020\002\022\017\n\013TASK_FINISH\020\003*\251\002\n\tE"
-      "TaskType\022 \n\034TASK_LEVEL_UPDATE_SOME_LEVEL"
-      "\020\000\022\024\n\020TASK_PASS_ECTYPE\020\001\022\032\n\026TASK_PASS_EC"
-      "TYPE_COUNT\020\002\022$\n TASK_PASS_SOME_TYPE_ECTY"
-      "PE_COUNT\020\003\022\033\n\027TASK_UPDATE_SKILL_COUNT\020\004\022"
-      "\026\n\022TASK_CONSUME_MONEY\020\005\022\030\n\024TASK_CONSUME_"
-      "DIAMOND\020\006\022\024\n\020TASK_ARENA_COUNT\020\007\022\033\n\027TASK_"
-      "KILL_MONSTER_COUNT\020\010\022 \n\034TASK_KILL_SOME_M"
-      "ONSTER_COUNT\020\t*v\n\010EPVPType\022\014\n\010PVP_HOME\020\000"
-      "\022\022\n\016PVP_INDIVIDUAL\020\001\022\014\n\010PVP_DOTA\020\002\022\020\n\014PV"
-      "P_SURVIVAL\020\003\022\021\n\rPVP_GUILD_WAR\020\004\022\025\n\021PVP_G"
-      "UILD_DUNGEON\020\005*s\n\tEShopType\022\016\n\nEST_UNKNO"
-      "W\020\000\022\020\n\014EST_BUILDING\020\001\022\014\n\010EST_GOLD\020\002\022\014\n\010E"
-      "ST_ITEM\020\003\022\r\n\tEST_EQUIP\020\005\022\013\n\007EST_GEM\020\006\022\014\n"
-      "\010EST_CARD\020\007*\213\001\n\tERankType\022\016\n\nERT_UNKNOW\020"
-      "\000\022\024\n\020ERT_PLAYER_LEVEL\020\001\022\023\n\017ERT_FIGHT_VAL"
-      "UE\020\002\022\024\n\020ERT_PLAYER_MONEY\020\003\022\023\n\017ERT_GUILD_"
-      "LEVEL\020\004\022\030\n\024ERT_GUILD_KINGSOURCE\020\005*G\n\010ENP"
-      "CType\022\023\n\017ENPCTYPE_NORMAL\020\000\022\021\n\rENPCTYPE_H"
-      "ERO\020\001\022\023\n\017ENPCTYPE_TURRET\020\002*R\n\013ETARGETTyp"
-      "e\022\025\n\021ETARGETTYPE_ENEMY\020\000\022\024\n\020ETARGETTYPE_"
-      "SELF\020\001\022\026\n\022ETARGETTYPE_FRIEND\020\002*X\n\rEPrope"
-      "rtyType\022\016\n\nEPT_UNKNOW\020\000\022\020\n\014EPT_STRENGTH\020"
-      "\001\022\017\n\013EPT_AGILITY\020\002\022\024\n\020EPT_INTELLIGENCE\020\003"
-      "*\236\001\n\020EGameElementType\022\025\n\021EELEMENTTYPE_FI"
-      "RE\020\000\022\026\n\022EELEMENTTYPE_LIGHT\020\001\022\025\n\021EELEMENT"
-      "TYPE_WIND\020\002\022\024\n\020EELEMENTTYPE_ICE\020\003\022\027\n\023EEL"
-      "EMENTTYPE_POISON\020\004\022\025\n\021EELEMENTTYPE_DARK\020"
-      "\005b\006proto3"
-  };
-  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 10089);
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
-    "NFDefine.proto", &protobuf_RegisterTypes);
-}
-
-void AddDescriptors() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, AddDescriptorsImpl);
-}
-// Force AddDescriptors() to be called at dynamic initialization time.
-struct StaticDescriptorInitializer {
-  StaticDescriptorInitializer() {
-    AddDescriptors();
-  }
-} static_descriptor_initializer;
-}  // namespace protobuf_NFDefine_2eproto
+// Force running AddDescriptors() at dynamic initialization time.
+static bool dynamic_init_dummy_NFDefine_2eproto = (  ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_NFDefine_2eproto), true);
 namespace NFMsg {
-const ::google::protobuf::EnumDescriptor* EGameEventCode_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[0];
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* EGameEventCode_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_NFDefine_2eproto);
+  return file_level_enum_descriptors_NFDefine_2eproto[0];
 }
 bool EGameEventCode_IsValid(int value) {
   switch (value) {
@@ -348,56 +145,15 @@ bool EGameEventCode_IsValid(int value) {
     case 116:
     case 117:
     case 118:
-    case 119:
-    case 120:
-    case 121:
-    case 122:
-    case 123:
-    case 124:
-    case 125:
-    case 126:
-    case 127:
-    case 128:
-    case 129:
-    case 130:
-    case 131:
-    case 132:
-    case 133:
-    case 134:
-    case 135:
-    case 136:
-    case 137:
-    case 138:
-    case 139:
-    case 140:
-    case 141:
-    case 142:
-    case 143:
-    case 200:
-    case 201:
-    case 202:
       return true;
     default:
       return false;
   }
 }
 
-const ::google::protobuf::EnumDescriptor* ESynMsgID_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[1];
-}
-bool ESynMsgID_IsValid(int value) {
-  switch (value) {
-    case 0:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::google::protobuf::EnumDescriptor* EGameMsgID_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[2];
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* EGameMsgID_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_NFDefine_2eproto);
+  return file_level_enum_descriptors_NFDefine_2eproto[1];
 }
 bool EGameMsgID_IsValid(int value) {
   switch (value) {
@@ -421,6 +177,9 @@ bool EGameMsgID_IsValid(int value) {
     case 61:
     case 62:
     case 70:
+    case 80:
+    case 81:
+    case 82:
     case 90:
     case 100:
     case 101:
@@ -455,7 +214,6 @@ bool EGameMsgID_IsValid(int value) {
     case 158:
     case 159:
     case 160:
-    case 180:
     case 200:
     case 201:
     case 202:
@@ -466,6 +224,7 @@ bool EGameMsgID_IsValid(int value) {
     case 214:
     case 215:
     case 216:
+    case 217:
     case 220:
     case 221:
     case 222:
@@ -478,149 +237,46 @@ bool EGameMsgID_IsValid(int value) {
     case 250:
     case 251:
     case 260:
-    case 1220:
-    case 1221:
-    case 1222:
-    case 1223:
-    case 1224:
-    case 1225:
-    case 1226:
-    case 1230:
-    case 1231:
-    case 1232:
-    case 1233:
-    case 1234:
-    case 1235:
-    case 1240:
-    case 1241:
-    case 1242:
-    case 1243:
-    case 1244:
-    case 1245:
-    case 1246:
-    case 1247:
-    case 1250:
-    case 1251:
-    case 1252:
-    case 1253:
-    case 1254:
-    case 1255:
-    case 1256:
-    case 1257:
-    case 1290:
-    case 1291:
-    case 1300:
-    case 1301:
-    case 1302:
-    case 1303:
-    case 1304:
-    case 1305:
-    case 1306:
-    case 1307:
-    case 1308:
-    case 1309:
-    case 1310:
-    case 1311:
-    case 1312:
-    case 1313:
-    case 1314:
-    case 1315:
-    case 1400:
-    case 1401:
-    case 1402:
-    case 1403:
-    case 1404:
-    case 1405:
-    case 1406:
-    case 1407:
-    case 1408:
-    case 1409:
-    case 1410:
-    case 1411:
-    case 1450:
-    case 1451:
-    case 1500:
-    case 1501:
-    case 1502:
-    case 1503:
-    case 1504:
-    case 1505:
-    case 1506:
-    case 1507:
-    case 1508:
-    case 1509:
-    case 1520:
-    case 1521:
-    case 1600:
-    case 1601:
-    case 1700:
-    case 1701:
-    case 1702:
-    case 1800:
-    case 1801:
-    case 1802:
-    case 1803:
-    case 1810:
-    case 1811:
-    case 1812:
-    case 1814:
-    case 1840:
-    case 1841:
-    case 1860:
-    case 1861:
-    case 1862:
-    case 1863:
-    case 1864:
-    case 1865:
-    case 1866:
-    case 1867:
-    case 1868:
-    case 1869:
-    case 1870:
-    case 1900:
-    case 1901:
-    case 1902:
-    case 1903:
-    case 1910:
-    case 1911:
-    case 1912:
-    case 1913:
-    case 1914:
-    case 1915:
-    case 1916:
-    case 1917:
-    case 1918:
-    case 1919:
-    case 10000:
-    case 10001:
-    case 10002:
-    case 10003:
-    case 10004:
-    case 10005:
-    case 10006:
-    case 10007:
-    case 10008:
-    case 10200:
-    case 20000:
-    case 20001:
-    case 20002:
-    case 20003:
-    case 20101:
-    case 20102:
-    case 20103:
-    case 30000:
-    case 30001:
-    case 30002:
-    case 30003:
+    case 270:
+    case 300:
+    case 301:
+    case 302:
+    case 303:
+    case 306:
+    case 307:
+    case 350:
+    case 351:
+    case 400:
+    case 401:
+    case 402:
+    case 403:
+    case 600:
+    case 601:
       return true;
     default:
       return false;
   }
 }
 
-const ::google::protobuf::EnumDescriptor* ESkillType_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[3];
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* EItemType_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_NFDefine_2eproto);
+  return file_level_enum_descriptors_NFDefine_2eproto[2];
+}
+bool EItemType_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ESkillType_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_NFDefine_2eproto);
+  return file_level_enum_descriptors_NFDefine_2eproto[3];
 }
 bool ESkillType_IsValid(int value) {
   switch (value) {
@@ -631,318 +287,40 @@ bool ESkillType_IsValid(int value) {
     case 4:
     case 5:
     case 6:
-    case 7:
       return true;
     default:
       return false;
   }
 }
 
-const ::google::protobuf::EnumDescriptor* EItemType_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[4];
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ESceneType_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_NFDefine_2eproto);
+  return file_level_enum_descriptors_NFDefine_2eproto[4];
 }
-bool EItemType_IsValid(int value) {
+bool ESceneType_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
     case 2:
-    case 3:
-    case 4:
+    case 10:
+    case 11:
+    case 12:
       return true;
     default:
       return false;
   }
 }
 
-const ::google::protobuf::EnumDescriptor* EGameEquipSubType_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[5];
-}
-bool EGameEquipSubType_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::google::protobuf::EnumDescriptor* EGameGemSubType_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[6];
-}
-bool EGameGemSubType_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-    case 7:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::google::protobuf::EnumDescriptor* EGameItemSubType_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[7];
-}
-bool EGameItemSubType_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-    case 7:
-    case 8:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::google::protobuf::EnumDescriptor* EGameCardSubType_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[8];
-}
-bool EGameCardSubType_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::google::protobuf::EnumDescriptor* EGameTokenSubType_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[9];
-}
-bool EGameTokenSubType_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::google::protobuf::EnumDescriptor* EGameItemExpiredType_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[10];
-}
-bool EGameItemExpiredType_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::google::protobuf::EnumDescriptor* EDrawDropItemState_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[11];
-}
-bool EDrawDropItemState_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::google::protobuf::EnumDescriptor* EGuildPowerType_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[12];
-}
-bool EGuildPowerType_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::google::protobuf::EnumDescriptor* ETaskState_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[13];
-}
-bool ETaskState_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::google::protobuf::EnumDescriptor* ETaskType_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[14];
-}
-bool ETaskType_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-    case 7:
-    case 8:
-    case 9:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::google::protobuf::EnumDescriptor* EPVPType_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[15];
-}
-bool EPVPType_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::google::protobuf::EnumDescriptor* EShopType_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[16];
-}
-bool EShopType_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-    case 5:
-    case 6:
-    case 7:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::google::protobuf::EnumDescriptor* ERankType_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[17];
-}
-bool ERankType_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::google::protobuf::EnumDescriptor* ENPCType_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[18];
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ENPCType_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_NFDefine_2eproto);
+  return file_level_enum_descriptors_NFDefine_2eproto[5];
 }
 bool ENPCType_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
     case 2:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::google::protobuf::EnumDescriptor* ETARGETType_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[19];
-}
-bool ETARGETType_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::google::protobuf::EnumDescriptor* EPropertyType_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[20];
-}
-bool EPropertyType_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
     case 3:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::google::protobuf::EnumDescriptor* EGameElementType_descriptor() {
-  protobuf_NFDefine_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_NFDefine_2eproto::file_level_enum_descriptors[21];
-}
-bool EGameElementType_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
       return true;
     default:
       return false;
@@ -952,9 +330,8 @@ bool EGameElementType_IsValid(int value) {
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace NFMsg
-namespace google {
-namespace protobuf {
-}  // namespace protobuf
-}  // namespace google
+PROTOBUF_NAMESPACE_OPEN
+PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
+#include <google/protobuf/port_undef.inc>

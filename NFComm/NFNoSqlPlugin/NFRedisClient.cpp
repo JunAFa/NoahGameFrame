@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -28,8 +28,8 @@
 NFRedisClient::NFRedisClient()
 {
 	mnPort = 0;
-	bBusy = false;
-	bAuthed = false;
+	mbBusy = false;
+	mbAuthed = false;
     m_pRedisClientSocket = new NFRedisClientSocket();
 }
 
@@ -40,12 +40,12 @@ bool NFRedisClient::Enable()
 
 bool NFRedisClient::Authed()
 {
-	return bAuthed;
+	return mbAuthed;
 }
 
 bool NFRedisClient::Busy()
 {
-	return bBusy;
+	return mbBusy;
 }
 
 bool NFRedisClient::Connect(const std::string &ip, const int port, const std::string &auth)
@@ -75,7 +75,8 @@ bool NFRedisClient::KeepLive()
 
 bool NFRedisClient::ReConnect()
 {
-	return m_pRedisClientSocket->ReConnect(mstrIP, mnPort);
+    this->mbAuthed = false;
+    return m_pRedisClientSocket->ReConnect(mstrIP, mnPort);
 }
 
 bool NFRedisClient::IsConnect()
@@ -97,16 +98,23 @@ bool NFRedisClient::Execute()
 
 NF_SHARE_PTR<redisReply> NFRedisClient::BuildSendCmd(const NFRedisCommand& cmd)
 {
-	while (bBusy)
+	while (mbBusy)
 	{
-		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		//std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
 		//you can not use build send cmd funciton again if you are not using coroutine
-		YieldFunction();
+		if (YieldFunction)
+		{
+			YieldFunction();
+		}
 	}
+
+	mbBusy = true;
 
 	if (!IsConnect())
 	{
+		mbBusy = false;
+
 		ReConnect();
 		return nullptr;
 	}
@@ -115,16 +123,17 @@ NF_SHARE_PTR<redisReply> NFRedisClient::BuildSendCmd(const NFRedisCommand& cmd)
 		std::string msg = cmd.Serialize();
 		if (msg.empty())
 		{
+			mbBusy = false;
 			return nullptr;
 		}
 		int nRet = m_pRedisClientSocket->Write(msg.data(), msg.length());
 		if (nRet != 0)
 		{
+			mbBusy = false;
 			return nullptr;
 		}
 	}
 	
-	bBusy = true;
 
 	return ParseForReply();
 }
@@ -134,7 +143,7 @@ NF_SHARE_PTR<redisReply> NFRedisClient::ParseForReply()
 	struct redisReply* reply = nullptr;
 	while (true)
 	{
-		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		//std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
 		// When the buffer is empty, reply will be null
 		int ret = redisReaderGetReply(m_pRedisClientSocket->GetRedisReader(), (void**)&reply);
@@ -159,7 +168,7 @@ NF_SHARE_PTR<redisReply> NFRedisClient::ParseForReply()
 		}
 	}
 
-	bBusy = false;
+	mbBusy = false;
 
 	if (reply == nullptr)
 	{
@@ -194,7 +203,7 @@ bool NFRedisClient::AUTH(const std::string& auth)
 		if (std::string("OK") == std::string(pReply->str, pReply->len) ||
 			std::string("ok") == std::string(pReply->str, pReply->len))
 		{
-			bAuthed = true;
+			mbAuthed = true;
 			return true;
 		}
 	}

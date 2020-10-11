@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: Stonexin
    
@@ -47,7 +47,6 @@
 #if NF_PLATFORM == NF_PLATFORM_WIN
 #include <winsock2.h>
 #include <ws2tcpip.h>
-#include <windows.h>
 #include <io.h>
 #include <fcntl.h>
 #else
@@ -68,7 +67,7 @@
 
 #endif
 
-typedef std::function<void(const NFGUID id, const int state_code, const std::string& strRespData)> HTTP_RESP_FUNCTOR;
+typedef std::function<void(const NFGUID id, const int state_code, const std::string& strRespData, const std::string& strMemoData)> HTTP_RESP_FUNCTOR;
 typedef std::shared_ptr<HTTP_RESP_FUNCTOR> HTTP_RESP_FUNCTOR_PTR;
 
 class NFIHttpClient
@@ -86,7 +85,7 @@ public:
     virtual bool DoGet(const std::string& strUri, HTTP_RESP_FUNCTOR_PTR pCB,
                             const std::map<std::string, std::string>& xHeaders, const NFGUID id = NFGUID()) = 0;
 
-    virtual bool DoPost(const std::string& strUri, const std::string& strPostData, HTTP_RESP_FUNCTOR_PTR pCB,
+    virtual bool DoPost(const std::string& strUri, const std::string& strPostData, const std::string& strMemoData, HTTP_RESP_FUNCTOR_PTR pCB,
                              const std::map<std::string, std::string>& xHeaders, const NFGUID id = NFGUID()) = 0;
 
 

@@ -1,6 +1,5 @@
 # NoahGameFrame
-#####  http://www.noahframe.com
-##### Forum: http://bbs.noahframe.com/forum.php
+
 
 - develop
 [![Build Status](https://travis-ci.org/ketoo/NoahGameFrame.svg?branch=develop)](https://travis-ci.org/ketoo/NoahGameFrame)
@@ -9,7 +8,12 @@
 - chat
 [![Join the chat at https://gitter.im/ketoo/NoahGameFrame](https://badges.gitter.im/ketoo/NoahGameFrame.svg)](https://gitter.im/ketoo/NoahGameFrame?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-#####QQ Group：341159815
+#####QQ群：330241037 [![NF开源服务器引擎2群](https://pub.idqqimg.com/wpa/images/group.png)](https://shang.qq.com/wpa/qunwpa?idkey=17ce92a5aacdec7b1c5ef0ff99bc84ca39c927fbd4ec7a3a83449e96afa63899)
+
+## Tutorial && Documents
+
+https://github.com/ketoo/NoahGameFrame/wiki
+
 
 ## What is NoahGameFrame?
 
@@ -19,41 +23,24 @@ NoahGameFrame (NF) is a lightweight, fast, scalable, distributed plugin framewor
 - Easy-to-use, interface-oriented design
 - An extensible plugin framework that makes getting your application running quick and easy
 - A clean, uncluttered design and stable engine that has been used in several commercial products
-- A high performance actor model (by Theron)
+- A high performance actor model (by a safe thread pool)
 - Event and attribute-driven, making it clear and easy to maintain your business
 - Based on standard C++ development, ensuring cross-platform support
 - An existing C++ and C# game client for rapid development
 - Cross-platform support
 
 
-## Tutorial--English
+## Tutorial && Documents
 
 https://github.com/ketoo/NoahGameFrame/wiki
-
-## Documents--English
-
-https://github.com/ketoo/NoahGameFrame/wiki/Documentation
-
-## Tutorial--中文
-
-[Tutorial](http://bbs.noahframe.com/forum.php?mod=forumdisplay&fid=39) : http://bbs.noahframe.com/forum.php?mod=forumdisplay&fid=39
-
-### FAQ OR DISCUSSIONS
-[FAQ](http://blog.noahframe.com/?p=229) : http://blog.noahframe.com/?p=229
-
-### Unity3D client
-[U3D Client](https://github.com/ketoo/NoahGameFrame/tree/master/NFClient/Unity3D)
 
 ## Architecture
 
 ### App Architecture:
-![App Architecture](https://github.com/ketoo/NoahGameFrame/blob/develop/Introduce/img/NF_app_arch.png)
-
+![App Architecture](https://github.com/ketoo/NoahGameFrame/wiki/images/architecture/NF_app_arch.png)
 
 ### Server Architecture
-![Server Architecture](https://github.com/ketoo/NoahGameFrame/blob/develop/Introduce/img/NF_server_arch.png)
-
-
+![Server Architecture](https://github.com/ketoo/NoahGameFrame/wiki/images/architecture/NF_server_arch.png)
 
 ## Get the Sources:
 
@@ -66,51 +53,64 @@ svn checkout https://github.com/ketoo/NoahGameFrame
 
 ## Dependencies
 
-- libevent 2.0.22
-- easylogging++ 9.80
-- mysql++ 3.2.2
-- google protobuf 3.6
-- redis-cpp-client 
-- Theron 6.00.01
+- libevent
+- easylogging++
+- google protobuf
+- hiredis
+- ajson
+- concurrentqueue
+- RapidXML
+- LuaIntf
+- navigation
+- lua
+
+## Tutorial && Documents
+
+https://github.com/ketoo/NoahGameFrame/wiki
 
 ## IF YOU CAN NOT BUILD THE DEPENDENCIES THEN PLEASE RUN THE CMDS BELOW TO SET UP THE ENVIRONMENT:
 
-* sudo apt-get g++
-* sudo apt-get cmake
+* sudo apt-get install g++
+* sudo apt-get install cmake
 * sudo apt-get install automake
 * sudo apt-get install zip unzip
 
 ## Supported Compilers
 
-* GCC >= 4.8 (**Tested in Ubuntu 15.04**)
-* MSVC >= VS2015 (**Tested in Win7/10**)
+* GCC >= 7 (**Tested on Ubuntu 16.04**)
+* MSVC >= VS2019 (**Tested on Win10**)
 
 ## Build and Install
-### MSVC >= 2015
+### FOR WINDOWS, MSVC >= 2019
 
 1. Git pull all source
-2. Open the solution: **NoahFrame.sln**, build FileProcessTool project
-3. Run **GenerateConfigXML.bat** to generate configuration files
-4. Open the solution: **NoahFrame.sln**
-5. Build the solution(if u build failed, please build again(not rebuild))
-6. Run the binary file by **_Out/rund.bat**
+2. Run the script file named **build_dep.bat** where located /Dependencies
+(墙内上网的同学请点击：墙内下载依赖库.bat)
+3. Build the solution(if u build failed, please build again(**not rebuild all**))
+4. Run the binary file by **_Out/rund.bat**
 
-### CMake ---- please use administrator(or sudo) to do these:
+### FOR LINUX(UBUNTU, CENTOS) ---- please use administrator(or sudo) to do these:
 1. Git pull all source
-2. Install cmake[>= 3.1] please choose options for installing: **Add CMake to the system PATH for all users and restart your computer**
-3. Install VS2015 or gcc[>= 4.8]
-4. Run Dependencies/build_dep.sh
-5. Run **install4cmake.bat** or **install4cmake.sh** to build NF
-6. Run the binary file by **_Out/rund.bat** or **_Out/rund.sh**
+2. Run **install4cmake.sh** to build NF (or run cd /Dependencies  ./build_dep.sh then run buildServer.sh)
+3. Run the binary file by **_Out/rund.sh**
+
+### IF YOU LIVING IN A COUNTRY CANNOT ACCESS GITHUB FASTLY PLZ BUILD NF WITH VPN
+
+### HOW TO RUN HELLO WORLD
+https://github.com/ketoo/NoahGameFrame/wiki/How-to-run-the-Helloworld
+
+### HOW TO DEBUG WITH UNITY3D
+https://github.com/ketoo/NoahGameFrame/wiki/How-to-debug-with-unity3d
+
+### Unity Multiplayer Demo
+WebSite:  https://github.com/ketoo/NFUnitySDK
+# <Password for REDIS:NoahGameFrame>
+![Showcase](https://github.com/ketoo/NoahGameFrame/wiki/images/showcase/unity3d.gif)
 
 
+## Tutorial && Documents
 
-### JAVA Project
-WebSite:  https://github.com/NFGameTeam/NFrame-java
-
-### C# Project
-WebSite:  https://github.com/ketoo/NFrame
-
+https://github.com/ketoo/NoahGameFrame/wiki
 
 ## License
 The NFrame project is currently available under the [Apache License](https://github.com/ketoo/NoahGameFrame/blob/develop/LICENSE).
@@ -226,6 +226,66 @@ bool HelloWorld1::Shut()
 * how to use the asynchronous events
 * use multiple cpus to get high performance
 
+### How to Create a New LuaScriptModule
+
+## Step 1
+Create a Lua Script File, and Must Contain following functions
+- reload()
+- awake()
+- init()
+- ready_execute()
+- after_init()
+- before_shut()
+- shut()
+
+Mostly like this
+# [test_module.lua](https://github.com/ketoo/NoahGameFrame/blob/master/_Out/NFDataCfg/ScriptModule/game/test_game_module.lua)
+
+```lua
+test_module = {}
+register_module(test_module,"test_module");
+
+function test_module.reload()
+end
+
+function test_module.awake()
+	reload();
+end
+
+function test_module.init()
+end
+
+function test_module.after_init()
+end
+
+function test_module.ready_execute()
+end
+
+function test_module.before_shut()
+end
+
+function test_module.shut()
+end
+
+```
+
+##Step 2
+Add your LuaScriptModule Infomation into [script_list.lua](https://github.com/ketoo/NoahGameFrame/blob/master/_Out/NFDataCfg/ScriptModule/game/script_list.lua)
+
+
+```lua
+ScriptList={
+    {tbl=nil, tblName="TestModule"},
+    {tbl=nil, tblName="TestModule2"},
+}
+
+load_script_file(ScriptList)
+```
+
+
+
+##Hot fix
+Add your lua script file name on here [script_reload.lua](https://github.com/ketoo/NoahGameFrame/blob/master/_Out/NFDataCfg/ScriptModule/game/script_reload.lua)
 
 -------------------
 ### About The Author
@@ -246,6 +306,16 @@ bool HelloWorld1::Shut()
 * Auther: nousxiong
 * GitHub: https://github.com/nousxiong/gce
 * Description: The Game Communication Environment (GCE) is an actor model framework for online game development.
+
+**moon**
+* Auther: bruce
+* GitHub: https://github.com/sniper00/moon.git
+* Description: A  cross-platform,lightweight,scalable game server framework  written in C++, and suport Lua Script.
+
+
+## Tutorial && Documents
+
+https://github.com/ketoo/NoahGameFrame/wiki
 
 
 

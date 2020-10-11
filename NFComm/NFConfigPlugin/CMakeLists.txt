@@ -6,10 +6,10 @@ file(GLOB NFConfigPlugin_ROOT_Hpp
 	*.h)
 add_library(NFConfigPlugin STATIC ${NFConfigPlugin_ROOT_Cpp} ${NFConfigPlugin_ROOT_Hpp})
 
-set_target_properties( NFConfigPlugin PROPERTIES OUTPUT_NAME_DEBUG "NFConfigPlugin_d")
+set_target_properties( NFConfigPlugin PROPERTIES OUTPUT_NAME_DEBUG "NFConfigPlugin")
 set_target_properties( NFConfigPlugin PROPERTIES PREFIX "")
 set_target_properties( NFConfigPlugin PROPERTIES 
-	FOLDER "NFSDK"
+	FOLDER "NFComm/NFConfigPlugin"
 	ARCHIVE_OUTPUT_DIRECTORY ${NFOutPutDir}
 	RUNTIME_OUTPUT_DIRECTORY ${NFOutPutDir}
 	LIBRARY_OUTPUT_DIRECTORY ${NFOutPutDir} )

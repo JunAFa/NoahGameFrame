@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -28,15 +28,29 @@
 
 #include <iostream>
 #include "NFIModule.h"
-#include "NFIItemConsumeProcessModule.h"
+
+class NFIItemConsumeProcessModule
+		: public NFIModule
+{
+public:
+
+	// > 0, error code
+	virtual int ConsumeLegal(const NFGUID& self, const std::string& strItemID, const NFDataList& targetID, const NFVector3& vector) = 0;
+
+	//> 0, error code
+	virtual int ConsumeProcess(const NFGUID& self, const std::string& strItemID, const NFDataList& targetID, const NFVector3& vector) = 0;
+
+};
 
 class NFIItemConsumeManagerModule
     : public NFIModule
 {
 public:
-    virtual bool ResgisterConsumeModule(const int nModuleType, NF_SHARE_PTR<NFIItemConsumeProcessModule> pModule) = 0;
-	virtual NF_SHARE_PTR<NFIItemConsumeProcessModule> GetConsumeModule(const int nModuleType) = 0;
+	virtual bool SetConsumeModule(const int itemType, NFIItemConsumeProcessModule* pModule) = 0;
+    virtual bool SetConsumeModule(const int itemType, const int itemSubType, NFIItemConsumeProcessModule* pModule) = 0;
 
+    virtual NFIItemConsumeProcessModule* GetConsumeModule(const int itemType) = 0;
+	virtual NFIItemConsumeProcessModule* GetConsumeModule(const int itemType, const int itemSubType) = 0;
 };
 
 #endif

@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -24,7 +24,7 @@
 */
 
 #include "NFLogPlugin.h"
-#include "NFCLogModule.h"
+#include "NFLogModule.h"
 
 #ifdef NF_DYNAMIC_PLUGIN
 
@@ -54,10 +54,10 @@ const std::string NFLogPlugin::GetPluginName()
 
 void NFLogPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, NFILogModule, NFCLogModule)
+    REGISTER_MODULE(pPluginManager, NFILogModule, NFLogModule)
 }
 
 void NFLogPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, NFILogModule, NFCLogModule)
+    UNREGISTER_MODULE(pPluginManager, NFILogModule, NFLogModule)
 }

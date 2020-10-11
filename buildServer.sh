@@ -1,64 +1,59 @@
 # make sure cmake is installed
 # sudo apt-get update
-cmake --version
-if [ $? -ne 0 ]; then
-    echo "[ERROR] Please install cmake first."
-    echo "[ubuntu] apt-get install cmake or [centos] yum install cmake or [mac] brew install cmake"
-    exit 1
-fi
-
-unzip -v
-if [ $? -ne 0 ]; then
-    echo "[ERROR] Please install unzip first."
-    echo "[ubuntu] sudo apt-get install unzip or [centos] yum install unzip or [mac] brew install unzip"
-    exit 1
-fi
-
-g++ --version
-if [ $? -ne 0 ]; then
-    echo "[ERROR] Please install g++ first."
-    echo "[ubuntu] sudo apt-get install g++ or [centos] yum install g++ or [mac] brew install g++"
-    exit 1
-fi
-
-automake --version
-if [ $? -ne 0 ]; then
-    echo "[ERROR] Please install automake first."
-    echo "[ubuntu] sudo apt-get install automake or [centos] yum install automake or [mac] brew install automake"
-    exit 1
-fi
 
 #g++  sudo apt-get install g++
 #unzip sudo apt-get install unzip
 
 #compile dep libraries
-rm -rf ./_Out/Debug
-rm -rf ./_Out/Release
 
-cd BuildScript/linux/
-chmod -R 755 ./BuildNF.CMake.Tools.sh
-./BuildNF.CMake.Tools.sh
-cd ../../
+#example 1: ./buildServer
+#example 2: ./buildServer BUILD_MID_WARE DEBUG
+#example 3: ./buildServer BUILD_MID_WARE
 
-cd _Out/NFDataCfg/Tool/
-chmod 755 ./NFFileProcess
-chmod 755 ./copy_files.sh
-./copy_files.sh
-cd ..
-cd ..
-cd ..
+if [ "$1" == "BUILD_MID_WARE" ]; then
+   echo "we dont need to compile message and tools again"
+else
+   echo "we only build NF SDK here"
+    cd NFComm/NFMessageDefine
+    ./cpp.sh
+    cd ../../
+
+    cd BuildScript/linux/
+    chmod -R 755 ./BuildNF.CMake.Tools.sh
+    ./BuildNF.CMake.Tools.sh
+    cd ../../
+
+    cd _Out/NFDataCfg/Tool/
+    chmod 755 ./NFFileProcess
+    chmod 755 ./copy_files.sh
+    ./copy_files.sh
+    cd ..
+    cd ..
+    cd ..
+fi
+
+if [ "$2" == "DEBUG" ]; then
+rm -rf ./_Out/Debug/NFServer
+rm -rf ./_Out/Debug/*.a
 
 cd BuildScript/linux/
 chmod -R 755 ./BuildNF.CMake.Debug.sh
+time ./BuildNF.CMake.Debug.sh  $1
+
+else
+
+rm -rf ./_Out/Release/NFServer
+rm -rf ./_Out/Release/*.a
+
+cd BuildScript/linux/
 chmod -R 755 ./BuildNF.CMake.Release.sh
-./BuildNF.CMake.Debug.sh
-./BuildNF.CMake.Release.sh
+time ./BuildNF.CMake.Release.sh  $1
+fi
+
 cd ../../
 
 cd _Out/
 chmod 777 *.sh
-cd  Tester/
-chmod 777 *.sh
-cd ../../
+cd ../
 
 #pwd

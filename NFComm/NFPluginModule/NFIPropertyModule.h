@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -47,12 +47,30 @@ public:
         NPG_ALL ,
     };
 
+	//返回100以内的百分比数值(比如10，就应该是10%), 用来计算armor值代来代伤害减免，幸运值代来代幸运概率等
+	static int Cal(int value)
+	{
+		float x = value / 10.0f;
+		float f = 0.06f * x / (1.0f + (0.06f * x));
+		return (int)(f * 100);
+	}
 
-    virtual int RefreshBaseProperty(const NFGUID& self) = 0;
-    virtual int64_t GetPropertyValue(const NFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType) = 0;
-    virtual int SetPropertyValue(const NFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType, const int64_t nValue) = 0;
-    virtual bool CalculatePropertyValue(const NFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType, const int64_t nValue, const bool bPositive = false) = 0;
+	//高斯求和, 返回等级带来代数值结果,比如  + 10等级, 应该就是55,
+	static int CalLevelValue(int level)
+	{
+		int result = 0;
+		if (level > 0)
+		{
+			result = (1 + level) * level / 2;
+		}
 
+		return result;
+	}
+
+    virtual int64_t GetPropertyValue(const NFGUID& self, const std::string& propertyName, const NFPropertyGroup eGroupType) = 0;
+    virtual int SetPropertyValue(const NFGUID& self, const std::string& propertyName, const NFPropertyGroup eGroupType, const int64_t nValue) = 0;
+
+    virtual bool AddExp(const NFGUID& self, const int64_t exp) = 0;
     virtual bool FullHPMP(const NFGUID& self) = 0;
     virtual bool AddHP(const NFGUID& self, const int nValue) = 0;
     virtual bool ConsumeHP(const NFGUID& self, const int nValue) = 0;
@@ -75,7 +93,9 @@ public:
 
     virtual bool AddDiamond(const NFGUID& self, const int nValue) = 0;
     virtual bool ConsumeDiamond(const NFGUID& self, const int nValue) = 0;
-    virtual bool EnoughDiamond(const NFGUID& self, const int nValue) = 0;
+	virtual bool EnoughDiamond(const NFGUID& self, const int nValue) = 0;
+
+	virtual void ActiveExtraController() = 0;
 };
 
 #endif

@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -25,7 +25,7 @@
 
 
 #include "NFLoginLogicPlugin.h"
-#include "NFCLoginLogicModule.h"
+#include "NFLoginLogicModule.h"
 
 //
 #ifdef NF_DYNAMIC_PLUGIN
@@ -56,11 +56,11 @@ const std::string NFLoginLogicPlugin::GetPluginName()
 void NFLoginLogicPlugin::Install()
 {
 
-    REGISTER_MODULE(pPluginManager, NFILoginLogicModule, NFCLoginLogicModule)
+    REGISTER_MODULE(pPluginManager, NFILoginLogicModule, NFLoginLogicModule)
 
 }
 
 void NFLoginLogicPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, NFILoginLogicModule, NFCLoginLogicModule)
+    UNREGISTER_MODULE(pPluginManager, NFILoginLogicModule, NFLoginLogicModule)
 }

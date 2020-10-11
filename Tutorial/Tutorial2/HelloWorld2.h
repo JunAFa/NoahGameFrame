@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -23,8 +23,8 @@
    limitations under the License.
 */
 
-#ifndef NFC_HELLO_WORLD2_H
-#define NFC_HELLO_WORLD2_H
+#ifndef NF_HELLO_WORLD2_H
+#define NF_HELLO_WORLD2_H
 
 #include "NFComm/NFPluginModule/NFIPlugin.h"
 #include "NFComm/NFPluginModule/NFIPluginManager.h"
@@ -34,12 +34,13 @@ class NFIHelloWorld2
 
 };
 
-class NFCHelloWorld2
+class NFHelloWorld2
     : public NFIHelloWorld2
 {
 public:
-    NFCHelloWorld2(NFIPluginManager* p)
+    NFHelloWorld2(NFIPluginManager* p)
     {
+        m_bIsExecute = true;
         pPluginManager = p;
     }
 
@@ -52,7 +53,7 @@ public:
     virtual bool Shut();
 
 protected:
-    int OnPropertyCallBackEvent(const NFGUID& self, const std::string& strProperty, const NFData& oldVarList, const NFData& newVarList);
+    int OnPropertyCallBackEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVarList, const NFData& newVarList);
 
 
 

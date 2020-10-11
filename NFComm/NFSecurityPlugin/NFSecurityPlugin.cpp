@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -24,7 +24,7 @@
 */
 
 
-#include "NFCSecurityModule.h"
+#include "NFSecurityModule.h"
 #include "NFSecurityPlugin.h"
 
 //
@@ -58,11 +58,11 @@ const std::string NFSecurityPlugin::GetPluginName()
 
 void NFSecurityPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, NFISecurityModule, NFCSecurityModule)
+    REGISTER_MODULE(pPluginManager, NFISecurityModule, NFSecurityModule)
 
 }
 
 void NFSecurityPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, NFISecurityModule, NFCSecurityModule)
+    UNREGISTER_MODULE(pPluginManager, NFISecurityModule, NFSecurityModule)
 }

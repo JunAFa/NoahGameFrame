@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -23,7 +23,7 @@
    limitations under the License.
 */
 
-#include "NFCMasterModule.h"
+#include "NFMasterModule.h"
 #include "NFMasterServerPlugin.h"
 
 //
@@ -55,12 +55,12 @@ const std::string NFMasterServerPlugin::GetPluginName()
 
 void NFMasterServerPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, NFIMasterModule, NFCMasterModule)
+    REGISTER_MODULE(pPluginManager, NFIMasterModule, NFMasterModule)
 
 
 }
 
 void NFMasterServerPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, NFIMasterModule, NFCMasterModule)
+    UNREGISTER_MODULE(pPluginManager, NFIMasterModule, NFMasterModule)
 }

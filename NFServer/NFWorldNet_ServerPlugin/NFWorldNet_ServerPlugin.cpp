@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -23,7 +23,7 @@
    limitations under the License.
 */
 #include "NFWorldNet_ServerPlugin.h"
-#include "NFCWorldNet_ServerModule.h"
+#include "NFWorldNet_ServerModule.h"
 
 //
 //
@@ -55,10 +55,10 @@ const std::string NFWorldNet_ServerPlugin::GetPluginName()
 
 void NFWorldNet_ServerPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, NFIWorldNet_ServerModule, NFCWorldNet_ServerModule)
+    REGISTER_MODULE(pPluginManager, NFIWorldNet_ServerModule, NFWorldNet_ServerModule)
 }
 
 void NFWorldNet_ServerPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, NFIWorldNet_ServerModule, NFCWorldNet_ServerModule)
+    UNREGISTER_MODULE(pPluginManager, NFIWorldNet_ServerModule, NFWorldNet_ServerModule)
 }

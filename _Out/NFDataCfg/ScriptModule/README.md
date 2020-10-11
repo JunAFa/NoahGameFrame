@@ -3,11 +3,11 @@
 
 [![Join the chat at https://gitter.im/ketoo/NoahGameFrame](https://badges.gitter.im/ketoo/NoahGameFrame.svg)](https://gitter.im/ketoo/NoahGameFrame?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-#####交流QQ群：341159815
+##### 交流QQ群：341159815
 
 ### How to Create a New LuaScriptModule
 
-##Step 1
+## Step 1
 Create a Lua Script File, and Must Contain following functions
 - reload()
 - awake()
@@ -18,7 +18,7 @@ Create a Lua Script File, and Must Contain following functions
 - shut()
 
 Mostly like this
-# [test_module.lua](https://github.com/ketoo/NoahGameFrame/tree/develop/_Out/Server/NFDataCfg/ScriptModule/test_module.lua)
+# [test_module.lua](https://github.com/ketoo/NoahGameFrame/blob/master/_Out/NFDataCfg/ScriptModule/game/test_game_module.lua)
 
 ```lua
 test_module = {}
@@ -48,8 +48,10 @@ end
 
 return TestModule2 --Do not forget return this
 ```
+
 ##Step 2
-Add your LuaScriptModule Infomation into [script_list.lua](https://github.com/ketoo/NoahGameFrame/tree/develop/_Out/Server/NFDataCfg/ScriptModule/script_list.lua)
+Add your LuaScriptModule Infomation into [script_list.lua](https://github.com/ketoo/NoahGameFrame/blob/master/_Out/NFDataCfg/ScriptModule/game/script_list.lua)
+
 
 ```lua
 ScriptList={
@@ -61,8 +63,9 @@ load_script_file(ScriptList)
 ```
 
 
+
 ##How to do hot fix?
-Add your lua script file name on here [script_reload.lua](https://github.com/ketoo/NoahGameFrame/tree/develop/_Out/Server/NFDataCfg/ScriptModule/script_reload.lua)
+Add your lua script file name on here [script_reload.lua](https://github.com/ketoo/NoahGameFrame/blob/master/_Out/NFDataCfg/ScriptModule/game/script_reload.lua)
 
 ```lua
 local version_code = "1.0.1"
@@ -73,4 +76,4 @@ ScriptReloadList={
 
 Once you changed the version_code then the engine will reload the files that in ScriptReloadList.
 
-##Enjoy it!
+## Enjoy it!

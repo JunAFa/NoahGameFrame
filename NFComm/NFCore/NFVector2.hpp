@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -34,7 +34,6 @@
 class NFLine;
 class NFBox;
 class NFPlane;
-class NFVector3;
 
 class NFVector2
 {
@@ -76,14 +75,12 @@ public:
 		this->x = v.x;
 		this->y = v.y;
 	}
-	NFVector2(const char* v, const int len)
-	{
-
-	}
+	
 	NFVector2(const std::string& v)
 	{
-
+		FromString(v);
 	}
+
 	bool operator<(const NFVector2& v) const
 	{
 		return this->Length() < v.Length();

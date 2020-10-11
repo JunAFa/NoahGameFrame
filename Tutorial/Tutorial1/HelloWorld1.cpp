@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -25,9 +25,9 @@
 
 #include "HelloWorld1.h"
 
-bool NFCHelloWorld1::Init()
+bool NFHelloWorld1::Init()
 {
-	std::cout << typeid(NFCHelloWorld1).name() << std::endl;
+	std::cout << typeid(NFHelloWorld1).name() << std::endl;
 
     
     std::cout << "Hello, world1, Init" << std::endl;
@@ -35,15 +35,28 @@ bool NFCHelloWorld1::Init()
     return true;
 }
 
-bool NFCHelloWorld1::AfterInit()
+bool NFHelloWorld1::AfterInit()
 {
     
     std::cout << "Hello, world1, AfterInit" << std::endl;
 
+
+	NFDataList dataList;
+	dataList.Add("1");
+	dataList.AddFloat(2.0f);
+	dataList.AddObject(NFGUID(3,3));
+	dataList.AddVector2(NFVector2(4.0f, 4.0f));
+
+	for (int i = 0; i < dataList.GetCount(); ++i)
+	{
+		std::cout << dataList.ToString(i) << std::endl;
+	}
+
+
     return true;
 }
 
-bool NFCHelloWorld1::Execute()
+bool NFHelloWorld1::Execute()
 {
     
     //std::cout << "Hello, world1, Execute" << std::endl;
@@ -51,7 +64,7 @@ bool NFCHelloWorld1::Execute()
     return true;
 }
 
-bool NFCHelloWorld1::BeforeShut()
+bool NFHelloWorld1::BeforeShut()
 {
     std::cout << "Hello, world1, BeforeShut1111" << std::endl;
 
@@ -63,7 +76,7 @@ bool NFCHelloWorld1::BeforeShut()
     return true;
 }
 
-bool NFCHelloWorld1::Shut()
+bool NFHelloWorld1::Shut()
 {
     
     std::cout << "Hello, world1, Shut" << std::endl;

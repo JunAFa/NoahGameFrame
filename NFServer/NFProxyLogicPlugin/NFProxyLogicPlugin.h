@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -22,8 +22,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-#ifndef NFC_PROXYSERVERPLUGIN_H
-#define NFC_PROXYSERVERPLUGIN_H
+#ifndef NF_PROXYSERVERPLUGIN_H
+#define NF_PROXYSERVERPLUGIN_H
 
 #include "NFComm/NFPluginModule/NFIPlugin.h"
 #include "NFComm/NFPluginModule/NFIPluginManager.h"

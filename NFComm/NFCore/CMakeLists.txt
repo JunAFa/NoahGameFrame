@@ -8,10 +8,10 @@ file(GLOB NFCore_ROOT_H
 add_library(NFCore STATIC ${NFCore_ROOT_Cpp} ${NFCore_ROOT_H} ${NFCore_ROOT_Hpp})
 
 add_definitions(-DNF_NONCLIENT_BUILD)
-set_target_properties( NFCore PROPERTIES OUTPUT_NAME_DEBUG "NFCore_d")
+set_target_properties( NFCore PROPERTIES OUTPUT_NAME_DEBUG "NFCore")
 set_target_properties( NFCore PROPERTIES PREFIX "")
 set_target_properties( NFCore PROPERTIES 
-	FOLDER "NFSDK"
+	FOLDER "NFComm/NFCore"
 	ARCHIVE_OUTPUT_DIRECTORY ${NFOutPutDir}
 	RUNTIME_OUTPUT_DIRECTORY ${NFOutPutDir}
 	LIBRARY_OUTPUT_DIRECTORY ${NFOutPutDir} )

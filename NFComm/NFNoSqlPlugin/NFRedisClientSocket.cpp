@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -28,10 +28,6 @@
 
 #if NF_PLATFORM == NF_PLATFORM_WIN
 
-#ifndef LIBEVENT_SRC
-#pragma  comment(lib,"libevent.lib")
-#pragma  comment(lib,"libevent_core.lib")
-#endif
 #elif NF_PLATFORM == NF_PLATFORM_APPLE
 #include <arpa/inet.h>
 #endif
@@ -41,6 +37,11 @@
 
 NFRedisClientSocket::NFRedisClientSocket()
 {
+	bev = nullptr;
+	base = nullptr;
+	listener = nullptr;
+	m_pRedisReader = nullptr;
+
 	mNetStatus = NF_NET_EVENT::NF_NET_EVENT_NONE;
 	m_pRedisReader = redisReaderCreate();
 	fd_ = -1;
@@ -78,12 +79,13 @@ NFRedisClientSocket::~NFRedisClientSocket()
 int64_t NFRedisClientSocket::Connect(const std::string &ip, const int port)
 {
 	struct sockaddr_in addr;
+	std::string realIP = GetIP(ip);
 
 	memset(&addr, 0, sizeof(addr));
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(port);
 
-	if (evutil_inet_pton(AF_INET, ip.c_str(), &addr.sin_addr) <= 0)
+	if (evutil_inet_pton(AF_INET, realIP.c_str(), &addr.sin_addr) <= 0)
 	{
 		printf("inet_pton");
 		return -1;
@@ -206,4 +208,43 @@ void NFRedisClientSocket::conn_eventcb(bufferevent * bev, short events, void * u
 
 void NFRedisClientSocket::log_cb(int severity, const char * msg)
 {
+}
+
+string NFRedisClientSocket::GetIP(const std::string& url)
+{
+	std::vector<std::string> ips;
+#pragma warning(disable: 4996)
+	struct hostent* host = gethostbyname(url.c_str());
+#pragma warning(default: 4996)
+	if (!host)
+	{
+		return "";
+	}
+
+	//Aliases
+	for (int i = 0; host->h_aliases[i]; i++)
+	{
+		printf("Aliases %d: %s\n", i + 1, host->h_aliases[i]);
+	}
+
+	//ip address type
+	printf("Address type: %s\n", (host->h_addrtype == AF_INET) ? "AF_INET" : "AF_INET6");
+
+	//ip address
+	for (int i = 0; host->h_addr_list[i]; i++)
+	{
+#pragma warning(disable: 4996)
+		char* ip = inet_ntoa(*(struct in_addr*)host->h_addr_list[i]);
+#pragma warning(default: 4996)
+		printf("IP addr %d: %s\n", i, ip);
+
+		ips.push_back(ip);
+	}
+
+	if (ips.empty())
+	{
+		return "";
+	}
+
+	return ips[0];
 }

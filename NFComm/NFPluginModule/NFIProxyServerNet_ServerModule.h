@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -36,7 +36,7 @@ class NFIProxyServerNet_ServerModule
 {
 
 public:
-    virtual int Transpond(const NFSOCK nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen) = 0;
+    virtual int Transport(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len) = 0;
     virtual int EnterGameSuccessEvent(const NFGUID xClientID, const NFGUID xPlayerID) = 0;
 };
 

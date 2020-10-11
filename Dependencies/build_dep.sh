@@ -1,111 +1,73 @@
-echo Building dependencies...
 
-sudo apt-get install automake
-sudo apt-get install zip unzip
-
-rm -rf ./lib
-mkdir -p lib/Debug/
-mkdir -p lib/Release/
-
-sudo apt-get install libssl-dev
-sudo apt-get install libreadline-dev 
-#cd openssl-1.1.0h
-#rm -rf *.a
-#chmod -R 755 *
-#./config no-shared
-#make depend
-#make
-#cp -r -f ./*.a ../lib/Debug/
-#cp -r -f ./*.a ../lib/Release/
-#cd ../
-
-# compiling libevent
-cd libevent
-make clean
-chmod +x ./configure
-#./configure --disable-shared --disable-openssl
-./configure --disable-shared --disable-openssl
-make
-
-cp -R -f ./.libs/*.a ../lib/Debug/
-cp -R -f ./.libs/*.a ../lib/Release/
-
-cd ../
-
-
-# compiling protobuf
-cd protobuf
-make clean
-chmod -R 755 *
-./configure --disable-shared
-make
-make check
-
-cp -r -f ./src/.libs/*.a ../lib/Debug/
-cp -r -f ./src/.libs/*.a ../lib/Release/
-
-cd ../
-
-# compiling Theron
-cd Theron
-chmod -R 755 *
-make library mode=debug boost=off c++11=on posix=on shared=off
-cp -r -f ./Lib/*.a ../lib/Debug/
-
-make clean
-make library mode=release boost=off c++11=on posix=on shared=off
-cp -r -f ./Lib/*.a ../lib/Release/
-make clean
-cd ../
-
-# compiling lua
-echo Building lua...
-cd lua
-
-sysOS=`uname -s`
-if [ $sysOS == "Darwin" ];then
-    make macosx test
-elif [ $sysOS == "Linux" ];then
-    make linux test
+if grep -Eqi "CentOS" /etc/issue || grep -Eq "CentOS" /etc/*-release; then
+    DISTRO='CentOS'
+    PM='yum'
+elif grep -Eqi "Red Hat Enterprise Linux Server" /etc/issue || grep -Eq "Red Hat Enterprise Linux Server" /etc/*-release; then
+    DISTRO='RHEL'
+    PM='yum'
+elif grep -Eqi "Aliyun" /etc/issue || grep -Eq "Aliyun" /etc/*-release; then
+    DISTRO='Aliyun'
+    PM='yum'
+elif grep -Eqi "Fedora" /etc/issue || grep -Eq "Fedora" /etc/*-release; then
+    DISTRO='Fedora'
+    PM='yum'
+elif grep -Eqi "Debian" /etc/issue || grep -Eq "Debian" /etc/*-release; then
+    DISTRO='Debian'
+    PM='apt-get'
+elif grep -Eqi "Ubuntu" /etc/issue || grep -Eq "Ubuntu" /etc/*-release; then
+    DISTRO='Ubuntu'
+    PM='apt-get'
+elif grep -Eqi "Raspbian" /etc/issue || grep -Eq "Raspbian" /etc/*-release; then
+    DISTRO='Raspbian'
+    PM='apt-get'
+else
+    DISTRO='unknow'
 fi
 
-cp -r -f ./*.a ../lib/Debug/
-cp -r -f ./*.a ../lib/Release/
-cd ../
-echo Building lua finish...
 
-# compiling hiredis
-echo Building hiredis...
-chmod 777 build_hiredis.sh
+sysOS=`uname -s`
+
+if [ $sysOS == "Darwin" ];then
+    brew install gcc@7
+elif [ $sysOS == "Linux" ];then
+    if [ $DISTRO == "Debian" ] || [ $DISTRO == "Ubuntu" ] || [ $DISTRO == "Raspbian" ]; then
+        sudo apt-get install g++-7
+        sudo apt-get install libtool
+        sudo apt-get install libstdc++-static
+        sudo apt-get install libreadline6-dev 
+        sudo apt-get install libncurses5-dev
+    else
+        sudo yum -y install centos-release-scl
+		sudo yum -y install devtoolset-7
+		sudo scl enable devtoolset-7 bash 
+        sudo yum -y install libtool
+        sudo yum -y install readline-devel
+        sudo yum -y install ncurses-devel
+        sudo yum -y install libstdc++-static
+    fi
+
+fi
+
+mkdir lib
+mkdir ./lib/Release/
+mkdir ./lib/Debug/
+
+git submodule update --init --recursive
+
+chmod 777 *.sh
+
 ./build_hiredis.sh
-echo Building hiredis finish...
+./build_vcpkg.sh
 
+if [ $sysOS == "Darwin" ];then
+    cp -r -f ./vcpkg/installed/x64-osx/lib/* ./lib/Release/
+    cp -r -f ./vcpkg/installed/x64-osx/debug/lib/* ./lib/Debug/
 
+    cp -r -f ./vcpkg/installed/x64-osx/tools/protobuf/* ../NFComm/NFMessageDefine/
 
+elif [ $sysOS == "Linux" ];then
+    cp -r -f ./vcpkg/installed/x64-linux/lib/* ./lib/Release/
+    cp -r -f ./vcpkg/installed/x64-linux/debug/lib/* ./lib/Debug/
 
-# TODO: other libs
-#unzip -o gperftools-2.5.zip -d ./
-#cd gperftools-2.5
-#chmod -R 755 *
-#./configure --enable-frame-pointers
-#make && make install
-
-#cp -R -f ./.libs/*.a ../lib/Debug/
-#cp -R -f ./.libs/*.a ../lib/Release/
-
-#cp -r -f ./.libs/*.so ../../_Out/Debug/
-#cp -r -f ./.libs/*.so.* ../../_Out/Debug/
-#cp -r -f ./.libs/*.so ../../_Out/Release/
-#cp -r -f ./.libs/*.so.* ../../_Out/Release/
-
-#cp -r -f ./.libs/*.dylib ../../_Out/Debug/
-#cp -r -f ./.libs/*.dylib.* ../../_Out/Debug/
-#cp -r -f ./.libs/*.dylib ../../_Out/Release/
-#cp -r -f ./.libs/*.dylib.* ../../_Out/Release/
-#cd ../
-
-#-ltcmalloc
-#-lprofiler
-
-# back to main dir
-pwd
+    cp -r -f ./vcpkg/installed/x64-linux/tools/protobuf/* ../NFComm/NFMessageDefine/
+fi

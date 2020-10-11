@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -56,6 +56,7 @@ class NFRedisClient : public NFIRedisClient
 {
 public:
 	NFRedisClient();
+	virtual ~NFRedisClient() {}
 
 	virtual bool Connect(const std::string& ip, const int port, const std::string& auth = "");
 
@@ -511,10 +512,10 @@ public:
 	/**
 	* @brief cmd SCARD
 	* @param key [in] name of key
-	* @param nCount [out] the size of set
+	* @param count [out] the size of set
 	* @return return true when cmd success.
 	*/
-	virtual bool SCARD(const std::string& key, int& nCount);
+	virtual bool SCARD(const std::string& key, int& count);
 
 	/**
 	* @brief cmd SDIFF
@@ -638,7 +639,7 @@ public:
 	* @param key [in] name of key
 	* @return return the number( of elements) of the sorted set, or 0 if key does not exist or not a z key
 	*/
-	virtual bool ZCARD(const std::string& key, int &nCount);
+	virtual bool ZCARD(const std::string& key, int &count);
 
 	/**
 	* @brief Returns the number of elements in the sorted set at key with a score between min and max.
@@ -647,7 +648,7 @@ public:
 	* @param end [in]
 	* @return the number of elements in the specified score range, or 0 if key does not exist or not a z key
 	*/
-	virtual bool ZCOUNT(const std::string& key, const double start, const double end, int &nCount);
+	virtual bool ZCOUNT(const std::string& key, const double start, const double end, int &count);
 
 	/**
 	* @brief Increments the score of member in the sorted set stored at key by increment
@@ -799,8 +800,8 @@ protected:
 
 private:
 
-	bool bAuthed;
-	bool bBusy;
+	bool mbAuthed;
+	bool mbBusy;
 	NFRedisClientSocket* m_pRedisClientSocket;
 };
 

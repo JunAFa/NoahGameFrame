@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -25,15 +25,14 @@
 
 
 #include "NFGameServerPlugin.h"
-#include "NFCGameServerModule.h"
-#include "NFCSceneProcessModule.h"
-#include "NFCPropertyModule.h"
-#include "NFCLevelModule.h"
-#include "NFCPropertyConfigModule.h"
-#include "NFCNPCRefreshModule.h"
-#include "NFCSwitchGameServerModule.h"
+#include "NFGameServerModule.h"
+#include "NFSceneProcessModule.h"
+#include "NFPropertyModule.h"
+#include "NFPropertyConfigModule.h"
+#include "NFNPCRefreshModule.h"
+#include "NFSyncModule.h"
+#include "NFCreateRoleModule.h"
 
-class NFCSwitchGameServerModule;
 
 #ifdef NF_DYNAMIC_PLUGIN
 
@@ -63,22 +62,22 @@ const std::string NFGameServerPlugin::GetPluginName()
 void NFGameServerPlugin::Install()
 {
 
-    REGISTER_MODULE(pPluginManager, NFIGameServerModule, NFCGameServerModule)
-    REGISTER_MODULE(pPluginManager, NFISceneProcessModule, NFCSceneProcessModule)
-    REGISTER_MODULE(pPluginManager, NFISwitchGameServerModule, NFCSwitchGameServerModule);
-    REGISTER_MODULE(pPluginManager, NFIPropertyModule, NFCPropertyModule)
-    REGISTER_MODULE(pPluginManager, NFILevelModule, NFCLevelModule)
-    REGISTER_MODULE(pPluginManager, NFIPropertyConfigModule, NFCPropertyConfigModule)
-    REGISTER_MODULE(pPluginManager, NFINPCRefreshModule, NFCNPCRefreshModule)
+    REGISTER_MODULE(pPluginManager, NFIGameServerModule, NFGameServerModule)
+    REGISTER_MODULE(pPluginManager, NFISceneProcessModule, NFSceneProcessModule)
+    REGISTER_MODULE(pPluginManager, NFIPropertyModule, NFPropertyModule)
+    REGISTER_MODULE(pPluginManager, NFIPropertyConfigModule, NFPropertyConfigModule)
+	REGISTER_MODULE(pPluginManager, NFINPCRefreshModule, NFNPCRefreshModule)
+	REGISTER_MODULE(pPluginManager, NFISyncModule, NFSyncModule)
+	REGISTER_MODULE(pPluginManager, NFICreateRoleModule, NFCreateRoleModule)
 }
 
 void NFGameServerPlugin::Uninstall()
 {
-	UNREGISTER_MODULE(pPluginManager, NFINPCRefreshModule, NFCNPCRefreshModule)
-	UNREGISTER_MODULE(pPluginManager, NFIPropertyConfigModule, NFCPropertyConfigModule)
-    UNREGISTER_MODULE(pPluginManager, NFILevelModule, NFCLevelModule)
-    UNREGISTER_MODULE(pPluginManager, NFIPropertyModule, NFCPropertyModule)
-    UNREGISTER_MODULE(pPluginManager, NFISwitchGameServerModule, NFCSwitchGameServerModule);
-    UNREGISTER_MODULE(pPluginManager, NFISceneProcessModule, NFCSceneProcessModule)
-    UNREGISTER_MODULE(pPluginManager, NFIGameServerModule, NFCGameServerModule)
+	UNREGISTER_MODULE(pPluginManager, NFICreateRoleModule, NFCreateRoleModule)
+	UNREGISTER_MODULE(pPluginManager, NFISyncModule, NFSyncModule)
+	UNREGISTER_MODULE(pPluginManager, NFINPCRefreshModule, NFNPCRefreshModule)
+	UNREGISTER_MODULE(pPluginManager, NFIPropertyConfigModule, NFPropertyConfigModule)
+    UNREGISTER_MODULE(pPluginManager, NFIPropertyModule, NFPropertyModule)
+    UNREGISTER_MODULE(pPluginManager, NFISceneProcessModule, NFSceneProcessModule)
+    UNREGISTER_MODULE(pPluginManager, NFIGameServerModule, NFGameServerModule)
 }

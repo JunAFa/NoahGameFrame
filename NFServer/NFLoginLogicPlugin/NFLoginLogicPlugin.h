@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -23,8 +23,8 @@
    limitations under the License.
 */
 
-#ifndef NFC_LOGINLOGICPLUGIN_MODULE_H
-#define NFC_LOGINLOGICPLUGIN_MODULE_H
+#ifndef NF_LOGINLOGICPLUGIN_MODULE_H
+#define NF_LOGINLOGICPLUGIN_MODULE_H
 
 #include "NFComm/NFPluginModule/NFIPlugin.h"
 #include "NFComm/NFPluginModule/NFIPluginManager.h"

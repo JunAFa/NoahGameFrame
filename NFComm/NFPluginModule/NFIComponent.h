@@ -1,9 +1,9 @@
-/*
+﻿/*
             This file is part of: 
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -28,32 +28,138 @@
 
 #include "NFPlatform.h"
 #include "NFGUID.h"
-#include "NFIActor.h"
+#include "NFIModule.h"
+#include "NFComm/NFCore/NFMemoryCounter.h"
 
-class NFIComponent
+class NFActorMessage;
+class NFIComponent;
+
+typedef std::function<void(NFActorMessage&)> ACTOR_PROCESS_FUNCTOR;
+typedef NF_SHARE_PTR<ACTOR_PROCESS_FUNCTOR> ACTOR_PROCESS_FUNCTOR_PTR;
+
+class NFActorMessage
+{
+public:
+	NFActorMessage()
+	{
+		msgID = 0;
+		index = 0;
+	}
+
+	int msgID;
+	uint64_t index;
+    NFGUID id;
+	std::string data;
+	std::string arg;
+protected:
+private:
+};
+
+class NFIActor// : NFMemoryCounter
+{
+public:
+	NFIActor()
+		//: NFMemoryCounter(GET_CLASS_NAME(NFIActor), 1)
+	{
+
+	}
+
+	virtual ~NFIActor() {}
+	virtual const NFGUID ID() = 0;
+    virtual bool Execute() = 0;
+
+	template <typename T>
+	NF_SHARE_PTR<T> AddComponent()
+	{
+		NF_SHARE_PTR<NFIComponent> component = FindComponent(typeid(T).name());
+		if (component)
+		{
+			return NULL;
+		}
+
+		{
+			if (!TIsDerived<T, NFIComponent>::Result)
+			{
+				return NULL;
+			}
+
+			NF_SHARE_PTR<T> component = NF_SHARE_PTR<T>(NF_NEW T());
+
+			assert(NULL != component);
+
+			AddComponent(component);
+
+			return component;
+		}
+
+		return nullptr;
+	}
+
+
+
+	template <typename T>
+	NF_SHARE_PTR<T> FindComponent()
+	{
+		NF_SHARE_PTR<NFIComponent> component = FindComponent(typeid(T).name());
+		if (component)
+		{
+			NF_SHARE_PTR<T> pT = std::dynamic_pointer_cast<T>(component);
+
+			assert(NULL != pT);
+
+			return pT;
+		}
+
+		return nullptr;
+	}
+	
+	template <typename T>
+	bool RemoveComponent()
+	{
+		return RemoveComponent(typeid(T).name());
+	}
+
+	virtual bool SendMsg(const NFActorMessage& message) = 0;
+	virtual bool SendMsg(const int eventID, const std::string& data, const std::string& arg = "") = 0;
+	virtual bool BackMsgToMainThread(const NFActorMessage& message) = 0;
+
+	virtual bool AddMessageHandler(const int nSubMsgID, ACTOR_PROCESS_FUNCTOR_PTR xBeginFunctor) = 0;
+
+protected:
+	virtual bool AddComponent(NF_SHARE_PTR<NFIComponent> component) = 0;
+	virtual bool RemoveComponent(const std::string& componentName) = 0;
+	virtual NF_SHARE_PTR<NFIComponent> FindComponent(const std::string& componentName) = 0;
+
+};
+
+class NFIComponent// : NFMemoryCounter
 {
 private:
     NFIComponent()
+		//: NFMemoryCounter(GET_CLASS_NAME(NFIComponent), 1)
     {
     }
 
 public:
-    NFIComponent(const std::string& strName)
+    NFIComponent(const std::string& name)
+		//: NFMemoryCounter(name, 1)
     {
         mbEnable = true;
-        mstrName = strName;
+        mstrName = name;
     }
 
     virtual ~NFIComponent() {}
 
-	virtual void SetActor(NFIActor* self)
+	virtual void SetActor(NF_SHARE_PTR<NFIActor> self)
 	{
 		mSelf = self;
 	}
-	virtual NFIActor* GetActor()
+
+	virtual NF_SHARE_PTR<NFIActor> GetActor()
 	{
 		return mSelf;
 	}
+
 	virtual bool Awake()
 	{
 		return true;
@@ -117,31 +223,25 @@ public:
         return mstrName;
     };
 
-
-	template<typename BaseType>
-	bool AddMsgObserver(const int nSubMessage, BaseType* pBase, int (BaseType::*handler)(const int, const int, std::string&))
+	virtual void ToMemoryCounterString(std::string& info)
 	{
-		ACTOR_PROCESS_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-		ACTOR_PROCESS_FUNCTOR_PTR functorPtr(new ACTOR_PROCESS_FUNCTOR(functor));
-
-		return mSelf->AddBeginFunc(nSubMessage, functorPtr);
+		info.append(mSelf->ID().ToString());
+		info.append(":");
+		info.append(mstrName);
 	}
 
-	template <typename T>
-	NF_SHARE_PTR<T> FindComponent(const std::string& strName)
+	template<typename BaseType>
+	bool AddMsgHandler(const int nSubMessage, BaseType* pBase, int (BaseType::*handler)(NFActorMessage&))
 	{
-		if (!TIsDerived<T, NFIComponent>::Result)
-		{
-			//BaseTypeComponent must inherit from NFIComponent;
-			return NF_SHARE_PTR<T>();
-		}
-
-		return mSelf->FindComponent(strName);
+		ACTOR_PROCESS_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1);
+		ACTOR_PROCESS_FUNCTOR_PTR functorPtr(new ACTOR_PROCESS_FUNCTOR(functor));
+		
+		return mSelf->AddMessageHandler(nSubMessage, functorPtr);
 	}
 
 private:
     bool mbEnable;
-	NFIActor* mSelf;
+	NF_SHARE_PTR<NFIActor> mSelf;
     std::string mstrName;
 };
 

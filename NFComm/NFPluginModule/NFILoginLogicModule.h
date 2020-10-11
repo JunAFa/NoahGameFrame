@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -33,7 +33,7 @@ class NFILoginLogicModule
     : public NFIModule
 {
 public:
-    virtual void OnLoginProcess(const NFSOCK nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen) = 0;
+    virtual void OnLoginProcess(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len) = 0;
 
 };
 

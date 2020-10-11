@@ -4,13 +4,15 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
+        
         {
             "name": "GameServer",
             "type": "cppdbg",
             "request": "launch",
             //"request": "attach",
-            "program": "${workspaceFolder}/_Out/Debug/NFPluginLoader_d",
-            "args": ["Server=GameServer", "ID=6", "PluginX.xml"],
+            "program": "${workspaceFolder}/_Out/Debug/NFServer",
+            "args": ["Server=GameServer", "ID=6", "Plugin=Plugin.xml"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/_Out/Debug/",
             "environment": [],
@@ -23,8 +25,8 @@
             "type": "cppdbg",
             "request": "launch",
             //"request": "attach",
-            "program": "${workspaceFolder}/_Out/Debug/NFPluginLoader_d",
-            "args": ["Server=WorldServer", "ID=7", "PluginX.xml"],
+            "program": "${workspaceFolder}/_Out/Debug/NFServer",
+            "args": ["Server=WorldServer", "ID=7", "Plugin=Plugin.xml"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/_Out/Debug/",
             "environment": [],
@@ -37,8 +39,8 @@
             "type": "cppdbg",
             "request": "launch",
             //"request": "attach",
-            "program": "${workspaceFolder}/_Out/Debug/NFPluginLoader_d",
-            "args": ["Server=ProxyServer", "ID=5", "PluginX.xml"],
+            "program": "${workspaceFolder}/_Out/Debug/NFServer",
+            "args": ["Server=ProxyServer", "ID=5", "Plugin=Plugin.xml"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/_Out/Debug/",
             "environment": [],
@@ -51,8 +53,8 @@
             "type": "cppdbg",
             "request": "launch",
             //"request": "attach",
-            "program": "${workspaceFolder}/_Out/Debug/NFPluginLoader_d",
-            "args": ["Server=DBServer", "ID=8", "PluginX.xml"],
+            "program": "${workspaceFolder}/_Out/Debug/NFServer",
+            "args": ["Server=DBServer", "ID=8", "Plugin=Plugin.xml"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/_Out/Debug/",
             "environment": [],
@@ -65,8 +67,8 @@
             "type": "cppdbg",
             "request": "launch",
             //"request": "attach",
-            "program": "${workspaceFolder}/_Out/Debug/NFPluginLoader_d",
-            "args": ["Server=MasterServer", "ID=3", "PluginX.xml"],
+            "program": "${workspaceFolder}/_Out/Debug/NFServer",
+            "args": ["Server=MasterServer", "ID=3", "Plugin=Plugin.xml"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/_Out/Debug/",
             "environment": [],
@@ -79,8 +81,8 @@
             "type": "cppdbg",
             "request": "launch",
             //"request": "attach",
-            "program": "${workspaceFolder}/_Out/Debug/NFPluginLoader_d",
-            "args": ["Server=LoginServer", "ID=4", "PluginX.xml"],
+            "program": "${workspaceFolder}/_Out/Debug/NFServer",
+            "args": ["Server=LoginServer", "ID=4", "Plugin=Plugin.xml"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/_Out/Debug/",
             "environment": [],
@@ -89,12 +91,20 @@
             "MIMode": "lldb"
         },
         {
-            "name": "NetServer",
+            "name": "ATTACH TO DEBUG NF",
+            "type": "cppdbg",
+            "request": "attach",
+            "program": "${workspaceFolder}/_Out/Debug/NFServer",
+            "processId": "${command:pickProcess}",
+            "MIMode": "lldb"
+        },
+        {
+            "name": "BluePrint",
             "type": "cppdbg",
             "request": "launch",
             //"request": "attach",
-            "program": "${workspaceFolder}/_Out/Debug/NFNetSvr",
-            "args": ["Server=GameServer", "ID=3", "PluginX.xml"],
+            "program": "${workspaceFolder}/_Out/Debug/NFServer",
+            "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/_Out/Debug/",
             "environment": [],
@@ -103,18 +113,18 @@
             "MIMode": "lldb"
         },
         {
-            "name": "NetClient",
+            "name": "FileProcess",
             "type": "cppdbg",
             "request": "launch",
             //"request": "attach",
-            "program": "${workspaceFolder}/_Out/Debug/NFNetCli",
-            "args": ["Server=GameServer", "ID=3", "PluginX.xml"],
+            "program": "${workspaceFolder}/_Out/NFDataCfg/Tool/NFFileProcess",
+            "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/_Out/Debug/",
+            "cwd": "${workspaceFolder}/_Out/NFDataCfg/Tool/",
             "environment": [],
             "externalConsole": true,
             //for mac lldb
             "MIMode": "lldb"
-        }
+        },
     ]
 }

@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -54,11 +54,11 @@ const std::string Tutorial3Plugin::GetPluginName()
 void Tutorial3Plugin::Install()
 {
 
-    REGISTER_MODULE(pPluginManager, NFIHelloWorld3Module, NFCHelloWorld3Module)
+    REGISTER_MODULE(pPluginManager, NFIHelloWorld3Module, NFHelloWorld3Module)
 
 }
 
 void Tutorial3Plugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, NFIHelloWorld3Module, NFCHelloWorld3Module)
+    UNREGISTER_MODULE(pPluginManager, NFIHelloWorld3Module, NFHelloWorld3Module)
 }

@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -242,6 +242,10 @@ bool NFRedisClient::HMGET(const std::string &key, const string_vector &fields, s
 			{
 				values.emplace_back(std::move(std::string(pReply->element[k]->str, pReply->element[k]->len)));
 			}
+			else if (pReply->element[k]->type == REDIS_REPLY_NIL)
+			{
+				values.emplace_back("");
+			}
 		}
 	}
 
@@ -304,13 +308,19 @@ bool NFRedisClient::HSET(const std::string &key, const std::string &field, const
 		return false;
 	}
 
-	bool success = false;
+	//bool success = false;
 	if (pReply->type == REDIS_REPLY_INTEGER)
 	{
-		success = (bool)pReply->integer;
+		 //success = (bool)pReply->integer;
+		/*
+		Return value
+		Integer reply, specifically:
+		1 if field is a new field in the hash and value was set.
+		0 if field already exists in the hash and the value was updated.
+		*/
 	}
 
-	return success;
+	return true;
 }
 
 bool NFRedisClient::HSETNX(const std::string &key, const std::string &field, const std::string &value)

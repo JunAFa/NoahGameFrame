@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -43,7 +43,6 @@
 
 #if NF_PLATFORM == NF_PLATFORM_WIN
 #include <WinSock2.h>
-#include <windows.h>
 #elif NF_PLATFORM == NF_PLATFORM_APPLE || NF_PLATFORM == NF_PLATFORM_LINUX || NF_PLATFORM == NF_PLATFORM_ANDROID
 
 #if NF_PLATFORM == NF_PLATFORM_APPLE
@@ -52,12 +51,12 @@
 
 #endif
 
-#include <netinet/in.h>
-
 #ifdef _XOPEN_SOURCE_EXTENDED
 #  include <arpa/inet.h>
 # endif
 
+#include <netinet/in.h>
+#include <netinet/tcp.h> 
 #include <sys/socket.h>
 #include <unistd.h>
 
@@ -88,13 +87,13 @@ struct NFIMsgHead
 
     virtual uint16_t GetMsgID() const = 0;
 
-    virtual void SetMsgID(uint16_t nMsgID) = 0;
+    virtual void SetMsgID(uint16_t msgID) = 0;
 
     virtual uint32_t GetBodyLength() const = 0;
 
-    virtual void SetBodyLength(uint32_t nLength) = 0;
+    virtual void SetBodyLength(uint32_t length) = 0;
 
-    int64_t NF_HTONLL(int64_t nData)
+    static int64_t NF_HTONLL(int64_t nData)
     {
 #if NF_PLATFORM == NF_PLATFORM_WIN
         return htonll(nData);
@@ -105,7 +104,7 @@ struct NFIMsgHead
 #endif
     }
 
-    int64_t NF_NTOHLL(int64_t nData)
+    static int64_t NF_NTOHLL(int64_t nData)
     {
 #if NF_PLATFORM == NF_PLATFORM_WIN
         return ntohll(nData);
@@ -118,7 +117,7 @@ struct NFIMsgHead
 #endif
     }
 
-    int32_t NF_HTONL(int32_t nData)
+    static int32_t NF_HTONL(int32_t nData)
     {
 #if NF_PLATFORM == NF_PLATFORM_WIN
         return htonl(nData);
@@ -129,7 +128,7 @@ struct NFIMsgHead
 #endif
     }
 
-    int32_t NF_NTOHL(int32_t nData)
+    static int32_t NF_NTOHL(int32_t nData)
     {
 #if NF_PLATFORM == NF_PLATFORM_WIN
         return ntohl(nData);
@@ -142,7 +141,7 @@ struct NFIMsgHead
 #endif
     }
 
-    int16_t NF_HTONS(int16_t nData)
+    static int16_t NF_HTONS(int16_t nData)
     {
 #if NF_PLATFORM == NF_PLATFORM_WIN
         return htons(nData);
@@ -153,7 +152,7 @@ struct NFIMsgHead
 #endif
     }
 
-    int16_t NF_NTOHS(int16_t nData)
+    static int16_t NF_NTOHS(int16_t nData)
     {
 #if NF_PLATFORM == NF_PLATFORM_WIN
         return ntohs(nData);
@@ -168,13 +167,13 @@ struct NFIMsgHead
 
 };
 
-class NFCMsgHead : public NFIMsgHead
+class NFMsgHead : public NFIMsgHead
 {
 public:
-    NFCMsgHead()
+    NFMsgHead()
     {
         munSize = 0;
-        munMsgID = 0;
+        mumsgID = 0;
     }
 
     // Message Head[ MsgID(2) | MsgSize(4) ]
@@ -182,9 +181,9 @@ public:
     {
         uint32_t nOffset = 0;
 
-        uint16_t nMsgID = NF_HTONS(munMsgID);
-        memcpy(strData + nOffset, (void*) (&nMsgID), sizeof(munMsgID));
-        nOffset += sizeof(munMsgID);
+        uint16_t msgID = NF_HTONS(mumsgID);
+        memcpy(strData + nOffset, (void*) (&msgID), sizeof(mumsgID));
+        nOffset += sizeof(mumsgID);
 
         uint32_t nPackSize = munSize + NF_HEAD_LENGTH;
         uint32_t nSize = NF_HTONL(nPackSize);
@@ -204,10 +203,10 @@ public:
     {
         uint32_t nOffset = 0;
 
-        uint16_t nMsgID = 0;
-        memcpy(&nMsgID, strData + nOffset, sizeof(munMsgID));
-        munMsgID = NF_NTOHS(nMsgID);
-        nOffset += sizeof(munMsgID);
+        uint16_t msgID = 0;
+        memcpy(&msgID, strData + nOffset, sizeof(mumsgID));
+        mumsgID = NF_NTOHS(msgID);
+        nOffset += sizeof(mumsgID);
 
         uint32_t nPackSize = 0;
         memcpy(&nPackSize, strData + nOffset, sizeof(munSize));
@@ -224,12 +223,12 @@ public:
 
     virtual uint16_t GetMsgID() const
     {
-        return munMsgID;
+        return mumsgID;
     }
 
-    virtual void SetMsgID(uint16_t nMsgID)
+    virtual void SetMsgID(uint16_t msgID)
     {
-        munMsgID = nMsgID;
+        mumsgID = msgID;
     }
 
     virtual uint32_t GetBodyLength() const
@@ -237,23 +236,22 @@ public:
         return munSize;
     }
 
-    virtual void SetBodyLength(uint32_t nLength)
+    virtual void SetBodyLength(uint32_t length)
     {
-        munSize = nLength;
+        munSize = length;
     }
 
 protected:
     uint32_t munSize;
-    uint16_t munMsgID;
+    uint16_t mumsgID;
 };
 
 class NFINet;
 
-typedef std::function<void(const NFSOCK nSockIndex, const int nMsgID, const char* msg,
-                           const uint32_t nLen)> NET_RECEIVE_FUNCTOR;
+typedef std::function<void(const NFSOCK sockIndex, const int msgID, const char* msg, const uint32_t len)> NET_RECEIVE_FUNCTOR;
 typedef std::shared_ptr<NET_RECEIVE_FUNCTOR> NET_RECEIVE_FUNCTOR_PTR;
 
-typedef std::function<void(const NFSOCK nSockIndex, const NF_NET_EVENT nEvent, NFINet* pNet)> NET_EVENT_FUNCTOR;
+typedef std::function<void(const NFSOCK sockIndex, const NF_NET_EVENT nEvent, NFINet* pNet)> NET_EVENT_FUNCTOR;
 typedef std::shared_ptr<NET_EVENT_FUNCTOR> NET_EVENT_FUNCTOR_PTR;
 
 typedef std::function<void(int severity, const char* msg)> NET_EVENT_LOG_FUNCTOR;
@@ -280,33 +278,33 @@ public:
     {
     }
 	
-    int AddBuff(const char* str, size_t nLen)
+    int AddBuff(const char* str, size_t len)
     {
-        mstrBuff.append(str, nLen);
+        mstrBuff.append(str, len);
 
         return (int) mstrBuff.length();
     }
 
-    int CopyBuffTo(char* str, uint32_t nStart, uint32_t nLen)
+    int CopyBuffTo(char* str, uint32_t nStart, uint32_t len)
     {
-        if (nStart + nLen > mstrBuff.length())
+        if (nStart + len > mstrBuff.length())
         {
             return 0;
         }
 
-        memcpy(str, mstrBuff.data() + nStart, nLen);
+        memcpy(str, mstrBuff.data() + nStart, len);
 
-        return nLen;
+        return len;
     }
 
-    int RemoveBuff(uint32_t nStart, uint32_t nLen)
+    int RemoveBuff(uint32_t nStart, uint32_t len)
     {
-        if (nStart + nLen > mstrBuff.length())
+        if (nStart + len > mstrBuff.length())
         {
             return 0;
         }
 
-        mstrBuff.erase(nStart, nLen);
+        mstrBuff.erase(nStart, len);
 
         return (int) mstrBuff.length();
     }
@@ -420,6 +418,7 @@ public:
 private:
     sockaddr_in sin;
     void* m_pUserData;
+    //ringbuff
     std::string mstrBuff;
     std::string mstrUserData;
     std::string mstrSecurityKey;
@@ -444,29 +443,33 @@ public:
     //need to call this function every frame to drive network library
     virtual bool Execute() = 0;
 
-    virtual void Initialization(const char* strIP, const unsigned short nPort) = 0;
+    //as client
+    virtual void Initialization(const char* ip, const unsigned short nPort) = 0;
 
+    //as server
     virtual int Initialization(const unsigned int nMaxClient, const unsigned short nPort, const int nCpuCount = 4) = 0;
 
-    virtual int ExpandBufferSize(const unsigned int size) = 0;
+    virtual unsigned int ExpandBufferSize(const unsigned int size) = 0;
 
     virtual bool Final() = 0;
 
     //send a message with out msg-head[auto add msg-head in this function]
-    virtual bool
-    SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const size_t nLen, const NFSOCK nSockIndex = 0) = 0;
+    virtual bool SendMsgWithOutHead(const int16_t msgID, const char* msg, const size_t len, const NFSOCK sockIndex = 0) = 0;
+
+    //send a message with out msg-head[need to add msg-head for this message by youself]
+    virtual bool SendMsg(const char* msg, const size_t len, const NFSOCK sockIndex) = 0;
 
     //send a message to all client[need to add msg-head for this message by youself]
-    virtual bool SendMsgToAllClient(const char* msg, const size_t nLen) = 0;
+    virtual bool SendMsgToAllClient(const char* msg, const size_t len) = 0;
 
     //send a message with out msg-head to all client[auto add msg-head in this function]
-    virtual bool SendMsgToAllClientWithOutHead(const int16_t nMsgID, const char* msg, const size_t nLen) = 0;
+    virtual bool SendMsgToAllClientWithOutHead(const int16_t msgID, const char* msg, const size_t len) = 0;
 
-    virtual bool CloseNetObject(const NFSOCK nSockIndex) = 0;
+    virtual bool CloseNetObject(const NFSOCK sockIndex) = 0;
 
-    virtual NetObject* GetNetObject(const NFSOCK nSockIndex) = 0;
+    virtual NetObject* GetNetObject(const NFSOCK sockIndex) = 0;
 
-    virtual bool AddNetObject(const NFSOCK nSockIndex, NetObject* pObject) = 0;
+    virtual bool AddNetObject(const NFSOCK sockIndex, NetObject* pObject) = 0;
 
     virtual bool IsServer() = 0;
 
