@@ -189,7 +189,7 @@ bool NFGameServerToWorldModule::AfterInit()
 		{
 			std::ostringstream strLog;
 			strLog << "Cannot find current server, AppID = " << nCurAppID;
-			m_pLogModule->LogError(NULL_OBJECT, strLog, __FUNCTION__, __LINE__);
+			m_pLogModule->LogError(NULL_OBJECT, strLog, __FILE__, __LINE__);
 			NFASSERT(-1, "Cannot find current server", __FILE__, __FUNCTION__);
 			exit(0);
 		}
@@ -291,19 +291,8 @@ int NFGameServerToWorldModule::OnObjectClassEvent(const NFGUID& self, const std:
 		else if (CLASS_OBJECT_EVENT::COE_CREATE_FINISH == classEvent)
 		{
 			SendOnline(self);
-
-			m_pKernelModule->AddPropertyCallBack(self, NFrame::Player::ClanID(), this, &NFGameServerToWorldModule::OnObjectPropertyEvent );
-			m_pKernelModule->AddPropertyCallBack(self, NFrame::Player::TeamID(), this, &NFGameServerToWorldModule::OnObjectPropertyEvent );
-			m_pKernelModule->AddPropertyCallBack(self, NFrame::Player::BattlePoint(), this, &NFGameServerToWorldModule::OnObjectPropertyEvent );
 		}
 	}
-
-	return 0;
-}
-
-int NFGameServerToWorldModule::OnObjectPropertyEvent( const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar)
-{
-	SendOnline(self);
 
 	return 0;
 }
@@ -313,14 +302,11 @@ void NFGameServerToWorldModule::SendOnline(const NFGUID& self)
 	if (m_pKernelModule->ExistObject(self))
 	{
 		NFMsg::RoleOnlineNotify xMsg;
-		//const NFGUID& xClan = m_pKernelModule->GetPropertyObject(self, NFrame::Player::Clan_ID());
 		const int& gateID = m_pKernelModule->GetPropertyInt(self, NFrame::Player::GateID());
 		const std::string& playerName = m_pKernelModule->GetPropertyString(self, NFrame::Player::Name());
 		const int bp = m_pKernelModule->GetPropertyInt(self, NFrame::Player::BattlePoint());
-		const NFGUID clan = m_pKernelModule->GetPropertyObject(self, NFrame::Player::ClanID());
 
 		*xMsg.mutable_self() = NFINetModule::NFToPB(self);
-		*xMsg.mutable_clan() = NFINetModule::NFToPB(clan);
 		xMsg.set_game(pPluginManager->GetAppID());
 		xMsg.set_proxy(gateID);
 		xMsg.set_name(playerName);
@@ -436,7 +422,6 @@ void NFGameServerToWorldModule::OnWorldRecordEnterProcess(const NFSOCK sockIndex
 {
 	CLIENT_MSG_PROCESS( msgID, msg, len, NFMsg::MultiObjectRecordList)
 
-
 	for (int playerIndex = 0; playerIndex < xMsg.multi_player_record_size(); playerIndex++)
 	{
 		const NFMsg::ObjectRecordList& objectRecordList = xMsg.multi_player_record(playerIndex);
@@ -446,60 +431,7 @@ void NFGameServerToWorldModule::OnWorldRecordEnterProcess(const NFSOCK sockIndex
 			auto record = m_pKernelModule->FindRecord(nPlayerID, recordBase.record_name());
 			if (record)
 			{
-				//NFCommonRedisModule::ConvertPBToRecord(recordBase, record);
-				for (int i = 0; i < recordBase.row_struct_size(); i++)
-				{
-					const NFMsg::RecordAddRowStruct &xAddRowStruct = recordBase.row_struct().Get(i);
-					int row = xAddRowStruct.row();
-
-					std::map<int, NFData> colDataMap;
-					for (int j = 0; j < xAddRowStruct.record_int_list_size(); j++)
-					{
-						const NFMsg::RecordInt &xRecordInt = xAddRowStruct.record_int_list().Get(j);
-						NFData data;
-						data.SetInt(xRecordInt.data());
-						colDataMap.insert(std::map<int, NFData>::value_type(xRecordInt.col(), data));
-					}
-					for (int j = 0; j < xAddRowStruct.record_float_list_size(); j++)
-					{
-						const NFMsg::RecordFloat &xRecordFloat = xAddRowStruct.record_float_list().Get(j);
-						NFData data;
-						data.SetFloat(xRecordFloat.data());
-						colDataMap.insert(std::map<int, NFData>::value_type(xRecordFloat.col(), data));
-					}
-					for (int j = 0; j < xAddRowStruct.record_string_list_size(); j++)
-					{
-						const NFMsg::RecordString &xRecordString = xAddRowStruct.record_string_list().Get(j);
-						NFData data;
-						data.SetString(xRecordString.data());
-						colDataMap.insert(std::map<int, NFData>::value_type(xRecordString.col(), data));
-					}
-					for (int j = 0; j < xAddRowStruct.record_object_list_size(); j++)
-					{
-						const NFMsg::RecordObject &xRecordObject = xAddRowStruct.record_object_list().Get(j);
-						NFData data;
-						data.SetObject(NFINetModule::PBToNF(xRecordObject.data()));
-						colDataMap.insert(std::map<int, NFData>::value_type(xRecordObject.col(), data));
-					}
-
-					NFDataList xDataList;
-					for (int j = 0; j < colDataMap.size(); j++)
-					{
-						if (colDataMap.find(j) != colDataMap.end())
-						{
-							xDataList.Append(colDataMap[j]);
-						}
-					}
-
-					if (record->AddRow(row, xDataList) >= 0)
-					{
-						m_pLogModule->LogInfo(nPlayerID, "Upload From Client add row record " + record->GetName(), __FUNCTION__, __LINE__);
-					}
-					else
-					{
-						m_pLogModule->LogInfo(nPlayerID, "Upload From Client add row record error " + record->GetName(), __FUNCTION__, __LINE__);
-					}
-				}
+				NFCommonRedisModule::ConvertPBToRecord(recordBase, record);
 			}
 		}
 	}
@@ -507,7 +439,6 @@ void NFGameServerToWorldModule::OnWorldRecordEnterProcess(const NFSOCK sockIndex
 
 void NFGameServerToWorldModule::OnWorldAddRowProcess(const NFSOCK sockIndex, const int msgID, const char *msg, const uint32_t len)
 {
-
 	CLIENT_MSG_PROCESS( msgID, msg, len, NFMsg::ObjectRecordAddRow)
 
 	auto pRecord = m_pKernelModule->FindRecord(nPlayerID, xMsg.record_name());
@@ -524,28 +455,45 @@ void NFGameServerToWorldModule::OnWorldAddRowProcess(const NFSOCK sockIndex, con
 				const NFMsg::RecordInt &xRecordInt = xAddRowStruct.record_int_list().Get(j);
 				NFData data;
 				data.SetInt(xRecordInt.data());
-				colDataMap.insert(std::map<int, NFData>::value_type(xRecordInt.col(), data));
+				colDataMap[xRecordInt.col()] = data;
 			}
+
 			for (int j = 0; j < xAddRowStruct.record_float_list_size(); j++)
 			{
 				const NFMsg::RecordFloat &xRecordFloat = xAddRowStruct.record_float_list().Get(j);
 				NFData data;
 				data.SetFloat(xRecordFloat.data());
-				colDataMap.insert(std::map<int, NFData>::value_type(xRecordFloat.col(), data));
+				colDataMap[xRecordFloat.col()] = data;
 			}
 			for (int j = 0; j < xAddRowStruct.record_string_list_size(); j++)
 			{
 				const NFMsg::RecordString &xRecordString = xAddRowStruct.record_string_list().Get(j);
 				NFData data;
 				data.SetString(xRecordString.data());
-				colDataMap.insert(std::map<int, NFData>::value_type(xRecordString.col(), data));
+				colDataMap[xRecordString.col()] = data;
 			}
 			for (int j = 0; j < xAddRowStruct.record_object_list_size(); j++)
 			{
 				const NFMsg::RecordObject &xRecordObject = xAddRowStruct.record_object_list().Get(j);
 				NFData data;
 				data.SetObject(NFINetModule::PBToNF(xRecordObject.data()));
-				colDataMap.insert(std::map<int, NFData>::value_type(xRecordObject.col(), data));
+				colDataMap[xRecordObject.col()] = data;
+			}
+
+			for (int j = 0; j < xAddRowStruct.record_vector2_list_size(); j++)
+			{
+				const NFMsg::RecordVector2 &xRecordObject = xAddRowStruct.record_vector2_list().Get(j);
+				NFData data;
+				data.SetVector2(NFINetModule::PBToNF(xRecordObject.data()));
+				colDataMap[xRecordObject.col()] = data;
+			}
+
+			for (int j = 0; j < xAddRowStruct.record_vector3_list_size(); j++)
+			{
+				const NFMsg::RecordVector3 &xRecordObject = xAddRowStruct.record_vector3_list().Get(j);
+				NFData data;
+				data.SetVector3(NFINetModule::PBToNF(xRecordObject.data()));
+				colDataMap[xRecordObject.col()] = data;
 			}
 
 			NFDataList xDataList;
@@ -645,7 +593,7 @@ void NFGameServerToWorldModule::OnWorldRecordStringProcess(const NFSOCK sockInde
 	auto pRecord = m_pKernelModule->FindRecord(nPlayerID, xMsg.record_name());
 	if (!pRecord)
 	{
-		m_pLogModule->LogError(nPlayerID, "Upload From Client String set record error " + xMsg.record_name(), __FUNCTION__, __LINE__);
+		m_pLogModule->LogError(nPlayerID, "String set record error " + xMsg.record_name(), __FUNCTION__, __LINE__);
 		return;
 	}
 
@@ -653,7 +601,7 @@ void NFGameServerToWorldModule::OnWorldRecordStringProcess(const NFSOCK sockInde
 	{
 		const NFMsg::RecordString &xRecordString = xMsg.property_list().Get(i);
 		pRecord->SetString(xRecordString.row(), xRecordString.col(), xRecordString.data());
-		m_pLogModule->LogInfo(nPlayerID, "Upload From Client String set record " + xMsg.record_name(), __FUNCTION__, __LINE__);
+		m_pLogModule->LogInfo(nPlayerID, "String set record " + xMsg.record_name(), __FUNCTION__, __LINE__);
 	}
 }
 

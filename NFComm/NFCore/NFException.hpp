@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -28,69 +28,178 @@
 #define NF_EXCEPTION_H
 
 #include <time.h>
+#include <setjmp.h>
 #include <string>
 #include <iostream>
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
 #include <exception>
+#include <time.h>
+#include <stdio.h>
+#include <iostream>
+#include <utility>
+#include <thread>
+#include <chrono>
+#include <future>
+#include <functional>
+#include <atomic>
+#include <fstream>
+#include <iomanip>
+#include <sstream>
+
+#include <NFComm/NFPluginModule/NFPlatform.h>
+
+#if NF_PLATFORM != NF_PLATFORM_WIN
+#include <execinfo.h>
+#include <unistd.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#include <signal.h>
+#include <execinfo.h>
+#include <setjmp.h>
+
+#if NF_PLATFORM == NF_PLATFORM_LINUX
+#include <sys/prctl.h>
+#endif
+
+
+
+class NFExceptFrame
+{
+public:
+	jmp_buf Jump_Buffer;
+};
+
 
 class NFException
 {
 private:
-    NFException(){}
+	NFException(){}
 
-    std::string _msg;
+	static std::string FileName()
+	{
+		time_t now = time(0);
+		tm *ltm = localtime(&now);
+
+		std::stringstream ss;
+		ss << std::setfill('0') << std::setw(4) << 1900 + ltm->tm_year << "-" << std::setw(2) << 1 + ltm->tm_mon << "-" << std::setw(2) << ltm->tm_mday;
+		ss << " ";
+		ss << std::setfill('0') << std::setw(2) << ltm->tm_hour << ":" << std::setw(2) << ltm->tm_min << ":" << std::setw(2) << ltm->tm_sec;
+		ss << ".crash";
+		return ss.str();
+	}
 public:
-	NFException(const char *format, ...)
+
+	static void StackTrace(int sig)
 	{
-		char buf[1024] = {0};
-		va_list args;
-		va_start(args, format);
-		vsprintf(buf, format, args);
-		_msg = buf;
-		va_end(args);
+		std::ofstream outfile;
+		outfile.open(FileName(), std::ios::app);
+
+		outfile << std::endl;
+		outfile << "******************************************************************************" << std::endl;
+		outfile << "crash sig:" << sig << std::endl;
+
+		int size = 16;
+		void * array[16];
+		int stack_num = backtrace(array, size);
+		char ** stacktrace = backtrace_symbols(array, stack_num);
+		for (int i = 0; i < stack_num; ++i)
+		{
+			outfile << stacktrace[i] << std::endl;
+		}
+
+		free(stacktrace);
+
+		outfile.close();
 	}
 
-	NFException(const std::string& msg)
+	static void CrashHandler(int sig)
 	{
-		time_t tt = time(NULL);
-		tm* t = localtime(&tt);
-		char temp[128] = { 0 };
-		sprintf(temp, "%d-%02d-%02d %02d:%02d:%02d\n",
-			t->tm_year + 1900,
-			t->tm_mon + 1,
-			t->tm_mday,
-			t->tm_hour,
-			t->tm_min,
-			t->tm_sec);
+		//std::cout << "CrashHandler" << std::endl;
 
-		_msg.append(temp);
-		_msg.append(" NFException ");
-		_msg.append(msg);
+		NFException::StackTrace(sig);
+		if (sig > 0)
+		{
+			if (signal(SIGILL, NFException::CrashHandler) != NFException::CrashHandler) signal(SIGILL, NFException::CrashHandler);
+			if (signal(SIGABRT, NFException::CrashHandler) != NFException::CrashHandler) signal(SIGABRT, NFException::CrashHandler);
+			if (signal(SIGFPE, NFException::CrashHandler) != NFException::CrashHandler) signal(SIGFPE, NFException::CrashHandler);
+			if (signal(SIGSEGV, NFException::CrashHandler) != NFException::CrashHandler) signal(SIGSEGV, NFException::CrashHandler);
+
+			siglongjmp(NFException::ExceptStack().Jump_Buffer, 1);
+		}
 	}
 
-	NFException(const std::string& msg, const char* file, const int line)
-	{
-		time_t tt = time(NULL);
-		tm* t = localtime(&tt);
-		char temp[128] = { 0 };
-		sprintf(temp, "%d-%02d-%02d %02d:%02d:%02d\n",
-			t->tm_year + 1900,
-			t->tm_mon + 1,
-			t->tm_mday,
-			t->tm_hour,
-			t->tm_min,
-			t->tm_sec);
-
-		_msg.append(temp);
-		_msg.append(" NFException ");
-		_msg.append(msg);
-		_msg.append(file);
-		_msg.append(std::to_string(line));
-	}
- 
-    char const * what() const noexcept{ return _msg.c_str(); }
+	static NFExceptFrame& ExceptStack();
 };
+#define NF_CRASH_TRY_ROOT \
+if (signal(SIGILL, NFException::CrashHandler) != NFException::CrashHandler) signal(SIGILL, NFException::CrashHandler); \
+if (signal(SIGABRT, NFException::CrashHandler) != NFException::CrashHandler) signal(SIGABRT, NFException::CrashHandler); \
+if (signal(SIGFPE, NFException::CrashHandler) != NFException::CrashHandler) signal(SIGFPE, NFException::CrashHandler); \
+if (signal(SIGSEGV, NFException::CrashHandler) != NFException::CrashHandler) signal(SIGSEGV, NFException::CrashHandler); \
 
+#define NF_CRASH_TRY \
+{\
+if(sigsetjmp(NFException::ExceptStack().Jump_Buffer, 1) == 0)\
+{\
+try\
+{
+
+#define NF_CRASH_END \
+}\
+catch (...)\
+{\
+    NFException::CrashHandler(0);\
+}\
+}\
+}
+
+
+
+
+#endif
+
+/*
+void fun()
+{
+	std::cout << "fun" << std::endl;
+
+	std::string * p = nullptr;
+	std::cout << p->length();
+}
+
+int main()
+{
+	NF_CRASH_TRY_ROOT
+
+
+	NF_CRASH_TRY
+		fun();
+	NF_CRASH_END
+
+	std::cout << "fun1" << std::endl;
+	NF_CRASH_TRY
+		fun();
+	NF_CRASH_END
+	std::cout << "fun2" << std::endl;
+	NF_CRASH_TRY
+				fun();
+	NF_CRASH_END
+	std::cout << "fun3" << std::endl;
+	NF_CRASH_TRY
+				fun();
+	NF_CRASH_END
+	std::cout << "fun4" << std::endl;
+	NF_CRASH_TRY
+				fun();
+	NF_CRASH_END
+	std::cout << "fun5" << std::endl;
+	NF_CRASH_TRY
+				fun();
+	NF_CRASH_END
+	std::cout << "fun6" << std::endl;
+
+	return 0;
+}
+ */
 #endif

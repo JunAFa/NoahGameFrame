@@ -145,9 +145,6 @@ bool NFInventoryModule::CreateItem(const NFGUID& self, const std::string& config
 		return false;
 	}
 
-	const int sceneID = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::SceneID());
-	NFMsg::ESceneType eSceneType = (NFMsg::ESceneType)m_pElementModule->GetPropertyInt32(std::to_string(sceneID), NFrame::Scene::Type());
-
 	return CreateItemInNormalBag(self, configName, count);
 }
 
@@ -267,9 +264,9 @@ bool NFInventoryModule::EnoughItem(const NFGUID& self, const std::string& strIte
 	int row = pRecord->FindString(NFrame::Player::Inventory::ConfigID, strItemConfigID);
 	if (row >= 0)
 	{
-		int count = pRecord->GetInt32(row, NFrame::Player::Inventory::ItemCount);
+		int itemCount = pRecord->GetInt32(row, NFrame::Player::Inventory::ItemCount);
 
-		if (count >= count)
+		if (itemCount >= count)
 		{
 			return true;
 		}
@@ -303,8 +300,8 @@ bool NFInventoryModule::CreateItemInNormalBag(const NFGUID & self, const std::st
 	}
 	else
 	{
-		int count = pRecord->GetInt32(row, NFrame::Player::Inventory::ItemCount) + count;
-		pRecord->SetInt(row, NFrame::Player::Inventory::ItemCount, count);
+		int totalCount = pRecord->GetInt32(row, NFrame::Player::Inventory::ItemCount) + count;
+		pRecord->SetInt(row, NFrame::Player::Inventory::ItemCount, totalCount);
 	}
 
 

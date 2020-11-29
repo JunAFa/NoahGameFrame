@@ -23,16 +23,20 @@
    limitations under the License.
 */
 
-#ifndef NFI_LUA_HTTP_MODULE_H
-#define NFI_LUA_HTTP_MODULE_H
 
+#ifndef NFI_SYNC_POS_MODULE_H
+#define NFI_SYNC_POS_MODULE_H
+
+#include <iostream>
 #include "NFIModule.h"
 
-class NFILuaHttpModule
+class PosSyncUnit;
+
+class NFISyncPosModule
     : public NFIModule
 {
 public:
+    virtual bool RequireMove(const NFGUID scene_group, const PosSyncUnit& syncUnit) = 0;
 };
-
 
 #endif

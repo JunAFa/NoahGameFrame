@@ -133,7 +133,7 @@ enum EGameMsgID : int {
   ACK_WORLD_LIST = 111,
   REQ_CONNECT_WORLD = 112,
   ACK_CONNECT_WORLD = 113,
-  REQ_KICK_CLIENT_INWORLD = 114,
+  REQ_KICKED_FROM_WORLD = 114,
   REQ_CONNECT_KEY = 120,
   ACK_CONNECT_KEY = 122,
   REQ_SELECT_SERVER = 130,
@@ -151,7 +151,6 @@ enum EGameMsgID : int {
   ACK_ENTER_GAME = 151,
   REQ_LEAVE_GAME = 152,
   ACK_LEAVE_GAME = 153,
-  REQ_SWAP_GAME = 154,
   REQ_SWAP_SCENE = 155,
   ACK_SWAP_SCENE = 156,
   REQ_SWAP_HOME_SCENE = 157,
@@ -181,13 +180,8 @@ enum EGameMsgID : int {
   ACK_RECORD_CLEAR = 250,
   ACK_RECORD_SORT = 251,
   ACK_DATA_FINISHED = 260,
-  REQ_AI_ONWER = 270,
   REQ_MOVE = 300,
   ACK_MOVE = 301,
-  REQ_MOVE_IMMUNE = 302,
-  ACK_MOVE_IMMUNE = 303,
-  REQ_POS_SYNC = 306,
-  ACK_POS_SYNC = 307,
   REQ_CHAT = 350,
   ACK_CHAT = 351,
   REQ_SKILL_OBJECTX = 400,
@@ -279,15 +273,12 @@ enum ESceneType : int {
   NORMAL_SCENE = 0,
   SINGLE_CLONE_SCENE = 1,
   MULTI_CLONE_SCENE = 2,
-  PVP_MODE_SCENE = 10,
-  MVM_MODE_SCENE = 11,
-  SURVIVAL_MODE_SCENE = 12,
   ESceneType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   ESceneType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool ESceneType_IsValid(int value);
 constexpr ESceneType ESceneType_MIN = NORMAL_SCENE;
-constexpr ESceneType ESceneType_MAX = SURVIVAL_MODE_SCENE;
+constexpr ESceneType ESceneType_MAX = MULTI_CLONE_SCENE;
 constexpr int ESceneType_ARRAYSIZE = ESceneType_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ESceneType_descriptor();

@@ -27,16 +27,28 @@
 
 void NFScheduleElement::DoHeartBeatEvent(NFINT64 nowTime)
 {
-	mnRemainCount--;
+	if (mnRemainCount > 0 )
+	{
+		mnRemainCount--;
+	}
+
 	mnTriggerTime = nowTime + (NFINT64)(mfIntervalTime * 1000);
 
+#if NF_PLATFORM != NF_PLATFORM_WIN
+	NF_CRASH_TRY
+#endif
 	OBJECT_SCHEDULE_FUNCTOR_PTR cb;
 	bool bRet = this->mxObjectFunctor.First(cb);
 	while (bRet)
 	{
+
 		cb.get()->operator()(self, mstrScheduleName, mfIntervalTime, mnRemainCount);
+
 		bRet = this->mxObjectFunctor.Next(cb);
 	}
+#if NF_PLATFORM != NF_PLATFORM_WIN
+	NF_CRASH_END
+#endif
 }
 
 NFScheduleModule::NFScheduleModule(NFIPluginManager* p)
@@ -58,20 +70,7 @@ bool NFScheduleModule::Init()
 
 	m_pKernelModule->RegisterCommonClassEvent(this, &NFScheduleModule::OnClassCommonEvent);
 	m_pSceneModule->AddSceneGroupDestroyedCallBack(this, &NFScheduleModule::OnGroupCommonEvent);
-/*
-	std::set<TickElement> test;
-	for (int i = 0 ; i < 100;  ++i)
-	{
-		TickElement element;
-		element.triggerTime = m_pKernelModule->Random(1, 50);
-		test.insert(element);
-	}
 
-	for (auto it = test.begin(); it != test.end(); ++it)
-	{
-		std::cout << it->triggerTime << std::endl;
-	}
- */
 	return true;
 }
 
@@ -80,7 +79,8 @@ bool NFScheduleModule::Execute()
 	NFPerformance performanceObject;
 	NFINT64 nowTime = NFGetTimeMS();
 
-	std::list<TickElement> elements;
+	static std::vector<TickElement> elements;
+	elements.clear();
 
 	for (auto it = mScheduleMap.begin(); it != mScheduleMap.end();)
 	{
@@ -94,6 +94,9 @@ bool NFScheduleModule::Execute()
 				auto scheduleElement = objectMap->GetElement(it->scheduleName);
 				if (scheduleElement)
 				{
+					if(scheduleElement->mnRemainCount == 1){
+						objectMap->RemoveElement(it->scheduleName);
+					}
 					scheduleElement->DoHeartBeatEvent(nowTime);
 
 					if (scheduleElement->mnRemainCount != 0)

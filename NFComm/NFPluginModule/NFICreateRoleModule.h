@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2018 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -23,19 +23,17 @@
    limitations under the License.
 */
 
+
 #ifndef NFI_CREATE_ROLE_MODULE_H
 #define NFI_CREATE_ROLE_MODULE_H
 
 #include <iostream>
 #include "NFIModule.h"
 
-class NFICreateRoleModule
-    : public NFIModule
+class NFICreateRoleModule : public NFIModule
 {
-
 public:
-
-
+	virtual void SetDefaultSceneID(const int sceneID) = 0;
 };
 
 #endif
