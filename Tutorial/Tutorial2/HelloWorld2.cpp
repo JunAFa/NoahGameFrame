@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -36,7 +36,7 @@ bool NFHelloWorld2::Init()
     return true;
 }
 
-int NFHelloWorld2::OnPropertyCallBackEvent( const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar)
+int NFHelloWorld2::OnPropertyCallBackEvent( const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar, const int64_t reason)
 {
     
     std::cout << "OnPropertyCallBackEvent Property: " << propertyName << " OldValue: " << oldVar.GetInt() << " NewValue: " << newVar.GetInt() << std::endl;

@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -85,6 +85,8 @@ public:
     virtual NF_SHARE_PTR<NFIPropertyManager> GetClassPropertyManager(const std::string& className) = 0;
 
     virtual NF_SHARE_PTR<NFIRecordManager> GetClassRecordManager(const std::string& className) = 0;
+
+	virtual bool AddClass(const std::string& className, const std::string& strParentName) = 0;
 
 };
 

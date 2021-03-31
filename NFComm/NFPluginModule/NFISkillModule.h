@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -35,8 +35,8 @@ class NFISkillModule
 {
 
 public:
-	virtual int UseSkill(const NFGUID& self, const std::string& strSkillName, const NFGUID& target, const int index = -1) = 0;
-	virtual int UseSkill(const NFGUID& self, const std::string& strSkillName, const NFDataList& target, const int index = -1) = 0;
+	virtual int UseSkill(const NFGUID& self, const std::string& strSkillName, const NFGUID& target, const int64_t index = 0) = 0;
+	virtual int UseSkill(const NFGUID& self, const std::string& strSkillName, const NFDataList& target, const int64_t index = 0) = 0;
 
 	/*
 	std::cout << "100, -10: " << CalDamage(100, -10) << std::endl;

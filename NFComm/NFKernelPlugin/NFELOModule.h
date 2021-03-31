@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -38,10 +38,10 @@ public:
     }
     virtual ~NFELOModule() {};
 
-    virtual bool Init();
-    virtual bool Shut();
-    virtual bool Execute();
-    virtual bool AfterInit();
+    virtual bool Init() override;
+    virtual bool Shut() override;
+    virtual bool Execute() override;
+    virtual bool AfterInit() override;
 
 
 	virtual float Probability(int ratingA, int ratingB) override;

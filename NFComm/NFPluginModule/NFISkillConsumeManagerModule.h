@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -35,8 +35,8 @@ class NFISkillConsumeProcessModule
 {
 public:
 
-	virtual int ConsumeLegal(const NFGUID& self, const std::string& skillID,  const NFDataList& other) = 0;
-	virtual int ConsumeProcess(const NFGUID& self, const std::string& strSkillName, const NFDataList& other, NFDataList& damageListValue, NFDataList& damageResultList) = 0;
+	virtual int ConsumeLegal(const NFGUID& self, const std::string& skillID, const NFDataList& other) = 0;
+	virtual int ConsumeProcess(const NFGUID& self, const std::string& strSkillName, const int64_t index, const NFDataList& other, NFDataList& damageListValue, NFDataList& damageResultList) = 0;
 };
 
 class NFISkillConsumeManagerModule

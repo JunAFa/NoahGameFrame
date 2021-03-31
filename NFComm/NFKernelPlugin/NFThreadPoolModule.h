@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -115,8 +115,6 @@ protected:
 	void ExecuteTaskResult();
 
 private:
-	int mCPUCount = 1;
-
 	NFQueue<NFThreadTask> mTaskResult;
 	std::vector<NF_SHARE_PTR<NFThreadCell>> mThreadPool;
 };

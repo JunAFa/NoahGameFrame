@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -27,6 +27,14 @@
 #include "../NFDBLogicPlugin/NFPlayerRedisModule.h"
 #include "NFComm/NFMessageDefine/NFMsgDefine.h"
 #include "NFComm/NFMessageDefine/NFProtocolDefine.hpp"
+
+bool NFDBNet_ServerModule::Awake()
+{
+	this->pPluginManager->SetAppType(NF_SERVER_TYPES::NF_ST_DB);
+
+	return true;
+}
+
 
 bool NFDBNet_ServerModule::Init()
 {
@@ -258,4 +266,3 @@ void NFDBNet_ServerModule::OnSaveRoleDataProcess(const NFSOCK sockIndex, const i
 	NFPlayerRedisModule* pPlayerRedisModule = (NFPlayerRedisModule*)m_pPlayerRedisModule;
 	pPlayerRedisModule->SavePlayerData(roleID, xMsg);
 }
-

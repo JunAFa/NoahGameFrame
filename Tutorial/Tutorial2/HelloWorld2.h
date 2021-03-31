@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -53,7 +53,7 @@ public:
     virtual bool Shut();
 
 protected:
-    int OnPropertyCallBackEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVarList, const NFData& newVarList);
+    int OnPropertyCallBackEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVarList, const NFData& newVarList, const int64_t reason);
 
 
 

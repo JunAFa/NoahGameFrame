@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -63,7 +63,7 @@ protected:
 	int OnNPCGMPositionEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar);
 
 	int OnPlayerClassEvent(const NFGUID& self, const std::string& className, const CLASS_OBJECT_EVENT classEvent, const NFDataList& var);
-	int OnPlayerGMPositionEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar);
+	int OnPlayerGMPositionEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar, const NFINT64 reason);
 
 private:
 

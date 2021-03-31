@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -49,7 +49,8 @@ bool NFPropertyModule::Execute()
 
 bool NFPropertyModule::AfterInit()
 {
-    m_pKernelModule->AddClassCallBack(NFrame::Player::ThisName(), this, &NFPropertyModule::OnObjectClassEvent);
+	m_pKernelModule->AddClassCallBack(NFrame::Player::ThisName(), this, &NFPropertyModule::OnObjectClassEvent);
+	m_pKernelModule->AddClassCallBack(NFrame::NPC::ThisName(), this, &NFPropertyModule::OnObjectClassEvent);
 
     return true;
 }
@@ -83,7 +84,7 @@ int NFPropertyModule::SetPropertyValue(const NFGUID& self, const std::string& pr
     return 0;
 }
 
-int NFPropertyModule::OnObjectLevelEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar)
+int NFPropertyModule::OnObjectLevelEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar, const NFINT64 reason)
 {
     const int job = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::Job());
     const int level = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::Level());
@@ -110,24 +111,35 @@ int NFPropertyModule::OnObjectLevelEvent(const NFGUID& self, const std::string& 
     return 0;
 }
 
-int NFPropertyModule::OnObjectConfigIDEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar)
+int NFPropertyModule::OnObjectMAXHPEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar, const NFINT64 reason)
+{
+	const int hp = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::HP());
+	if (hp > newVar.GetInt())
+	{
+		m_pKernelModule->SetPropertyInt(self, NFrame::Player::HP(), newVar.GetInt());
+	}
+
+	return 0;
+}
+
+int NFPropertyModule::OnObjectConfigIDEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar, const NFINT64 reason)
 {
 	//for appearance
 	return 0;
 }
 
-int NFPropertyModule::OnRecordEvent(const NFGUID& self, const RECORD_EVENT_DATA& xEventData, const NFData& oldVar, const NFData& newVar)
+int NFPropertyModule::OnRecordEvent(const NFGUID& self, const RECORD_EVENT_DATA& eventData, const NFData& oldVar, const NFData& newVar)
 {
-	const std::string& recordName = xEventData.recordName;
-    const int nOpType = xEventData.nOpType;
-    const int row = xEventData.row;
-    const int col = xEventData.col;
+	const std::string& recordName = eventData.recordName;
+    const int nOpType = eventData.nOpType;
+    const int row = eventData.row;
+    const int col = eventData.col;
 
     int nAllValue = 0;
     NF_SHARE_PTR<NFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::CommValue::ThisName());
     for (int i = 0; i < (int)(NFPropertyGroup::NPG_ALL); i++)
     {
-		if (activeExtraController && i == NFPropertyGroup::NPG_JOBLEVEL)
+		if (activeExtraController && i == NFPropertyGroup::NPG_JOB_LEVEL)
 		{
 			continue;
 		}
@@ -180,12 +192,12 @@ int NFPropertyModule::OnObjectClassEvent(const NFGUID& self, const std::string& 
             {
                 //first time online
                 m_pKernelModule->SetPropertyInt(self, NFrame::Player::Level(), 1);
-				OnObjectLevelEvent(self, NFrame::Player::Level(), 1, 1);
+				OnObjectLevelEvent(self, NFrame::Player::Level(), 1, 1, 0);
             }
             else
             {
                 int level = m_pKernelModule->GetPropertyInt32(self, NFrame::Player::Level());
-                OnObjectLevelEvent(self, NFrame::Player::Level(), level, level);
+                OnObjectLevelEvent(self, NFrame::Player::Level(), level, level, 0);
             }
 		}
         else if (CLASS_OBJECT_EVENT::COE_CREATE_AFTER_EFFECT == classEvent)
@@ -196,11 +208,8 @@ int NFPropertyModule::OnObjectClassEvent(const NFGUID& self, const std::string& 
 			RefreshAllProperty(self);
 			FullHPMP(self);
 
-			m_pKernelModule->AddPropertyCallBack(self, NFrame::Player::Level(), this, &NFPropertyModule::OnObjectLevelEvent);
-			m_pKernelModule->AddPropertyCallBack(self, NFrame::Player::ConfigID(), this, &NFPropertyModule::OnObjectConfigIDEvent);
-			m_pKernelModule->AddRecordCallBack(self, NFrame::Player::CommValue::ThisName(), this, &NFPropertyModule::OnRecordEvent);
-
-			m_pKernelModule->AddPropertyCallBack(self, NFrame::Player::Level(), this, &NFPropertyModule::OnObjectLevelEvent);
+	        m_pKernelModule->AddPropertyCallBack(self, NFrame::Player::Level(), this, &NFPropertyModule::OnObjectLevelEvent);
+	        m_pKernelModule->AddPropertyCallBack(self, NFrame::Player::MAXHP(), this, &NFPropertyModule::OnObjectMAXHPEvent);
 			m_pKernelModule->AddPropertyCallBack(self, NFrame::Player::ConfigID(), this, &NFPropertyModule::OnObjectConfigIDEvent);
 			m_pKernelModule->AddRecordCallBack(self, NFrame::Player::CommValue::ThisName(), this, &NFPropertyModule::OnRecordEvent);
         }
@@ -210,6 +219,13 @@ int NFPropertyModule::OnObjectClassEvent(const NFGUID& self, const std::string& 
         else if (CLASS_OBJECT_EVENT::COE_CREATE_FINISH == classEvent)
         {
         }
+    }
+    else
+    {
+	    if (CLASS_OBJECT_EVENT::COE_CREATE_FINISH == classEvent)
+	    {
+		    m_pKernelModule->AddPropertyCallBack(self, NFrame::Player::MAXHP(), this, &NFPropertyModule::OnObjectMAXHPEvent);
+	    }
     }
 
     return 0;
@@ -240,8 +256,8 @@ void NFPropertyModule::RefreshBaseProperty(const NFGUID& self)
         const std::string& colTag = pRecord->GetColTag(i);
         NFINT64 nValue = m_pElementModule->GetPropertyInt(effectData, colTag);
 
-		pRecord->SetUsed(NFPropertyGroup::NPG_JOBLEVEL, true);
-		pRecord->SetInt(NFPropertyGroup::NPG_JOBLEVEL, colTag, nValue);
+		pRecord->SetUsed(NFPropertyGroup::NPG_JOB_LEVEL, true);
+		pRecord->SetInt(NFPropertyGroup::NPG_JOB_LEVEL, colTag, nValue);
     }
 }
 
@@ -254,7 +270,7 @@ void NFPropertyModule::RefreshAllProperty(const NFGUID& self)
 
         for (int i = 0; i < (int)(NFPropertyGroup::NPG_ALL); i++)
         {
-        	if (activeExtraController && i == NFPropertyGroup::NPG_JOBLEVEL)
+        	if (activeExtraController && i == NFPropertyGroup::NPG_JOB_LEVEL)
 			{
 				continue;
 			}

@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -110,18 +110,6 @@ bool NFKernelModule::Execute()
 		mtDeleteSelfList.clear();
 	}
 
-	NF_SHARE_PTR<NFIObject> pObject = First();
-	while (pObject)
-	{
-		mnCurExeObject = pObject->Self();
-		pObject->Execute();
-
-		mnCurExeObject.nHead64 = 0;
-		mnCurExeObject.nData64 = 0;
-
-		pObject = Next();
-	}
-
 	return true;
 }
 
@@ -164,8 +152,7 @@ NF_SHARE_PTR<NFIObject> NFKernelModule::CreateObject(const NFGUID& self, const i
 	pObject = NF_SHARE_PTR<NFIObject>(NF_NEW NFObject(ident, pPluginManager));
 	AddElement(ident, pObject);
 
-	bool backup = false;
-	if (backup)
+	if (pPluginManager->UsingBackThread())
 	{
 		m_pThreadPoolModule->DoAsyncTask(NFGUID(), "",
 			[=](NFThreadTask& task) -> void
@@ -191,7 +178,7 @@ NF_SHARE_PTR<NFIObject> NFKernelModule::CreateObject(const NFGUID& self, const i
 							xProperty->SetRef(pStaticConfigPropertyInfo->GetRef());
 							xProperty->SetUpload(pStaticConfigPropertyInfo->GetUpload());
 
-							//???
+							//
 							pObject->AddPropertyCallBack(pStaticConfigPropertyInfo->GetKey(), this, &NFKernelModule::OnPropertyCommonEvent);
 
 							pStaticConfigPropertyInfo = pStaticClassPropertyManager->Next();
@@ -212,7 +199,7 @@ NF_SHARE_PTR<NFIObject> NFKernelModule::CreateObject(const NFGUID& self, const i
 							xRecord->SetCache(pConfigRecordInfo->GetCache());
 							xRecord->SetUpload(pConfigRecordInfo->GetUpload());
 
-							//???
+							//
 							pObject->AddRecordCallBack(pConfigRecordInfo->GetName(), this, &NFKernelModule::OnRecordCommonEvent);
 
 							pConfigRecordInfo = pStaticClassRecordManager->Next();
@@ -595,12 +582,12 @@ bool NFKernelModule::FindProperty(const NFGUID& self, const std::string& propert
 	return false;
 }
 
-bool NFKernelModule::SetPropertyInt(const NFGUID& self, const std::string& propertyName, const NFINT64 nValue)
+bool NFKernelModule::SetPropertyInt(const NFGUID& self, const std::string& propertyName, const NFINT64 nValue, const NFINT64 reason)
 {
 	NF_SHARE_PTR<NFIObject> pObject = GetElement(self);
 	if (pObject)
 	{
-		return pObject->SetPropertyInt(propertyName, nValue);
+		return pObject->SetPropertyInt(propertyName, nValue, reason);
 	}
 
 	m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, propertyName + "| There is no object", __FUNCTION__, __LINE__);
@@ -608,12 +595,12 @@ bool NFKernelModule::SetPropertyInt(const NFGUID& self, const std::string& prope
 	return false;
 }
 
-bool NFKernelModule::SetPropertyFloat(const NFGUID& self, const std::string& propertyName, const double dValue)
+bool NFKernelModule::SetPropertyFloat(const NFGUID& self, const std::string& propertyName, const double dValue, const NFINT64 reason)
 {
 	NF_SHARE_PTR<NFIObject> pObject = GetElement(self);
 	if (pObject)
 	{
-		return pObject->SetPropertyFloat(propertyName, dValue);
+		return pObject->SetPropertyFloat(propertyName, dValue, reason);
 	}
 
 	m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, propertyName + "| There is no object", __FUNCTION__, __LINE__);
@@ -621,12 +608,12 @@ bool NFKernelModule::SetPropertyFloat(const NFGUID& self, const std::string& pro
 	return false;
 }
 
-bool NFKernelModule::SetPropertyString(const NFGUID& self, const std::string& propertyName, const std::string& value)
+bool NFKernelModule::SetPropertyString(const NFGUID& self, const std::string& propertyName, const std::string& value, const NFINT64 reason)
 {
 	NF_SHARE_PTR<NFIObject> pObject = GetElement(self);
 	if (pObject)
 	{
-		return pObject->SetPropertyString(propertyName, value);
+		return pObject->SetPropertyString(propertyName, value, reason);
 	}
 
 	m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, propertyName + "| There is no object", __FUNCTION__, __LINE__);
@@ -634,12 +621,12 @@ bool NFKernelModule::SetPropertyString(const NFGUID& self, const std::string& pr
 	return false;
 }
 
-bool NFKernelModule::SetPropertyObject(const NFGUID& self, const std::string& propertyName, const NFGUID& objectValue)
+bool NFKernelModule::SetPropertyObject(const NFGUID& self, const std::string& propertyName, const NFGUID& objectValue, const NFINT64 reason)
 {
 	NF_SHARE_PTR<NFIObject> pObject = GetElement(self);
 	if (pObject)
 	{
-		return pObject->SetPropertyObject(propertyName, objectValue);
+		return pObject->SetPropertyObject(propertyName, objectValue, reason);
 	}
 
 	m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, propertyName + "| There is no object", __FUNCTION__, __LINE__);
@@ -647,12 +634,12 @@ bool NFKernelModule::SetPropertyObject(const NFGUID& self, const std::string& pr
 	return false;
 }
 
-bool NFKernelModule::SetPropertyVector2(const NFGUID& self, const std::string& propertyName, const NFVector2& value)
+bool NFKernelModule::SetPropertyVector2(const NFGUID& self, const std::string& propertyName, const NFVector2& value, const NFINT64 reason)
 {
 	NF_SHARE_PTR<NFIObject> pObject = GetElement(self);
 	if (pObject)
 	{
-		return pObject->SetPropertyVector2(propertyName, value);
+		return pObject->SetPropertyVector2(propertyName, value, reason);
 	}
 
 	m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, propertyName + "| There is no vector2", __FUNCTION__, __LINE__);
@@ -660,12 +647,12 @@ bool NFKernelModule::SetPropertyVector2(const NFGUID& self, const std::string& p
 	return false;
 }
 
-bool NFKernelModule::SetPropertyVector3(const NFGUID& self, const std::string& propertyName, const NFVector3& value)
+bool NFKernelModule::SetPropertyVector3(const NFGUID& self, const std::string& propertyName, const NFVector3& value, const NFINT64 reason)
 {
 	NF_SHARE_PTR<NFIObject> pObject = GetElement(self);
 	if (pObject)
 	{
-		return pObject->SetPropertyVector3(propertyName, value);
+		return pObject->SetPropertyVector3(propertyName, value, reason);
 	}
 
 	m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, propertyName + "| There is no vector3", __FUNCTION__, __LINE__);
@@ -804,8 +791,11 @@ bool NFKernelModule::SetRecordInt(const NFGUID& self, const std::string& recordN
 			return true;
 		}
 	}
+	else
+	{
+		m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, recordName + "| There is no object", __FUNCTION__, __LINE__);
+	}
 
-	m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, recordName + "| There is no object", __FUNCTION__, __LINE__);
 
 	return false;
 }
@@ -824,8 +814,10 @@ bool NFKernelModule::SetRecordInt(const NFGUID& self, const std::string& recordN
 			return true;
 		}
 	}
-
-	m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, recordName + "| There is no object", __FUNCTION__, __LINE__);
+	else
+	{
+		m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, recordName + "| There is no object", __FUNCTION__, __LINE__);
+	}
 
 	return false;
 }
@@ -844,8 +836,10 @@ bool NFKernelModule::SetRecordFloat(const NFGUID& self, const std::string& recor
 			return true;
 		}
 	}
-
-	m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, "There is no object", __FUNCTION__, __LINE__);
+	else
+	{
+		m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, recordName + "| There is no object", __FUNCTION__, __LINE__);
+	}
 
 	return false;
 }
@@ -864,8 +858,10 @@ bool NFKernelModule::SetRecordFloat(const NFGUID& self, const std::string& recor
 			return true;
 		}
 	}
-
-	m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, "There is no object", __FUNCTION__, __LINE__);
+	else
+	{
+		m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, recordName + "| There is no object", __FUNCTION__, __LINE__);
+	}
 
 	return false;
 }
@@ -884,8 +880,10 @@ bool NFKernelModule::SetRecordString(const NFGUID& self, const std::string& reco
 			return true;
 		}
 	}
-
-	m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, "There is no object", __FUNCTION__, __LINE__);
+	else
+	{
+		m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, recordName + "| There is no object", __FUNCTION__, __LINE__);
+	}
 
 	return false;
 }
@@ -904,8 +902,10 @@ bool NFKernelModule::SetRecordString(const NFGUID& self, const std::string& reco
 			return true;
 		}
 	}
-
-	m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, "There is no object", __FUNCTION__, __LINE__);
+	else
+	{
+		m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, recordName + "| There is no object", __FUNCTION__, __LINE__);
+	}
 
 	return false;
 }
@@ -924,8 +924,10 @@ bool NFKernelModule::SetRecordObject(const NFGUID& self, const std::string& reco
 			return true;
 		}
 	}
-
-	m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, "There is no object", __FUNCTION__, __LINE__);
+	else
+	{
+		m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, recordName + "| There is no object", __FUNCTION__, __LINE__);
+	}
 
 	return false;
 }
@@ -944,8 +946,10 @@ bool NFKernelModule::SetRecordObject(const NFGUID& self, const std::string& reco
 			return true;
 		}
 	}
-
-	m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, "There is no object", __FUNCTION__, __LINE__);
+	else
+	{
+		m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, recordName + "| There is no object", __FUNCTION__, __LINE__);
+	}
 
 	return false;
 }
@@ -964,8 +968,10 @@ bool NFKernelModule::SetRecordVector2(const NFGUID& self, const std::string& rec
 			return true;
 		}
 	}
-
-	m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, "There is no vector2", __FUNCTION__, __LINE__);
+	else
+	{
+		m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, recordName + "| There is no object", __FUNCTION__, __LINE__);
+	}
 
 	return false;
 }
@@ -984,8 +990,10 @@ bool NFKernelModule::SetRecordVector2(const NFGUID& self, const std::string& rec
 			return true;
 		}
 	}
-
-	m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, "There is no vector2", __FUNCTION__, __LINE__);
+	else
+	{
+		m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, recordName + "| There is no object", __FUNCTION__, __LINE__);
+	}
 
 	return false;
 }
@@ -1004,8 +1012,10 @@ bool NFKernelModule::SetRecordVector3(const NFGUID& self, const std::string& rec
 			return true;
 		}
 	}
-
-	m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, "There is no vector3", __FUNCTION__, __LINE__);
+	else
+	{
+		m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, recordName + "| There is no object", __FUNCTION__, __LINE__);
+	}
 
 	return false;
 }
@@ -1024,8 +1034,10 @@ bool NFKernelModule::SetRecordVector3(const NFGUID& self, const std::string& rec
 			return true;
 		}
 	}
-
-	m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, "There is no vector3", __FUNCTION__, __LINE__);
+	else
+	{
+		m_pLogModule->LogObject(NFILogModule::NLL_ERROR_NORMAL, self, recordName + "| There is no object", __FUNCTION__, __LINE__);
+	}
 
 	return false;
 }
@@ -1224,18 +1236,8 @@ bool NFKernelModule::CreateScene(const int sceneID)
 	if (pSceneInfo)
 	{
 		m_pSceneModule->AddElement(sceneID, pSceneInfo);
-		NF_SHARE_PTR<NFIPropertyManager> pPropertyManager(NF_NEW NFPropertyManager(NFGUID(sceneID, 0)));
-		NF_SHARE_PTR<NFIRecordManager> pRecordManager(NF_NEW NFRecordManager(NFGUID(sceneID, 0)));
-		NF_SHARE_PTR<NFSceneGroupInfo> pGroupInfo = NF_SHARE_PTR<NFSceneGroupInfo>(NF_NEW NFSceneGroupInfo(sceneID, 0, pPropertyManager, pRecordManager));
-		if (NULL != pGroupInfo)
-		{
-			RequestGroupScene(sceneID);
-			pSceneInfo->AddElement(0, pGroupInfo);
-
-			m_pLogModule->LogInfo("Create scene success, groupId:0, scene id:" + std::to_string(sceneID), __FUNCTION__, __LINE__);
-
-			return true;
-		}
+		RequestGroupScene(sceneID);
+		return true;
 	}
 
 	return false;
@@ -1504,7 +1506,7 @@ bool NFKernelModule::LogInfo(const NFGUID ident)
 	return true;
 }
 
-int NFKernelModule::OnPropertyCommonEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar)
+int NFKernelModule::OnPropertyCommonEvent(const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar, const NFINT64 reason)
 {
 	NFPerformance performance;
 
@@ -1518,7 +1520,7 @@ int NFKernelModule::OnPropertyCommonEvent(const NFGUID& self, const std::string&
 			{
 				PROPERTY_EVENT_FUNCTOR_PTR& pFunPtr = *it;
 				PROPERTY_EVENT_FUNCTOR* pFun = pFunPtr.get();
-				pFun->operator()(self, propertyName, oldVar, newVar);
+				pFun->operator()(self, propertyName, oldVar, newVar, reason);
 			}
 
 			const std::string& className = xObject->GetPropertyString(NFrame::IObject::ClassName());
@@ -1530,7 +1532,7 @@ int NFKernelModule::OnPropertyCommonEvent(const NFGUID& self, const std::string&
 				{
 					PROPERTY_EVENT_FUNCTOR_PTR& pFunPtr = *itList;
 					PROPERTY_EVENT_FUNCTOR* pFun = pFunPtr.get();
-					pFun->operator()(self, propertyName, oldVar, newVar);
+					pFun->operator()(self, propertyName, oldVar, newVar, reason);
 				}
 			}
 		}
@@ -1650,7 +1652,7 @@ bool NFKernelModule::DestroySelf(const NFGUID& self)
 	return true;
 }
 
-int NFKernelModule::OnRecordCommonEvent(const NFGUID& self, const RECORD_EVENT_DATA& xEventData, const NFData& oldVar, const NFData& newVar)
+int NFKernelModule::OnRecordCommonEvent(const NFGUID& self, const RECORD_EVENT_DATA& eventData, const NFData& oldVar, const NFData& newVar)
 {
 	NFPerformance performance;
 
@@ -1664,7 +1666,7 @@ int NFKernelModule::OnRecordCommonEvent(const NFGUID& self, const RECORD_EVENT_D
 			{
 				RECORD_EVENT_FUNCTOR_PTR& pFunPtr = *it;
 				RECORD_EVENT_FUNCTOR* pFun = pFunPtr.get();
-				pFun->operator()(self, xEventData, oldVar, newVar);
+				pFun->operator()(self, eventData, oldVar, newVar);
 			}
 		}
 
@@ -1677,7 +1679,7 @@ int NFKernelModule::OnRecordCommonEvent(const NFGUID& self, const RECORD_EVENT_D
 			{
 				RECORD_EVENT_FUNCTOR_PTR& pFunPtr = *itList;
 				RECORD_EVENT_FUNCTOR* pFun = pFunPtr.get();
-				pFun->operator()(self, xEventData, oldVar, newVar);
+				pFun->operator()(self, eventData, oldVar, newVar);
 			}
 		}
 	}
@@ -1688,8 +1690,8 @@ int NFKernelModule::OnRecordCommonEvent(const NFGUID& self, const RECORD_EVENT_D
 		os << "--------------- performance problem------------------- ";
 		os << performance.TimeScope();
 		os << "---------- ";
-		os << xEventData.recordName;
-		os << " event type " << xEventData.nOpType;
+		os << eventData.recordName;
+		os << " event type " << eventData.nOpType;
 		//m_pLogModule->LogWarning(self, os, __FUNCTION__, __LINE__);
 	}
 

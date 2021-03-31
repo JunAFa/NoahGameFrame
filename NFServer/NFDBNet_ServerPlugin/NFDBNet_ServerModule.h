@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -58,6 +58,7 @@ public:
         pPluginManager = p;
     }
 
+	virtual bool Awake();
     virtual bool Init();
     virtual bool Shut();
     virtual bool Execute();

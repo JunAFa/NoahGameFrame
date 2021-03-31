@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -80,7 +80,7 @@ int NFHelloWorld3Module::OnClassCallBackEvent(const NFGUID& self, const std::str
 	return 0;
 }
 
-int NFHelloWorld3Module::OnPropertyCallBackEvent( const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar)
+int NFHelloWorld3Module::OnPropertyCallBackEvent( const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar, const int64_t reason)
 {
 	
 	std::cout << "OnPropertyCallBackEvent Property: " << propertyName << " OldValue: " << oldVar.GetInt() << " NewValue: " << newVar.GetInt() << std::endl;
@@ -88,7 +88,7 @@ int NFHelloWorld3Module::OnPropertyCallBackEvent( const NFGUID& self, const std:
 	return 0;
 }
 
-int NFHelloWorld3Module::OnPropertyStrCallBackEvent( const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar)
+int NFHelloWorld3Module::OnPropertyStrCallBackEvent( const NFGUID& self, const std::string& propertyName, const NFData& oldVar, const NFData& newVar, const int64_t reason)
 {
 	
 	std::cout << "OnPropertyCallBackEvent Property: " << propertyName << " OldValue: " << oldVar.GetString() << " NewValue: " << newVar.GetString() << std::endl;

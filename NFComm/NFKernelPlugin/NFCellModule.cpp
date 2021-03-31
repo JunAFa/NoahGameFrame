@@ -3,7 +3,7 @@
 				NoahFrame
 		https://github.com/ketoo/NoahGameFrame
 
-	Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
+	Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
 	File creator: lvsheng.huang
 
@@ -462,7 +462,7 @@ int NFCellModule::OnObjectEvent(const NFGUID & self, const std::string & classNa
 	return 0;
 }
 
-int NFCellModule::OnPositionEvent(const NFGUID & self, const std::string & propertyName, const NFData & oldVar, const NFData & newVar)
+int NFCellModule::OnPositionEvent(const NFGUID & self, const std::string & propertyName, const NFData & oldVar, const NFData & newVar, const NFINT64 reason)
 {
 	const int sceneID = m_pKernelModule->GetPropertyInt32(self, NFrame::IObject::SceneID());
 	const int groupID = m_pKernelModule->GetPropertyInt32(self, NFrame::IObject::GroupID());

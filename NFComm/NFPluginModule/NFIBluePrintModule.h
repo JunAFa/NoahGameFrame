@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
    
@@ -1135,18 +1135,18 @@ public:
 
 	virtual NF_SHARE_PTR<NFBluePrintNodeBase> FindNode(const NFGUID& id);
 
-	virtual void InitInputArgs()
+	virtual void InitInputArgs() override
 	{
 
 	}
 
-	virtual void InitOutputArgs()
+	virtual void InitOutputArgs() override
 	{
 
 	}
 
 
-	virtual void UpdateOutputData(const NFGUID& runTimeOwner)
+	virtual void UpdateOutputData(const NFGUID& runTimeOwner) override
 	{
 
 	}

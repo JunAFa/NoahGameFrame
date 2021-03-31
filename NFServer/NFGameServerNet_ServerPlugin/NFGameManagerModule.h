@@ -3,7 +3,7 @@
                 NoahFrame
             https://github.com/ketoo/NoahGameFrame
 
-   Copyright 2009 - 2020 NoahFrame(NoahGameFrame)
+   Copyright 2009 - 2021 NoahFrame(NoahGameFrame)
 
    File creator: lvsheng.huang
 
@@ -23,8 +23,8 @@
    limitations under the License.
 */
 
-#ifndef NFGAMEDEMO_NFGAMEMANAGERMODULE_H
-#define NFGAMEDEMO_NFGAMEMANAGERMODULE_H
+#ifndef NFGAMEMANAGERMODULE_H
+#define NFGAMEMANAGERMODULE_H
 
 #include <memory>
 #include "NFComm/NFMessageDefine/NFMsgDefine.h"
